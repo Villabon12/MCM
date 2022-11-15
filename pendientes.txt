@@ -1,0 +1,37 @@
+
+- (ya)en la página principa colocar un espacio donde se van a mostrar, las publicaciones que hacen de testimonio y ultimos pagos
+- (ya) realizar la función de pagos y reparte_utilidad
+- (ya) terminar la vista donde va pagar las personas.
+- (ya)realizar los módulos de classgo marketing digital.
+- (ya)sumar a la billetera las ventas que hace (agregar un union a la consulta moviwallet)
+- (ya)verificar cuando es primera venta y hacer la distribucion
+- (ya)realizar el cambio en el perfil para que las personas puedan cambiar su foto
+- (ya)darle permisos al menú para que cada rol pueda ver sus opciones
+--(ya) mirar cuando el usuario tiene la membresía vencida que errores puede llegar a salir y corregir
+- (ya)en el insert de la membresia -en los que van para comisiones-el de la pagina debe ingresar "tipo_comision"=>'membresia'--el del padre ingresa "tipo_comision"=>'Comision membresia'
+--(ya)en el insert de ventas-- los que van a comisiones--para los socios y pagina "tipo_comision"=>'Comision venta'
+- (ya) verificar imagen profile
+
+- colocar opción de que la persnas cuando ha ganado mas de 1000 dolares pueda subir un video de testimonio o texto
+
+
+- validad en transferencia y en membership que no deje pasar para classgo//UUUUUUUUUUUURRRRRRGEEEEEEEEEEEEEEEENTEEEEEEEEEEEEEEE
+
+- Administracion/Canjes-->cuando el admin de en pagar, hacer los pagos y modificar el estado de la transferencia
+- hacer el conteo que los porcentajes den 100 en socios(ultra)
+- membresia
+- cuando el pago sea paypal en membresia
+
+- cof de gastos que empiece en ga
+- imprimir en wallet solo los 8 primeros registros de cada columna
+- boton de ver mas en transferencias
+- filtros de busqueda(todo)
+- enviar correos(confirmacion de compras, en cada venta, en cada comision, en cada pregunta)
+- validar email usuario nuevo
+- usuario nuevo debe comprobar para hacer el registro
+- pagar orden de pago redirecciona a payu
+- no sale la orden de pago en el inicion de los que no han pagado
+- verificar el monto  de la transferencia en el controlador
+- usuario que no ha terminado compra no puede ver membership
+- poner candado
+-ult noticias en classgo y acortar cuadros
