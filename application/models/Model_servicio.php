@@ -49,11 +49,25 @@ class model_servicio extends CI_Model
         return $resultados->result();
     }
 
+    public function cargarCapitalxid()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->select('*');
+        $this->db->where('activo_id',1);
+        $this->db->where('id_usuario',$idUsuario);
+        $this->db->limit(1);
+
+        $resultados = $this->db->get('r_inversion_robot');
+
+        return $resultados->row();
+    }
+
     public function sumInversion()
     {
         $idUsuario = $this->session->userdata('ID');
 
-        $this->db->select('SUM(inversion) as total');
+        $this->db->select('*,SUM(inversion) as total');
         $this->db->where('activo_id',1);
         $this->db->where('id_usuario',$idUsuario);
         $this->db->where('consignado',1);
@@ -76,14 +90,43 @@ class model_servicio extends CI_Model
     public function reportes()
     {
         $idUsuario = $this->session->userdata('ID');
+        $fecha = date("Y-m-d");
 
         $sql = "SELECT ri.*, hi.valor_antiguo, hi.ganancia as gananciaxuser, hi.tipo as tipoxuser
         FROM resultado_inversion_b ri, historial_inversion hi, r_inversion_robot rb 
-        WHERE hi.fecha = ri.fecha  AND hi.usuario_id = rb.id  AND rb.id_usuario = ? AND ri.senal != 'no' ORDER BY fecha DESC";
+        WHERE hi.fecha = ri.fecha  AND hi.usuario_id = rb.id  AND rb.id_usuario = ? 
+        AND DATE(ri.fecha) = ? AND ri.senal != 'no' ORDER BY fecha DESC";
+
+        $query = $this->db->query($sql,[$idUsuario, $fecha]);
+
+        return $query->result();
+    }
+
+    public function consulta_reportes($fecha1,$fecha2)
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $sql = "SELECT ri.*, hi.valor_antiguo, hi.ganancia as gananciaxuser, hi.tipo as tipoxuser
+        FROM resultado_inversion_b ri, historial_inversion hi, r_inversion_robot rb 
+        WHERE hi.fecha = ri.fecha  AND hi.usuario_id = rb.id  AND rb.id_usuario = ? AND ri.senal != 'no'  AND date(ri.fecha) >=?
+        AND date(ri.fecha) <=? ORDER BY fecha DESC";
+
+        $query = $this->db->query($sql,[$idUsuario, $fecha1, $fecha2]);
+
+        return $query->result();
+    }
+
+    public function reportesxuser()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $sql = "SELECT ri.*, hi.valor_antiguo, hi.ganancia as gananciaxuser, hi.tipo as tipoxuser, hi.usuario_id as idxuser
+        FROM resultado_inversion_b ri, historial_inversion hi, r_inversion_robot rb 
+        WHERE hi.fecha = ri.fecha  AND hi.usuario_id = rb.id  AND rb.id_usuario = ? AND ri.senal != 'no' ORDER BY fecha DESC LIMIT 1";
 
         $query = $this->db->query($sql,[$idUsuario]);
 
-        return $query->result();
+        return $query->row();
     }
 
     public function inversion($id,$update)

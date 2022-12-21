@@ -42,6 +42,13 @@ class model_socios extends CI_Model
 
     return $resultado->result();
   }
+  public function parametroEstrategia()
+  {
+    $this->db->select('*');
+    $resultado = $this->db->get('estrategia');
+
+    return $resultado->result();
+  }
   public function costosServicios()
   {
     $this->db->select('*');
@@ -112,13 +119,36 @@ TRIGGER `tabla_profit` BEFORE INSERT ON `reportes_robot`
 FOR EACH ROW 
 BEGIN
 DECLARE inversionT FLOAT;
-
-SELECT SUM(r_inversion_robot.inversion) INTO inversionT FROM r_inversion_robot WHERE r_inversion_robot.consignado=1;
-
-INSERT INTO hisotrial_broker_mcm(valor) VALUES (inversionT);
-CALL repartir_dinero((new.saldo_final-new.saldo_inicial),new.saldo_inicial,new.porcentaje_apostado,new.porcentajeregistrado, new.tipo, new.estado);
-INSERT INTO resultado_inversion_b(saldo_entra, saldo_sale, ganancia, mercado,senal,saldo_inicial,saldo_final) VALUES(new.precio_entrada,new.precio_salida,(new.saldo_final-new.saldo_inicial),new.mercado,new.señal,new.saldo_inicial,new.saldo_final);
-
+DECLARE lotaje FLOAT;
+DECLARE restante FLOAT;
+DECLARE confirmar INT;
+DECLARE valorMul FLOAT;
+DECLARE demas FLOAT;
+DECLARE porcRestante FLOAT;
+   IF new.estado = 1 THEN
+     SELECT SUM(r_inversion_robot.inversion) INTO inversionT FROM r_inversion_robot WHERE r_inversion_robot.consignado=1;
+     SELECT estrategia.lotaje INTO lotaje FROM estrategia WHERE estrategia.id = new.tipo;
+     SELECT POSITION('%' IN new.porcentaje_apostado) INTO confirmar;
+	IF confirmar > 0 THEN
+	    SELECT TRIM(BOTH '%' FROM new.porcentaje_apostado/100) INTO valorMul;
+	    SET restante = valorMul * lotaje;
+	    SET demas = valorMul - restante;
+	    SET porcRestante = 1 - lotaje;
+	    INSERT INTO hisotrial_broker_mcm(valor) VALUES (inversionT);
+	    CALL repartir_dinero((new.saldo_final-new.saldo_inicial),new.saldo_inicial,new.porcentaje_apostado,new.porcentajeregistrado, new.tipo, restante);
+      INSERT INTO resultado_inversion_b(saldo_entra, saldo_sale, ganancia, mercado,senal,saldo_inicial,saldo_final) VALUES(new.precio_entrada,new.precio_salida,(new.saldo_final-new.saldo_inicial),new.mercado,new.señal,new.saldo_inicial,new.saldo_final);
+	
+	ELSE
+	    SELECT TRIM(BOTH '$' FROM new.porcentaje_apostado) INTO valorMul;
+	    SET restante = valorMul * lotaje;
+	    SET demas = valorMul - restante;	    
+	    INSERT INTO hisotrial_broker_mcm(valor) VALUES (inversionT);
+	    CALL repartir_dinero((new.saldo_final-new.saldo_inicial),new.saldo_inicial,new.porcentaje_apostado,new.porcentajeregistrado, new.tipo, restante);
+      INSERT INTO resultado_inversion_b(saldo_entra, saldo_sale, ganancia, mercado,senal,saldo_inicial,saldo_final) VALUES(new.precio_entrada,new.precio_salida,(new.saldo_final-new.saldo_inicial),new.mercado,new.señal,new.saldo_inicial,new.saldo_final);
+	
+	END IF;     
+    
+   END IF;
 END;
 
    ";
@@ -176,11 +206,56 @@ END;
 
     return $resultado->result();
   }
+  public function quotex()
+  {
+    $this->db->where('estrategia',4);
+    $this->db->select('*');
+    $resultado = $this->db->get('diasemana');
+
+    return $resultado->result();
+  }
+  public function iq()
+  {
+    $this->db->where('estrategia',5);
+    $this->db->select('*');
+    $resultado = $this->db->get('diasemana');
+
+    return $resultado->result();
+  }
 
 
   public function actualizarDia($data,$id)
   {
     $this->db->where('id',$id);
     $this->db->update('diasemana',$data);
+  }
+
+  public function updEstrategia($id,$data)
+  {
+    $this->db->where('id',$id);
+    $this->db->update('estrategia',$data);
+  }
+
+  public function dia()
+  {
+    $this->db->select('d.*, e.estrategia as restrategia');
+    $this->db->from('diasemana d');
+    $this->db->join('estrategia e', 'd.estrategia = e.id');
+    $resultado = $this->db->get();
+
+    return $resultado->result();
+  }
+
+  public function comisiones()
+  {
+    $id = $this->session->userdata('ID');
+
+    $sql = "SELECT hc.fecha, hc.servicio, hc.detalle, u.user, hc.valor FROM historial_comisiones hc
+    JOIN r_master_usuarios u ON hc.usuario_id = u.id WHERE hc.beneficio_id = ? AND hc.valor != 0";
+
+    $query = $this->db->query($sql,[$id]);
+
+     return $query->result();
+
   }
 }

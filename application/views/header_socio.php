@@ -77,43 +77,73 @@
             <li class="nav-item nav-category"><span class="nav-link">Ultra</span></li>
 
             <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="<?= base_url() ?>Configuraciones">
-              <span class="menu-title">Parametros en general</span>
-              <i class="icon-screen-desktop menu-icon"></i>
-            </a>
-          </li>
-          <li class="nav-item nav-category"><span class="nav-link">Validaciones</span></li>
+              <a class="nav-link" data-toggle="collapse" href="<?= base_url() ?>Configuraciones">
+                <span class="menu-title">Parametros en general</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="<?= base_url() ?>Ticket/empresa">
+                <span class="menu-title">Tickets</span>
+                <i class=" icon-bubbles menu-icon"></i>
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#validar" aria-expanded="false" aria-controls="validar">
-              <span class="menu-title">Validaciones</span>
-              <i class=" icon-people menu-icon"></i>
-            </a>
-            <div class="collapse" id="validar">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Banco/consignaciones_user">Validar consignacion</a></li>
-              </ul>
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Binaria/inversionValidar">Validar Inversion binaria</a></li>
-              </ul>
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Socios/validarRetiros">Validar Retiros Billetera principal</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item nav-category"><span class="nav-link">Estrategias</span></li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#activar" aria-expanded="false" aria-controls="activar">
+                <span class="menu-title">Activacion servicios</span>
+                <i class=" icon-check menu-icon"></i>
+              </a>
+              <div class="collapse" id="activar">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Ultra/servicio_binaria">Robot de binaria</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#puzzle" aria-expanded="false" aria-controls="puzzle">
+                <span class="menu-title">Puzzle</span>
+                <i class=" icon-check menu-icon"></i>
+              </a>
+              <div class="collapse" id="puzzle">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/administracion">Administracion Puzzle</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item nav-category"><span class="nav-link">Validaciones</span></li>
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#estrategia" aria-expanded="false" aria-controls="estrategia">
-              <span class="menu-title">Estrategia</span>
-              <i class=" icon-people menu-icon"></i>
-            </a>
-            <div class="collapse" id="estrategia">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Estrategia">Funcionamiento</a></li>
-              </ul>
-            </div>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#validar" aria-expanded="false" aria-controls="validar">
+                <span class="menu-title">Validaciones</span>
+                <i class=" icon-check menu-icon"></i>
+              </a>
+              <div class="collapse" id="validar">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Banco/consignaciones_user">Validar consignacion</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Binaria/inversionValidar">Validar Inversion binaria</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Socios/validarRetiros">Validar Retiros Billetera principal</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item nav-category"><span class="nav-link">Estrategias</span></li>
+
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#estrategia" aria-expanded="false" aria-controls="estrategia">
+                <span class="menu-title">Estrategia</span>
+                <i class=" icon-people menu-icon"></i>
+              </a>
+              <div class="collapse" id="estrategia">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Estrategia">Funcionamiento</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Estrategia/parametros">Parametro</a></li>
+                </ul>
+              </div>
+            </li>
           <?php } ?>
 
           <?php if ($perfil->tipo == 'SocioAdmin' || $perfil->tipo == 'Ultra') { ?>
@@ -191,6 +221,9 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Equipo">Árbol Referidos</a></li>
               </ul>
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Comisiones/historial">Comisiones historial</a></li>
+              </ul>
             </div>
           </li>
 
@@ -212,7 +245,7 @@
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ticket" aria-expanded="false" aria-controls="ticket">
               <span class="menu-title">Ticket</span>
-              <i class=" icon-chart menu-icon"></i>
+              <i class="icon-bubbles menu-icon"></i>
             </a>
             <div class="collapse" id="ticket">
               <ul class="nav flex-column sub-menu">

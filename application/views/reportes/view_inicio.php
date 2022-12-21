@@ -114,10 +114,8 @@
                 var perdida = new Array();
                 $.each(data, function(key, value) {
                     dias.push(namesMonth[value.mes - 1]);
-                    valor = Number(value.ganancia, 2) * 100;
+                    valor = Number(value.ganancia).toFixed(4) * 100;
                     ganancia.push(valor);
-                    valor2 = Number(value.perdida, 2) * 100;
-                    perdida.push(valor2);
                 });
                 grafica(dias, ganancia, perdida);
             }
@@ -133,10 +131,7 @@
             },
             series: [{
                 name: 'ganancia %',
-                data: ganancia
-            }, {
-                name: 'perdida %',
-                data: perdida
+                data: ganancia 
             }],
 
             stroke: {

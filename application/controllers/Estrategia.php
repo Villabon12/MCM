@@ -36,6 +36,8 @@ class Estrategia extends CI_Controller
 				$result['manual'] = $this->model_socios->manual();
 				$result['automatico'] = $this->model_socios->automatico();
 				$result['telegram'] = $this->model_socios->telegram();
+				$result['quotex'] = $this->model_socios->quotex();
+				$result['iq'] = $this->model_socios->iq();
 
 				$this->load->view('header_socio', $result);
 				$this->load->view('estrategia/view_table', $result);
@@ -71,7 +73,7 @@ class Estrategia extends CI_Controller
 		$this->model_socios->actualizarDia($data, $id);
 
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Dia Actualizado</label></div>');
-		redirect(base_url()."MCM");
+		redirect(base_url()."Estrategia");
 	}
 
 	public function apagarDia($id)
@@ -83,7 +85,19 @@ class Estrategia extends CI_Controller
 		$this->model_socios->actualizarDia($data, $id);
 
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Dia Actualizado</label></div>');
-		redirect(base_url()."MCM");
+		redirect(base_url()."Estrategia");
+	}
+
+	public function updDia($id)
+	{
+		$data = array(
+			"hora" => $this->input->post('valor')
+		);
+
+		$this->model_socios->actualizarDia($data, $id);
+
+		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Dia Actualizado</label></div>');
+		redirect(base_url()."Estrategia/parametros");
 	}
 
     public function parametros($ban = null)
@@ -94,14 +108,12 @@ class Estrategia extends CI_Controller
 
 			if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
 
-				$token = $this->session->userdata('token');
 				$result['perfil'] = $this->model_login->cargar_datos();
-				$result['manual'] = $this->model_socios->manual();
-				$result['automatico'] = $this->model_socios->automatico();
-				$result['telegram'] = $this->model_socios->telegram();
+				$result['parametro'] = $this->model_socios->parametroEstrategia();
+				$result['dia'] = $this->model_socios->dia();
 
 				$this->load->view('header_socio', $result);
-				$this->load->view('estrategia/view_table', $result);
+				$this->load->view('estrategia/parametros', $result);
 				$this->load->view('footer_socio', $result);
 			} else {
 
@@ -123,5 +135,16 @@ class Estrategia extends CI_Controller
 
 			redirect("" . base_url() . "login/");
 		}
+	}
+
+	public function updEstrategia($id)
+	{
+		$data = array(
+			"porcentaje" => $this->input->post('valor')
+		);
+
+		$this->model_socios->updEstrategia($id,$data);
+		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Estrategia actualizada</label></div>');
+		redirect(base_url()."Estrategia/parametros");
 	}
 }

@@ -108,6 +108,13 @@ class model_proceso extends CI_Model
         $this->db->where('usuario_id', $idUsuario);
         $this->db->update('activo_servicio', $data);
     }
+    public function desactivar_inversion($data)
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->where('id_usuario', $idUsuario);
+        $this->db->update('r_inversion_robot', $data);
+    }
 
     public function insertHistorial($data)
     {
@@ -150,5 +157,21 @@ class model_proceso extends CI_Model
     public function retirosI($data)
     {
         $this->db->insert('retiros_inversion', $data);
+    }
+
+    public function cambiarEstado($data,$id)
+    {
+        $this->db->where('id',$id);
+        $this->db->update('ticket',$data);
+    }
+
+    public function revisar_activo($id)
+    {
+        $this->db->where('activo',1);
+        $this->db->where('usuario_id',$id);
+        $this->db->select('*');
+        $resultado = $this->db->get('activo_servicio');
+
+        return $resultado->row();
     }
 }

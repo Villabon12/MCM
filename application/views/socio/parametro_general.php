@@ -79,34 +79,10 @@
                                                 <td><?= $t->valor ?></td>
 
                                                 <td>
-                                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificarregistro<?= $t->id ?>">Modificar</button>
+                                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificarregistro<?= $t->id ?>">Modificar</button>
                                                 </td>
 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="modificarregistro<?= $t->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Modificar Parametros</h5>
-                                                            </div>
 
-                                                            <form action="<?= base_url() ?>Socios/updGeneral/<?= $t->id ?>" method="post">
-                                                                <div class="modal-body">
-                                                                    <div class="form-group mb-3">
-
-                                                                        <label for="">Valor</label>
-                                                                        <input type="number" class="form-control" value="<?= $t->valor ?>" name="valor">
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                                    <button type="submit" class="btn btn-primary">Aceptar </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </tr>
 
                                         <?php } ?>
@@ -131,7 +107,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Costo de servicios</h4>
-                <button class="btn btn-success">Añadir Servicio</button>
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addCosto">Añadir Servicio</button>
                 <br><br>
                 <div class="row">
                     <div class="col-12">
@@ -169,40 +145,11 @@
                                                 <td><?= $t->dias ?></td>
 
                                                 <td>
-                                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificarCosto<?= $t->id ?>">Modificar</button>
+                                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificarCosto<?= $t->id ?>">Modificar</button>
                                                 </td>
 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="modificarCosto<?= $t->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Modificar Parametros</h5>
-                                                            </div>
 
-                                                            <form action="<?= base_url() ?>Socios/updCosto/<?= $t->id ?>" method="post">
-                                                                <div class="modal-body">
-                                                                    <div class="form-group mb-3">
 
-                                                                        <label for="">Precio</label>
-                                                                        <input type="number" class="form-control" value="<?= $t->precio ?>" name="precio">
-                                                                    </div>
-                                                                  
-                                                                    <div class="form-group mb-3">
-
-                                                                        <label for="">Dias</label>
-                                                                        <input type="number" class="form-control" value="<?= $t->dias ?>" name="dias">
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                                    <button type="submit" class="btn btn-primary">Aceptar </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </tr>
 
                                         <?php } ?>
@@ -222,7 +169,98 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="addCosto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Añadir servicio</h5>
+                </div>
 
+                <form action="#" method="post">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+
+                            <label for="">Precio</label>
+                            <input type="number" class="form-control" value="" name="precio">
+                        </div>
+
+                        <div class="form-group mb-3">
+
+                            <label for="">Dias</label>
+                            <input type="number" class="form-control" value="" name="dias">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Aceptar </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php foreach ($parametro as $t) { ?>
+        <!-- Modal -->
+        <div class="modal fade" id="modificarregistro<?= $t->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Parametros</h5>
+                    </div>
+
+                    <form action="<?= base_url() ?>Socios/updGeneral/<?= $t->id ?>" method="post">
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+
+                                <label for="">Valor</label>
+                                <input type="number" class="form-control" value="<?= $t->valor ?>" name="valor">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Aceptar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <?php } ?>
+
+    <?php foreach ($servicios as $t) { ?>
+        <!-- Modal -->
+        <div class="modal fade" id="modificarCosto<?= $t->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Parametros</h5>
+                    </div>
+
+                    <form action="<?= base_url() ?>Socios/updCostos/<?= $t->id ?>" method="post">
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+
+                                <label for="">Precio</label>
+                                <input type="number" class="form-control" value="<?= $t->precio ?>" name="precio">
+                            </div>
+
+                            <div class="form-group mb-3">
+
+                                <label for="">Dias</label>
+                                <input type="number" class="form-control" value="<?= $t->dias ?>" name="dias">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Aceptar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
 
     <!-- ============================================================== -->
 

@@ -11,7 +11,7 @@ class model_banco extends CI_Model
 
     public function cargar()
     {
-        $this->db->select('c.*, r.*');
+        $this->db->select('c.*, c.id as datoosss, r.*');
         $this->db->from('consignaciones c');
         $this->db->join('r_master_usuarios r','r.token = c.usuario_token');
         $resultado = $this->db->get();
@@ -65,7 +65,7 @@ class model_banco extends CI_Model
     public function comprobar($hash)
     {
         $this->db->select('*');
-        $this->db->where('hash',$hash);
+        $this->db->where('id',$hash);
         $resultado = $this->db->get('consignaciones');
 
         return $resultado->row();
@@ -112,7 +112,7 @@ class model_banco extends CI_Model
 
     public function updConsigna($token,$datos)
     {
-        $this->db->where('hash', $token);
+        $this->db->where('id', $token);
         $this->db->update('consignaciones', $datos);
     }
 

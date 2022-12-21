@@ -55,5 +55,33 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="container">
+                        <h1>Dia de la semana para reportar en estrategia Quotex (Rojo está encendido)</h1>
+                        <?php foreach ($quotex as $s) { ?>
+                            <?php if ($s->estado == 0) { ?>
+                                <a class="btn btn-success" href="<?= base_url() ?>Socios/encenderDia/<?= $s->id ?>"><?= $s->dia ?></a>
+                            <?php } else { ?>
+                                <a class="btn btn-danger" href="<?= base_url() ?>Socios/apagarDia/<?= $s->id ?>"><?= $s->dia ?></a>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="container">
+                        <h1>Dia de la semana para reportar en estrategia IQ (Rojo está encendido)</h1>
+                        <?php foreach ($iq as $s) { ?>
+                            <?php if ($s->estado == 0) { ?>
+                                <a class="btn btn-success" href="<?= base_url() ?>Socios/encenderDia/<?= $s->id ?>"><?= $s->dia ?></a>
+                            <?php } else { ?>
+                                <a class="btn btn-danger" href="<?= base_url() ?>Socios/apagarDia/<?= $s->id ?>"><?= $s->dia ?></a>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>

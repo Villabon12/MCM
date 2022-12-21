@@ -6,26 +6,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Socios extends CI_Controller
 {
-
-
-
 	function __construct()
 	{
-
 		parent::__construct();
 
 		$this->load->model('model_login');
-
+		$this->load->model('model_terminos');
 		$this->load->model('model_socios');
 		$this->load->model('model_proceso');
 		$this->load->model('model_servicio');
-
 		$this->load->model('model_errorpage');
+		$this->load->model('model_terminos');
 	}
-
-
-
-
 
 	public function index($ban = null)
 
@@ -36,16 +28,18 @@ class Socios extends CI_Controller
 			if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
 
 				$token = $this->session->userdata('token');
+				$id = $this->session->userdata('ID');
+				
 				$result['perfil'] = $this->model_login->cargar_datos();
 				$result['billetera'] = $this->model_proceso->cargar_billetera($token);
 				$result['empresa'] = $this->model_proceso->cargar_billetera_global($token);
 				$result['validar'] = $this->model_proceso->traer_parametro(13);
 				$result['total'] = $this->model_servicio->sumInversion();
 				$result['total1'] = $this->model_servicio->sumInversionBilletera();
+				$result['terminos'] = $this->model_terminos->comprobar_registro($id);
 
 				$this->load->view('header_socio', $result);
 				$this->load->view('view_socios', $result);
-				$this->load->view('footer_socio', $result);
 			} else {
 
 				$intruso = array(
@@ -66,6 +60,18 @@ class Socios extends CI_Controller
 
 			redirect("" . base_url() . "login/");
 		}
+	}
+
+	public function aceptar_terminos()
+	{
+		$data = array(
+			"usuario_id" => $this->input->post('id'),
+			"acepta" => "Estoy de acuerdo",
+			"nota" => "registro"
+		);
+
+		$this->model_terminos->insertTerminos($data);
+		redirect(base_url() . "MCM");
 	}
 
 
@@ -170,6 +176,7 @@ class Socios extends CI_Controller
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Modificacion Realizada</label></div>');
 		redirect(base_url()."Configuraciones");
 	}
+
 	public function updCostos($id)
 	{
 		$data = array(

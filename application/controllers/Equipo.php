@@ -27,30 +27,7 @@ class Equipo extends CI_Controller
 
 			if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
 				$perfil = $this->model_login->cargar_datos();
-				$principald = $this->model_login->binarioArbolDerecha($perfil->id);
-				$principali = $this->model_login->binarioArbolIzquierda($perfil->id);
-				if ($perfil->id_derecha != 0) {
-					$derecha = $this->model_login->binarioArbolDerecha($principald->r_d);
-					$derechai = $this->model_login->binarioArbolIzquierda($principald->r_d);
-				}else{
-					$derecha = null;
-					$derechai = null;
-				}
-				if ($perfil->id_izquierda != 0) {
-					$izquierda = $this->model_login->binarioArbolDerecha($principali->r_d);
-					$izquierdad = $this->model_login->binarioArbolIzquierda($principali->r_d);
-				}else{
-					$izquierda = null;
-					$izquierdad = null;
-				}
-	
-				
-				$result['principal'] = $principald;
-				$result['izquierdap'] = $principali;
-				$result['derecha'] = $derecha;
-				$result['derechai'] = $derechai;
-				$result['izquierda'] = $izquierda;
-				$result['izquierdad'] = $izquierdad;
+
 
 				$result['perfil'] = $perfil;
 				$result['team'] = $this->model_socios->cargar_equipo();
@@ -124,25 +101,93 @@ class Equipo extends CI_Controller
 		} while ($derecha != null);
 	}
 
-	public function pruebas($id)
+	public function grafico($id)
 	{
-		$principald = $this->model_login->binarioArbolDerecha($id);
-		$principali = $this->model_login->binarioArbolIzquierda($id);
-		$derecha = $this->model_login->binarioArbolDerecha($principald->r_d);
-		$derechai = $this->model_login->binarioArbolIzquierda($principald->r_d);
-		$izquierda = $this->model_login->binarioArbolDerecha($principali->r_d);
-		$izquierdad = $this->model_login->binarioArbolIzquierda($principali->r_d);
 
-		$result['perfil'] = $this->model_login->cargar_datos();
-		$result['principal'] = $principald;
-		$result['izquierdap'] = $principali;
-		$result['derecha'] = $derecha;
-		$result['derechai'] = $derechai;
-		$result['izquierda'] = $izquierda;
-		$result['izquierdad'] = $izquierdad;
-		
-		$this->load->view('header_socio',$result);
-		$this->load->view('prueba',$result);
-		$this->load->view('footer_socio',$result);
+		if ($id != 0) {
+			$perfil = $this->model_login->cargar_datosxuser($id);
+			$principald = $this->model_login->binarioArbolDerecha($perfil->id);
+			$principali = $this->model_login->binarioArbolIzquierda($perfil->id);
+			if ($perfil->id_derecha != 0) {
+				$derecha = $this->model_login->binarioArbolDerecha($principald->r_d);
+				$derechai = $this->model_login->binarioArbolIzquierda($principald->r_d);
+			} else {
+				$derecha = null;
+				$derechai = null;
+			}
+			if ($perfil->id_izquierda != 0) {
+				$izquierda = $this->model_login->binarioArbolDerecha($principali->r_d);
+				$izquierdad = $this->model_login->binarioArbolIzquierda($principali->r_d);
+			} else {
+				$izquierda = null;
+				$izquierdad = null;
+			}
+
+
+			$result['principal'] = $principald;
+			$result['izquierdap'] = $principali;
+			$result['derecha'] = $derecha;
+			$result['derechai'] = $derechai;
+			$result['izquierda'] = $izquierda;
+			$result['izquierdad'] = $izquierdad;
+
+			$result['perfil'] = $perfil;
+			$result['team'] = $this->model_socios->cargar_equipo();
+
+			$this->load->view('equipo/grafico', $result);
+			$this->load->view('footer_socio', $result);
+		} else {
+			$intruso = array(
+
+				'id_usuario' => $this->session->userdata('ID'),
+
+				'texto' => 'Grafico',
+
+				'fecha_registro' => date("Y-m-d H:i:s"),
+
+			);
+
+			$this->model_errorpage->insertIntruso($intruso);
+
+			redirect("" . base_url() . "errorpage/error");
+		}
+	}
+
+	public function comisiones()
+	{
+		if ($this->session->userdata('is_logged_in')) {
+
+			if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
+				$perfil = $this->model_login->cargar_datos();
+
+
+				$result['perfil'] = $perfil;
+				$result['comision'] = $this->model_socios->comisiones();
+
+				$this->load->view('header_socio', $result);
+
+				$this->load->view('equipo/historial', $result);
+
+				$this->load->view('footer_socio', $result);
+			} else {
+
+				$intruso = array(
+
+					'id_usuario' => $this->session->userdata('ID'),
+
+					'texto' => 'Equipo/Comisiones',
+
+					'fecha_registro' => date("Y-m-d H:i:s"),
+
+				);
+
+				$this->model_errorpage->insertIntruso($intruso);
+
+				redirect("" . base_url() . "errorpage/error");
+			}
+		} else {
+
+			redirect("" . base_url() . "login/");
+		}
 	}
 }

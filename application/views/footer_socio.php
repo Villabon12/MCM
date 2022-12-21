@@ -96,21 +96,81 @@
             });
         });
 
-        $(".btn-cancelarOferta").on("click", function() {
-            var id = $(this).val();
-            alertify.confirm("¿Estas seguro de Cancelar?", function(e) {
-                $.ajax({
-                    url: base_url + "Ofertas/cancelarOferta",
-                    type: "POST",
-                    data: {
-                        id: id
-                    },
-                    success: function(data) {
-                        alertify.success('Ok');
+        $("#form-graficar").on("submit", function(e) {
+            e.preventDefault();
+            data = $(this).serialize();
+            ruta = $(this).attr("action");
+            $.ajax({
+                url: ruta,
+                type: "POST",
+                data: data,
+                dataType: "json",
+                success: function(resp) {
+                    html = '<div class="col-md-4 grid-margin stretch-card">';
+                    html += '<div class="card">';
+                    html += '<div class="card-body">';
+                    html += '<h4 class="card-title">Inversion</h4>';
+                    html += '<div class="table-responsive">';
+                    html += '<table class="table">';
+                    html += '<thead>';
+                    html += '<tr>';
+                    html += '<th scope="col">Fecha</th>';
+                    html += '<th scope="col">Inversion</th>';
+                    html += '</tr>';
+                    html += '</thead>';
+                    html += '<tbody>';
+                    html += '<tr><td>' + resp["inversion"].fecha + '</td>';
+                    html += '<td>' + resp["inversion"].inversion + '</td></tr>';
+                    html += '<tr><td>Total: </td>';
+                    html += '<tr><td>Balance: ' + Number(resp["ganancia"].ganancia - resp["perdida"].perdida).toFixed(2) + '</td></tr>';
+                    html += '<tr><td>Beneficio:' + Number(resp["ganancia"].ganancia).toFixed(2) + ' </td></tr>';
+                    html += '<tr><td>Perdida:' + Number(resp["perdida"].perdida).toFixed(2) + ' </td></tr>';
+                    html += '<tr><td>Porcentaje Balance:' + Number(resp["ganancia"].porcentajeG - resp["perdida"].porcentajeP).toFixed(4) * 100 + ' %</td></tr>';
+                    html += '<tr><a class="btn btn-dark" href="<?= base_url() ?>Binaria">Recargar</a></tr>';
+                    html += '</tbody>';
+                    html += '</table>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="col-md-8 grid-margin stretch-card">';
+                    html += '<div class="card">';
+                    html += '<div class="card-body performane-indicator-card">';
 
-                        window.location.reload();
-                    }
-                });
+                    $.each(resp["reporte"], function(key, value) {
+                        html += '<div class="row">';
+                        html += '<div class="col-md-4">';
+                        if (value.senal == 'PUT') {
+                            html += '<p style="color: red;">VENDER, ' + value.mercado + '</p>';
+                        } else {
+                            html += '<p style="color: blue;">COMPRAR, ' + value.mercado + '</p>';
+                        }
+                        html += '</div>';
+                        html += '<div class="col-md-6">';
+                        html += '<p style="font-size: 12.9375px;">' + value.fecha + '</p>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '<div class="row">';
+                        html += '<div class="col-md-4">';
+                        html += ' <p style="font-size: 11.9375px;">' + value.saldo_entra + ' => ' + value.saldo_sale + '</p>';
+                        html += '</div>';
+                        html += '<div class="col-md-6">';
+                        if (value.tipoxuser == 'ganancia') {
+                            html += '<p style="color: blue;">' + value.gananciaxuser + '</p>';
+                        } else {
+                            html += '<p style="color: red;">' + value.gananciaxuser + '</p>';
+                        }
+                        html += '</div>';
+                        html += '</div>';
+                        html += '<br>';
+                    });
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    $(".holii").html(html);
+                }
+
             });
         });
 
@@ -204,8 +264,8 @@
                 }
             })
         })
-        
-        
+
+
 
     });
 </script>

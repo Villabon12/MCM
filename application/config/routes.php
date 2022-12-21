@@ -66,3 +66,5 @@ $route['Retiros'] = 'Banco/retiros' ;
 $route['Historial'] = 'Banco/historialConsigna' ; 
 $route['Transferencia'] = 'Banco/transferencia' ; 
 $route['Configuraciones'] = 'Socios/parametros_general' ; 
+$route['Grafico/(:any)'] = 'Equipo/grafico/$1';
+$route['Comisiones/historial'] = 'Equipo/comisiones';

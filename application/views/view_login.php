@@ -8,7 +8,7 @@
 
   <title skip-price>My Connect Mind</title>
 
-  <meta name="description" content="Tiindo" />
+  <meta name="description" content="MCM" />
 
   <meta charset="UTF-8">
 
@@ -107,7 +107,8 @@
             </div>
 
             <button type="submit" class="login__submit">Iniciar Sesion</button>
-            
+            <p class="login__signup">¿Olvidaste la contraseña? &nbsp;<a href="<?= base_url() ?>Login/recuperar">Olvidar clave</a></p> 
+
           </form>
 
         </div>

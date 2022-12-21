@@ -10,11 +10,14 @@ class login extends CI_Controller
 		$this->load->model('model_login');
 		$this->load->model('model_socios');
 		$this->load->model('model_errorpage');
+		$this->load->model('model_email2');
 	}
 
 	public function index($ban = null)
 	{
 		$result['usuario'] = $this->model_login->agrupar();
+		$result['ganancia'] = $this->model_login->cuentasGanancia();
+
 		$this->load->view('view_tiindo', $result);
 	}
 
@@ -170,101 +173,6 @@ class login extends CI_Controller
 		return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
 	}
 
-	// public function actualiza_contra()
-	// {
-	// 	$code = $this->input->post('code');
-	// 	$pdw1 = $this->input->post('pwd1');
-	// 	$pwd2 = $this->input->post('pwd2');
-
-	// 	$result = $this->model_login->verifica_code($code);
-	// 	if (count($result) >= 1) {
-	// 		$fecha_caduca = $result->fecha_caduda_cod;
-	// 		$fecha_actual = date("Y-m-d H:i:s");
-
-	// 		$date1 = new DateTime($fecha_caduca);
-	// 		$date2 = new DateTime($fecha_actual);
-	// 		$diff = $date1->diff($date2);
-
-	// 		if ($diff->hours <= 30) {
-	// 			$acMasterUser = array(
-	// 				"contrasena"		=> md5($pwd2),
-	// 			);
-	// 			$id_trans = $this->model_login->actuliza_pass($acMasterUser, $result->id);
-	// 			$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">se cambió la contraseña correctamente</div>');
-	// 			redirect(base_url() . "login/");
-	// 		} else {
-	// 			$this->session->set_flashdata('reco', '<div class="alert alert-danger text-center">verifica tu código</div>');
-	// 			redirect(base_url() . "login/cambio_contra");
-	// 		}
-	// 	}
-	// }
-
-	// public function cambio_contra()
-	// {
-	// 	$this->load->view('view_cambio_contrasena');
-	// }
-
-	// public function recupera_contra()
-	// {
-	// 	$this->load->view('view_olvide_contrasena');
-	// }
-	// public function valida_recuperar()
-	// {
-
-	// 	$user = $this->input->post('user');
-	// 	$result = $this->model_login->consultaSolouser($user);
-
-	// 	if (count($result) >= 1) {
-
-	// 		$codseguridad = $this->generateRandomString(6);
-	// 		$fecha_vence = date("Y-m-d H:i:s");
-	// 		$fecha_vence = strtotime('+30 minute', strtotime($fecha_vence));
-
-	// 		$acMasterUser = array(
-	// 			"cod_Cambio"						=> $codseguridad,
-	// 			"fecha_caduca_cod"			=> date('Y-m-d H:i:s', $fecha_vence),
-	// 		);
-	// 		$id_trans = $this->model_login->actuliza_cod($acMasterUser, $result->id);
-	// 		$this->model_email->correo_cambio_contra($result->correo, $codseguridad);
-	// 		$this->model_email->envio_correos_pendientes_bd();
-	// 		$this->session->set_flashdata('reco', '<div class="alert alert-success text-center">Ingresa a tu e-email, en máximo 5 minutos llegará un correo con el código para poder cambiar</div>');
-	// 		redirect(base_url() . "login/cambio_contra");
-	// 	} else {
-	// 		//en caso contrario mostramos el error de usuario o contraseña invalido
-	// 		$this->session->set_flashdata('reco', '<div class="alert alert-danger text-center">usuario o email no existe</div>');
-	// 		redirect(base_url() . "login/recupera_contra");
-	// 	}
-	// }
-
-	// public function valida_rechaso()
-	// {
-
-	// 	$user = $this->input->post('user');
-	// 	$result = $this->model_login->consultaSolouser($user);
-
-	// 	if (count($result) >= 1) {
-
-	// 		$codseguridad = $this->generateRandomString(6);
-	// 		$fecha_vence = date("Y-m-d H:i:s");
-	// 		$fecha_vence = strtotime('+30 minute', strtotime($fecha_vence));
-
-	// 		$acMasterUser = array(
-	// 			"cod_Cambio"						=> $codseguridad,
-	// 			"fecha_caduca_cod"			=> date('Y-m-d H:i:s', $fecha_vence),
-	// 		);
-	// 		$id_trans = $this->model_login->actuliza_cod($acMasterUser, $result->id);
-	// 		$this->model_email->correo_cambio_contra($result->correo, $codseguridad);
-	// 		$this->model_email->envio_correos_pendientes_bd();
-	// 		$this->session->set_flashdata('reco', '<div class="alert alert-success text-center">Ingresa a tu e-email, en máximo 5 minutos llegará un correo con el código para poder cambiar</div>');
-	// 		redirect(base_url() . "login/cambio_contra");
-	// 	} else {
-	// 		//en caso contrario mostramos el error de usuario o contraseña invalido
-	// 		$this->session->set_flashdata('reco', '<div class="alert alert-danger text-center">usuario o email no existe</div>');
-	// 		redirect(base_url() . "login/recupera_contra");
-	// 	}
-	// }
-
-
 	public function validaAcceso()
 	{
 
@@ -341,6 +249,92 @@ class login extends CI_Controller
 			echo "Usuario ya usado, elige otro";
 		} else {
 			echo "";
+		}
+	}
+
+	public function prueba($ban = null)
+	{
+		$result['usuario'] = $this->model_login->agrupar();
+		$result['ganancia'] = $this->model_login->cuentasGanancia();
+		$this->load->view('prueba', $result);
+	}
+
+	public function calcular()
+	{
+		$balance = $this->input->post('balance');
+		$periodo = $this->input->post('periodo');
+		$ganancia = $this->input->post('ganancia');
+
+		$elevado = 12*$periodo;
+		$division = $ganancia/12;
+		$calcular = $balance*pow($division,$elevado);
+
+		echo $calcular . " division = " . $division . " Elevado= ". $elevado ." balance = " . $balance . " Periodo = ". $periodo . " ganancia = " . $ganancia;
+	}
+
+	public function olvidarClave($cedula)
+	{
+		$consulta = $this->model_errorpage->verificarCedula($cedula);
+		if ($consulta->contar == 1) {
+			$date = new DateTime();
+			$date->modify('+3 minute');
+
+			$data = array(
+				"cod_cambio" => $this->generateRandomString(6),
+				"fecha_caduca_cod" => $date->format('Y-m-d H:i:s')
+			);
+			if (($this->model_errorpage->update($data, $cedula) == 1)) {
+				$datos = $this->model_errorpage->traerDatos($cedula);
+
+				$this->model_email2->recupera_contra($datos->correo, $datos->cod_cambio, $datos->token);
+				$this->model_email2->envio_correos_pendientes_bd();
+				$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Revisa tu Correo electronico registrado</div>');
+				redirect(base_url() . "Login/recuperar");
+			} else {
+				$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Revisa tu conexion a internet</div>');
+				redirect(base_url() . "Login/recuoerar");
+			}
+		} else {
+			$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Cedula no encontrada</div>');
+			redirect(base_url() . "Login/recuperar");
+		}
+	}
+
+	public function recuperar()
+	{
+		$this->load->view('olvidar');
+	}
+
+	public function procesoCambio($token)
+	{
+		$result['usuario'] = $token;
+		$this->load->view('proceso', $result);
+	}
+
+	public function CambiarClave()
+	{
+		$user = $this->input->post('user');
+		$contra = md5($this->input->post('pass'));
+		$contra2 = md5($this->input->post('pass2'));
+		$date = new DateTime();
+
+		$datos = $this->model_errorpage->traerDatosUser($user);
+
+		if ($datos->fecha_caduca_cod >= $date->format('Y-m-d H:i:s')) {
+			if ($contra == $contra2) {
+				$data = array(
+					"contrasena" => $contra
+				);
+				$this->model_errorpage->update($data, $datos->cedula);
+				$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Cambio realizado</div>');
+				redirect(base_url() . "Login/ingreso");
+			} else {
+				$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Contraseñas no coinciden</div>');
+				redirect(base_url() . "Login/procesoCambio/$user");
+			}
+		} else {
+			$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Ya pasaron 3 minutos, vuelve a solicitar el codigo</div>');
+			redirect(base_url() . "Login/recuperar");
 		}
 	}
 }

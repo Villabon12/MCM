@@ -62,6 +62,10 @@
                                                 <div class="mt-3">
                                                     <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#clipboardExample3">Copiar billetera</button>
                                                 </div>
+                                                <div class="container mt-3">
+                                                    <img src="<?=base_url()?>assets/img/qrLeo.jpg" width="50%">
+
+                                                </div>
                                                 <div class="form-group row mb-3">
                                                     <label for=" sube un archivo">Comprobante (Pantallazo)</label><br><br>
                                                     <input type="file" class="form-control" aria-label="img" aria-describedby="basic-addon1" name="img" require>

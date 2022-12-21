@@ -18,6 +18,15 @@ class model_login extends CI_Model
   public function cargar_datos()
   {
     $idUsuario = $this->session->userdata('ID');
+    $sql = "SELECT * FROM r_master_usuarios WHERE id= ?";
+
+    $query = $this->db->query($sql, [$idUsuario]);
+
+    return $query->row();
+  }
+
+  public function cargar_datosxuser($idUsuario)
+  {
     $sql = "SELECT u.*FROM r_master_usuarios u WHERE u.id= ?";
 
     $query = $this->db->query($sql, [$idUsuario]);
@@ -226,5 +235,14 @@ class model_login extends CI_Model
 
 
     return $query->row();
+  }
+
+  public function cuentasGanancia()
+  {
+    $sql = "SELECT hi.fecha, hi.ganancia, u.user, p.icono FROM historial_inversion hi, r_inversion_robot r, r_master_usuarios u, pais p WHERE hi.usuario_id = r.id AND r.id_usuario = u.id AND u.pais_id = p.id AND hi.tipo = 'ganancia' AND hi.fecha > '2022-11-17'";
+
+    $query = $this->db->query($sql);
+
+    return $query->result();
   }
 }

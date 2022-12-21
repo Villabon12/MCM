@@ -21,6 +21,7 @@
         }
     </style>
     <link rel='stylesheet' id='flaticon-css' href='<?= base_url() ?>wp-content/themes/cryptoce/css/flaticon.css' media='all' />
+    <link rel="stylesheet" href="<?= base_url() ?>admin_temp/vendors/simple-line-icons/css/simple-line-icons.css">
 
     <link rel='stylesheet' id='mediaelement-css' href='<?= base_url() ?>css/legacy.min.css?ver=4.2.16' media='all' />
     <link rel='stylesheet' id='wp-mediaelement-css' href='<?= base_url() ?>css/mediaelement.css?ver=6.0.2' media='all' />
@@ -280,6 +281,7 @@
     <link rel='stylesheet' id='font-awesome-4-shim-css' href='<?= base_url() ?>css/shims.min.css?ver=1.0' media='all' />
     <link rel='stylesheet' id='font-awesome-5-all-css' href='<?= base_url() ?>css/all.min.css?ver=1.0' media='all' />
     <link rel='stylesheet' id='woocommerce-layout-css' href='<?= base_url() ?>css/woocommerce-layout.css?ver=6.8.0' media='all' />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icon-css@4.1.7/css/flag-icons.min.css">
     <style id='woocommerce-layout-inline-css'>
         .infinite-scroll .woocommerce-pagination {
             display: none;
@@ -2598,7 +2600,7 @@
         }
 
         .elementor-382447 .elementor-element.elementor-element-3dcfb82>.elementor-container {
-            min-height: 80vh;
+            min-height: 50vh;
         }
 
         .elementor-382447 .elementor-element.elementor-element-3dcfb82:not(.elementor-motion-effects-element-type-background),
@@ -3041,7 +3043,7 @@
         .elementor-382447 .elementor-element.elementor-element-7214f28 .elementor-heading-title {
             color: var(--e-global-color-primary);
             font-family: "Poppins", Sans-serif;
-            font-size: 28px;
+            font-size: 237%;
             font-weight: 200;
         }
 
@@ -3123,7 +3125,7 @@
         .elementor-382447 .elementor-element.elementor-element-ccbfe60 .elementor-heading-title {
             color: var(--e-global-color-eb9ef96);
             font-family: "Poppins", Sans-serif;
-            font-size: 19px;
+            font-size: 150%;
             font-weight: 900;
         }
 
@@ -3181,7 +3183,7 @@
         .elementor-382447 .elementor-element.elementor-element-f33959c .elementor-heading-title {
             color: var(--e-global-color-eb9ef96);
             font-family: "Poppins", Sans-serif;
-            font-size: 19px;
+            font-size: 150%;
             font-weight: 900;
         }
 
@@ -4997,11 +4999,11 @@
 
         @media(min-width:768px) {
             .elementor-382447 .elementor-element.elementor-element-7b1680b {
-                width: 53.509%;
+                width: 88.509%;
             }
 
             .elementor-382447 .elementor-element.elementor-element-a035134 {
-                width: 46.491%;
+                width: 100%;
             }
         }
 
@@ -5958,6 +5960,18 @@
             background-image: linear-gradient(150deg, var(--e-global-color-807b8dd) -20%, var(--e-global-color-eb9ef96) 130%);
             border-radius: 5px 5px 5px 5px;
             box-shadow: 4px 5px 10px 0px rgba(0, 0, 0, 0.19);
+        }
+
+        @media (max-width: 1024px) {
+            .elementor-5855 .elementor-element.elementor-element-83f0338 .elementor-button {
+                font-family: "Poppins", Sans-serif;
+                font-size: 21px;
+                font-weight: 500;
+                background-color: transparent;
+                background-image: linear-gradient(150deg, var(--e-global-color-807b8dd) -20%, var(--e-global-color-eb9ef96) 130%);
+                border-radius: 5px 5px 5px 5px;
+                box-shadow: 4px 5px 10px 0px rgba(0, 0, 0, 0.19);
+            }
         }
 
         .elementor-5855 .elementor-element.elementor-element-83f0338 .elementor-button:hover,
@@ -6942,11 +6956,12 @@
                                                 </ul>
                                             </nav>
                                             <div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
-                                                <i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open eicon-menu-bar"></i><i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close eicon-close"></i> <span class="elementor-screen-only">Menu</span>
+                                                <i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open  icon-menu"></i><i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close icon-close"></i> <span class="elementor-screen-only">Menu</span>
                                             </div>
                                             <nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" role="navigation" aria-hidden="true">
                                                 <ul id="menu-2-f4c2a14" class="elementor-nav-menu">
                                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7565"><a href="<?= base_url() ?>" class="elementor-item" tabindex="-1">Inicio</a></li>
+                                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7565"><a href="http://www.moneychimp.com/calculator/compound_interest_calculator.htm" onclick="window.open('http://www.moneychimp.com/calculator/popup/calculator.htm','DCsubwin','width=500,height=300,resizable=yes');return false;" class="elementor-item" tabindex="-1">Calculadora</a></li>
                                                 </ul>
                                             </nav>
                                         </div>
@@ -7232,6 +7247,52 @@
                                 </div>
                             </div>
                         </section>
+
+                        <style>
+                            .c {
+                                position: relative;
+                                max-height: 280px;
+                                float: left;
+                                width: 521px;
+                                height: 500px;
+                                overflow: hidden;
+                                overflow-y: auto;
+                            }
+
+                            .card-home {
+                                position: absolute;
+                                margin: 20px;
+                                top: 0;
+                                animation: scroll 2000s linear infinite;
+                            }
+
+                            .span1 {
+                                min-width: 403px;
+                                min-height: 60px;
+                                display: block;
+                                color: black;
+                                margin: 5px;
+                            }
+
+                            @media (max-width: 1024px) {
+                                .span1 {
+                                    min-width: 600px;
+                                    min-height: 75px;
+                                    display: block;
+                                    color: black;
+                                    margin: 3px;
+                                    font-size: 159%;
+                                }
+                            }
+
+                            @keyframes scroll {
+
+                                100% {
+                                    top: -100000px;
+                                }
+                            }
+                        </style>
+
                         <section class="ob-is-breaking-bad elementor-section elementor-top-section elementor-element elementor-element-afe6323 elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle" data-id="afe6323" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;gradient&quot;,&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
                             <div class="elementor-container elementor-column-gap-default">
                                 <div class="elementor-row">
@@ -7266,11 +7327,14 @@
                                                 <div class="elementor-element elementor-element-6b7d91a elementor-align-left elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="6b7d91a" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;none&quot;,&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="button.default">
                                                     <div class="elementor-widget-container">
                                                         <div class="elementor-button-wrapper">
-                                                            <a href="<?=base_url()?>ingreso" class="elementor-button-link elementor-button elementor-size-sm" role="button">
-                                                                <span class="elementor-button-content-wrapper">
-                                                                    <span class="elementor-button-text">Iniciar Sesion</span>
-                                                                </span>
-                                                            </a>
+                                                            <div class="c">
+                                                                <div class="card-home">
+                                                                    <?php foreach ($ganancia as $g) { ?>
+                                                                        <span class="span1"><i class="flag-icon flag-icon-<?= $g->icono ?>" title="zw" id="<?= $g->icono ?>"></i> <?= $g->user ?> ganancias: <?= $g->ganancia ?></span>
+                                                                    <?php } ?>
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -7365,6 +7429,7 @@
                                                 </section>
 
 
+
                                             </div>
                                         </div>
                                     </div>
@@ -7423,14 +7488,14 @@
                                                         <span class="elementor-screen-only">Instagram</span>
                                                         <i class="flaticon-instagram-1 iconsociaf"></i> </a>
                                                 </span>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="elementor-element elementor-element-32ad08e elementor-widget elementor-widget-text-editor" data-id="32ad08e" data-element_type="widget" data-settings="{&quot;_ob_postman_use&quot;:&quot;no&quot;,&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="text-editor.default">
                                         <div class="elementor-widget-container">
                                             <div class="elementor-text-editor elementor-clearfix">
-                                                
+
                                             </div>
                                         </div>
                                     </div>
