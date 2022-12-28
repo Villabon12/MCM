@@ -29,7 +29,7 @@ class Socios extends CI_Controller
 
 				$token = $this->session->userdata('token');
 				$id = $this->session->userdata('ID');
-				
+
 				$result['perfil'] = $this->model_login->cargar_datos();
 				$result['billetera'] = $this->model_proceso->cargar_billetera($token);
 				$result['empresa'] = $this->model_proceso->cargar_billetera_global($token);
@@ -85,7 +85,7 @@ class Socios extends CI_Controller
 			"verificarCuenta" => $verificar
 		);
 
-		$this->model_socios->aprobarUser($id,$data);
+		$this->model_socios->aprobarUser($id, $data);
 	}
 
 	public function aprobarBanco()
@@ -97,7 +97,7 @@ class Socios extends CI_Controller
 			"verificarBanco" => $verificar
 		);
 
-		$this->model_socios->aprobarUser($id,$data);
+		$this->model_socios->aprobarUser($id, $data);
 	}
 
 	public function encenderRobot($id)
@@ -110,7 +110,7 @@ class Socios extends CI_Controller
 		$this->model_socios->updParametrosGeneral($data, $id);
 
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Robot Encendido</label></div>');
-		redirect(base_url()."MCM");
+		redirect(base_url() . "MCM");
 	}
 
 	public function apagarRobot($id)
@@ -123,8 +123,7 @@ class Socios extends CI_Controller
 		$this->model_socios->updParametrosGeneral($data, $id);
 
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Robot Apagado</label></div>');
-		redirect(base_url()."MCM");
-
+		redirect(base_url() . "MCM");
 	}
 
 	public function parametros_general()
@@ -172,9 +171,9 @@ class Socios extends CI_Controller
 			"valor" => $valor
 		);
 
-		$this->model_socios->updParametrosGeneral($data,$id);
+		$this->model_socios->updParametrosGeneral($data, $id);
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Modificacion Realizada</label></div>');
-		redirect(base_url()."Configuraciones");
+		redirect(base_url() . "Configuraciones");
 	}
 
 	public function updCostos($id)
@@ -184,9 +183,9 @@ class Socios extends CI_Controller
 			"dias" => $this->input->post('dias')
 		);
 
-		$this->model_socios->updCosto($data,$id);
+		$this->model_socios->updCosto($data, $id);
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Modificacion Realizada</label></div>');
-		redirect(base_url()."Configuraciones");
+		redirect(base_url() . "Configuraciones");
 	}
 
 	public function validarRetiros()
@@ -227,13 +226,29 @@ class Socios extends CI_Controller
 
 	public function aprobarRetiros($id)
 	{
-		$data = array(
-			"aprobar" => 1,
-			"motivos" => 'se realizó la consignación a la cuenta'
-		);
-		$this->model_socios->updRetiros($data,$id);
-		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Pago Realizado</label></div>');
-		redirect(base_url()."Socios/validarRetiros");
+		$mi_archivo = 'img';
+		$config['upload_path'] = './asset/images/confirmacion/';
+		$config['allowed_types'] = "jpg|png|jpeg";
+		$config['maintain_ratio'] = TRUE;
+		$config['create_thumb'] = FALSE;
+		$config['width'] = 800;
+		$config['height'] = 800;
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload($mi_archivo)) {
+			$error = array('error' => $this->upload->display_errors());
+			$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Error con la imagen</label></div>');
+		} else {
+			$data = array("upload_data" => $this->upload->data());
+			$imagen = $data['upload_data']['file_name'];
+			$data = array(
+				"aprobar" => 1,
+				"motivos" => 'se realizó la consignación a la cuenta',
+				"comprobante" => $imagen
+			);
+			$this->model_socios->updRetiros($data, $id);
+			$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Pago Realizado</label></div>');
+			redirect(base_url() . "Socios/validarRetiros");
+		}
 	}
 
 	public function cancelarRetiro($id)
@@ -242,9 +257,9 @@ class Socios extends CI_Controller
 			"aprobar" => 1,
 			"motivos" => $this->input->post('motivo')
 		);
-		$this->model_socios->updRetiros($data,$id);
+		$this->model_socios->updRetiros($data, $id);
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Pago Realizado</label></div>');
-		redirect(base_url()."Socios/validarRetiros");
+		redirect(base_url() . "Socios/validarRetiros");
 	}
 
 	public function encenderDia($id)
@@ -256,7 +271,7 @@ class Socios extends CI_Controller
 		$this->model_socios->actualizarDia($data, $id);
 
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Dia Actualizado</label></div>');
-		redirect(base_url()."Estrategia");
+		redirect(base_url() . "Estrategia");
 	}
 
 	public function apagarDia($id)
@@ -268,6 +283,42 @@ class Socios extends CI_Controller
 		$this->model_socios->actualizarDia($data, $id);
 
 		$this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Dia Actualizado</label></div>');
-		redirect(base_url()."Estrategia");
+		redirect(base_url() . "Estrategia");
+	}
+
+	public function validarRetiroBinaria()
+	{
+		if ($this->session->userdata('is_logged_in')) {
+
+			if ($this->session->userdata('ROL') == 'Ultra') {
+
+				$result['perfil'] = $this->model_login->cargar_datos();
+				$result['retiros'] = $this->model_socios->cargarBinaria();
+
+				$this->load->view('header_socio', $result);
+
+				$this->load->view('binarios/view_table_r', $result);
+
+				$this->load->view('footer_socio', $result);
+			} else {
+
+				$intruso = array(
+
+					'id_usuario' => $this->session->userdata('ID'),
+
+					'texto' => 'Retiros todos',
+
+					'fecha_registro' => date("Y-m-d H:i:s"),
+
+				);
+
+				$this->model_errorpage->insertIntruso($intruso);
+
+				redirect("" . base_url() . "errorpage/error");
+			}
+		} else {
+
+			redirect("" . base_url() . "login/");
+		}
 	}
 }

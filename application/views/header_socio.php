@@ -103,11 +103,12 @@
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#puzzle" aria-expanded="false" aria-controls="puzzle">
                 <span class="menu-title">Puzzle</span>
-                <i class=" icon-check menu-icon"></i>
+                <i class=" icon-game-controller menu-icon"></i>
               </a>
               <div class="collapse" id="puzzle">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/administracion">Administracion Puzzle</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/acumuladoValor">Acumulado</a></li>
                 </ul>
               </div>
             </li>
@@ -124,6 +125,9 @@
                 </ul>
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Binaria/inversionValidar">Validar Inversion binaria</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Socios/validarRetiroBinaria">Validar Retiros Binaria</a></li>
                 </ul>
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Socios/validarRetiros">Validar Retiros Billetera principal</a></li>
@@ -181,6 +185,7 @@
             <div class="collapse" id="servicios">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Binaria">Servicio binaria</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle">Rompecabeza</a></li>
               </ul>
             </div>
           </li>
@@ -209,6 +214,20 @@
               </ul>
             </div>
           </li>
+
+          <!-- <li class="nav-item nav-category"><span class="nav-link">Puzzle</span></li>
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#puzzle" aria-expanded="false" aria-controls="ticket">
+              <span class="menu-title">Puzzle</span>
+              <i class="icon-game-controller menu-icon"></i>
+            </a>
+            <div class="collapse" id="puzzle">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle">Comprar rompecabeza</a></li>
+              </ul>
+            </div>
+          </li> -->
 
           <li class="nav-item nav-category"><span class="nav-link">Equipo</span></li>
 
@@ -240,6 +259,8 @@
               </ul>
             </div>
           </li>
+
+
           <li class="nav-item nav-category"><span class="nav-link">Ticket</span></li>
 
           <li class="nav-item">

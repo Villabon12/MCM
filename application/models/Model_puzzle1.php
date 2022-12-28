@@ -166,4 +166,11 @@ class model_puzzle1 extends CI_Model
 
         return $resultado->result();
     }
+
+    public function transferencia($data)
+    {
+        $this->db->insert('usuarios_puzzle_transferencia',$data);
+
+        return 1;
+    }
 }

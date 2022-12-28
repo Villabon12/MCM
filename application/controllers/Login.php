@@ -11,6 +11,7 @@ class login extends CI_Controller
 		$this->load->model('model_socios');
 		$this->load->model('model_errorpage');
 		$this->load->model('model_email2');
+		$this->load->model('model_puzzle1');
 	}
 
 	public function index($ban = null)
@@ -70,97 +71,97 @@ class login extends CI_Controller
 		// 	preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $nombre) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $apellido)
 		// 	&& preg_match('/^[0-9a-zA-Z]+$/', $user) && preg_match('/^[0-9]+$/', $idpapa)
 		// ) {
-			if ($contrasena != $contrasena1) {
-				$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Contraseña no coinciden</label></div>');
-				redirect(base_url() . "login/registrar/".$idpapa);
-			} else {
-				$result = $this->model_login->consultaregistro($user, $cedula, $correo);
+		if ($contrasena != $contrasena1) {
+			$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Contraseña no coinciden</label></div>');
+			redirect(base_url() . "login/registrar/" . $idpapa);
+		} else {
+			$result = $this->model_login->consultaregistro($user, $cedula, $correo);
 
-				if ($result->contar == 1) { // no se puede registrar
+			if ($result->contar == 1) { // no se puede registrar
 
-					$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name" style="color:black;"> Registro invalido, ya existen las credenciales</label></div>');
+				$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name" style="color:black;"> Registro invalido, ya existen las credenciales</label></div>');
 
-					redirect(base_url() . "login/registrar/".$idpapa);
-				} else { // si se puede registrar
+				redirect(base_url() . "login/registrar/" . $idpapa);
+			} else { // si se puede registrar
 
-					$token = md5($nombre . "+" . $correo);
-					$arre = array(
-						"token" => $token,
-						"nombre" => $nombre,
-						"apellido1" => $apellido,
-						"correo" => $correo,
-						"celular" => $celular,
-						"user" => $user,
-						"id_papa_pago" => $idpapa,
-						"tipo" => "Socio",
-						"contrasena" => md5($contrasena),
-						"pais_id" => $this->input->post('pais'),
-						"ciudad_id" => $this->input->post('ciudad'),
-						"cedula" => $cedula,
+				$token = md5($nombre . "+" . $correo);
+				$arre = array(
+					"token" => $token,
+					"nombre" => $nombre,
+					"apellido1" => $apellido,
+					"correo" => $correo,
+					"celular" => $celular,
+					"user" => $user,
+					"id_papa_pago" => $idpapa,
+					"tipo" => "Socio",
+					"contrasena" => md5($contrasena),
+					"pais_id" => $this->input->post('pais'),
+					"ciudad_id" => $this->input->post('ciudad'),
+					"cedula" => $cedula,
+				);
+				if ($this->model_login->registrar($arre) == 1) {
+					$datos = array(
+						"token" => $this->generateRandomString(25),
+						"token_usuario" => $token
 					);
-					if ($this->model_login->registrar($arre) == 1) {
-						$datos = array(
-							"token" => $this->generateRandomString(25),
-							"token_usuario" => $token
-						);
-						$id = $this->model_login->lastID();
-						$this->model_login->insertWallet($datos);
+					$id = $this->model_login->lastID();
+					$this->model_login->insertWallet($datos);
 
-						//aqui buscamos para elegir pierna
-						$izquierda = $this->model_login->cargar_datosReferencia($idpapa);
-						$estado = $this->model_login->cargar_datosReferencia($idpapa);
-						$derecha = $this->model_login->cargar_datosReferencia($idpapa);
-						if ($estado->ubicacion == "izquierda") {
-							if ($izquierda->id_izquierda == 0) {
-								$data = array(
-									"id_izquierda" => $id,
-								);
-								$this->model_login->ModificarDerecha($data, $izquierda->id);
-								$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
-								redirect(base_url() . "ingreso", "refresh");
-							} else if (count($izquierda) > 1) {
-								do {
-									if ($izquierda->id_izquierda == 0) {
-										$data = array(
-											"id_izquierda" => $id,
-										);
-										$this->model_login->ModificarDerecha($data, $izquierda->id);
-										$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
-										redirect(base_url() . "ingreso", "refresh");
-									}
-									$izquierda = $this->model_login->cargar_datosReferencia($izquierda->id_izquierda);
-								} while ($izquierda->id_izquierda != null);
-							}
-						} else {
-							if ($derecha->id_derecha == 0) {
-								$data = array(
-									"id_derecha" => $id,
-								);
-								$this->model_login->ModificarDerecha($data, $derecha->id);
-								$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
-								redirect(base_url() . "ingreso", "refresh");
-							} else {
-								do {
-									if ($derecha->id_derecha == 0) {
-										$data = array(
-											"id_derecha" => $id,
-										);
-										$this->model_login->ModificarDerecha($data, $derecha->id);
-										$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
-										redirect(base_url() . "ingreso", "refresh");
-									}
-									$derecha = $this->model_login->cargar_datosReferencia($derecha->id_derecha);
-								} while ($derecha->id_derecha != null);
-							}
+					//aqui buscamos para elegir pierna
+					$izquierda = $this->model_login->cargar_datosReferencia($idpapa);
+					$estado = $this->model_login->cargar_datosReferencia($idpapa);
+					$derecha = $this->model_login->cargar_datosReferencia($idpapa);
+					if ($estado->ubicacion == "izquierda") {
+						if ($izquierda->id_izquierda == 0) {
+							$data = array(
+								"id_izquierda" => $id,
+							);
+							$this->model_login->ModificarDerecha($data, $izquierda->id);
+							$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+							redirect(base_url() . "ingreso", "refresh");
+						} else if (count($izquierda) > 1) {
+							do {
+								if ($izquierda->id_izquierda == 0) {
+									$data = array(
+										"id_izquierda" => $id,
+									);
+									$this->model_login->ModificarDerecha($data, $izquierda->id);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+									redirect(base_url() . "ingreso", "refresh");
+								}
+								$izquierda = $this->model_login->cargar_datosReferencia($izquierda->id_izquierda);
+							} while ($izquierda->id_izquierda != null);
 						}
-						$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
-						redirect(base_url() . "ingreso", "refresh");
 					} else {
-						$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Un error al guardar intente nuevamente</div>');
-						redirect(base_url() . "login/registrar/".$idpapa, "refresh");
+						if ($derecha->id_derecha == 0) {
+							$data = array(
+								"id_derecha" => $id,
+							);
+							$this->model_login->ModificarDerecha($data, $derecha->id);
+							$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+							redirect(base_url() . "ingreso", "refresh");
+						} else {
+							do {
+								if ($derecha->id_derecha == 0) {
+									$data = array(
+										"id_derecha" => $id,
+									);
+									$this->model_login->ModificarDerecha($data, $derecha->id);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+									redirect(base_url() . "ingreso", "refresh");
+								}
+								$derecha = $this->model_login->cargar_datosReferencia($derecha->id_derecha);
+							} while ($derecha->id_derecha != null);
+						}
 					}
+					$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+					redirect(base_url() . "ingreso", "refresh");
+				} else {
+					$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Un error al guardar intente nuevamente</div>');
+					redirect(base_url() . "login/registrar/" . $idpapa, "refresh");
 				}
 			}
+		}
 		// } else {
 		// 	$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">No se admiten caracteres especiales</div>');
 		// 	redirect(base_url() . "login/registrar/".$idpapa, "refresh");
@@ -252,11 +253,30 @@ class login extends CI_Controller
 		}
 	}
 
-	public function prueba($ban = null)
-	{
-		$result['usuario'] = $this->model_login->agrupar();
-		$result['ganancia'] = $this->model_login->cuentasGanancia();
-		$this->load->view('prueba', $result);
+	public function prueba($id, $pais = null)
+	{	
+		$result['perfil'] = $this->model_login->cargar_datosReferencia($id);
+		$result['logueado'] = $this->model_login->cargar_datos();
+		if (count($result['perfil']) == 1) {
+
+			$result['domicilio'] = $this->model_puzzle1->domicilio();
+			$result['tipo'] = $this->model_puzzle1->cargar_tipo();
+
+			$this->load->view('prueba', $result);
+		} else {
+			$intruso = array(
+
+				'id_usuario' => 0,
+
+				'texto' => 'Compra puzzle',
+
+				'fecha_registro' => date("Y-m-d H:i:s"),
+
+			);
+
+			$this->model_errorpage->insertIntruso($intruso);
+			redirect("" . base_url() . "errorpage/error");
+		}
 	}
 
 	public function calcular()
@@ -265,11 +285,11 @@ class login extends CI_Controller
 		$periodo = $this->input->post('periodo');
 		$ganancia = $this->input->post('ganancia');
 
-		$elevado = 12*$periodo;
-		$division = $ganancia/12;
-		$calcular = $balance*pow($division,$elevado);
+		$elevado = 12 * $periodo;
+		$division = $ganancia / 12;
+		$calcular = $balance * pow($division, $elevado);
 
-		echo $calcular . " division = " . $division . " Elevado= ". $elevado ." balance = " . $balance . " Periodo = ". $periodo . " ganancia = " . $ganancia;
+		echo $calcular . " division = " . $division . " Elevado= " . $elevado . " balance = " . $balance . " Periodo = " . $periodo . " ganancia = " . $ganancia;
 	}
 
 	public function olvidarClave($cedula)

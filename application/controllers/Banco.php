@@ -141,6 +141,7 @@ class Banco extends CI_Controller
 
 				$result['perfil'] = $this->model_login->cargar_datos();
 				$result['consigna'] = $this->model_banco->cargarHistorial();
+				$result['retira'] = $this->model_banco->cargarHistorialRetiro();
 
 				$this->load->view('header_socio', $result);
 

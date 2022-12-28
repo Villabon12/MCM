@@ -24,6 +24,7 @@
                         <table class="table" id="order-listing">
                             <thead>
                                 <tr>
+                                    <th scope="col">id</th>
                                     <th scope="col">Codigo</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Valor</th>
@@ -35,6 +36,7 @@
                             <tbody>
                                 <?php foreach ($puzzle as $p) { ?>
                                     <tr>
+                                        <td><?= $p->id ?></td>
                                         <td><?= $p->codigo ?></td>
                                         <td><?= $p->tipo ?></td>
                                         <td><?= $p->valor ?></td>
@@ -64,7 +66,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="content-wrapper">
 
         <div class="col-lg-12">
@@ -72,40 +74,36 @@
                 <div class="card-body">
                     <div class="table-responsive">
 
-                        <table class="table" id="order-listing">
+                        <table class="table" id="order-listing2">
                             <thead>
                                 <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Domicilio</th>
+                                    <th scope="col">Municipio</th>
+                                    <th scope="col">Direccion</th>
+                                    <th scope="col">Nota</th>
                                     <th scope="col">Codigo</th>
-                                    <th scope="col">Tipo</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col"># Ficha</th>
-                                    <th scope="col">Creacion</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($puzzle as $p) { ?>
+                                <?php foreach ($compra as $p) { ?>
                                     <tr>
+                                        <td><?= $p->id ?></td>
+                                        <td><?= $p->nombre ?> <?= $p->apellido1 ?></td>
+                                        <td><?= $p->domicilio ?></td>
+                                        <td><?= $p->estadonombre ?></td>
+                                        <td><?= $p->direccion ?></td>
+                                        <td><?= $p->nota ?></td>
                                         <td><?= $p->codigo ?></td>
-                                        <td><?= $p->tipo ?></td>
-                                        <td><?= $p->valor ?></td>
-                                        <td><?= $p->n_ficha ?></td>
-                                        <td><?php if ($p->creacion == 1) { ?>
-                                                Ya hecho
+                                        <td><?php if ($p->vinculado == 1) { ?>
+                                                Ya enviado
                                             <?php } else { ?>
-                                                No se ha mandado a hacer
+                                                <a class="btn btn-success" href="<?= base_url() ?>Puzzle/cambiar2/<?= $p->id ?>">Enviar</a>
                                             <?php } ?>
                                         </td>
-                                        <td><?php if ($p->creacion == 1) { ?>
-                                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#view<?= $p->id ?>"><i class="icon-magnifier"></i></button>
-
-                                            <?php } else { ?>
-                                                <a class="btn btn-success" href="<?= base_url() ?>Puzzle/cambiar/<?= $p->id ?>">Fabricado</a>
-                                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#view<?= $p->id ?>"><i class="icon-magnifier"></i></button>
-
-                                            <?php } ?>
-
-                                        </td>
+                             
                                     </tr>
                                 <?php } ?>
                             </tbody>

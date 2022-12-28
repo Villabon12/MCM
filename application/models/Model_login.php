@@ -22,7 +22,11 @@ class model_login extends CI_Model
 
     $query = $this->db->query($sql, [$idUsuario]);
 
-    return $query->row();
+    if ($query->num_rows() > 0) {
+      return $query->row();
+  } else {
+      return false;
+  }
   }
 
   public function cargar_datosxuser($idUsuario)
@@ -57,6 +61,14 @@ class model_login extends CI_Model
     $this->db->order_by('paisnombre', 'asc');
     $resultados = $this->db->get("pais");
     return $resultados->result();
+  }
+
+  public function traerPaisxId($id)
+  {
+    $this->db->where('id', $id);
+    $this->db->select("*");
+    $resultados = $this->db->get("pais");
+    return $resultados->row();
   }
 
   public function registrar($data)

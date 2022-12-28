@@ -7358,6 +7358,98 @@
                                                                     <div class="elementor-widget-wrap">
                                                                         <div class="elementor-element elementor-element-7214f28 elementor-widget elementor-widget-heading" data-id="7214f28" data-element_type="widget" data-settings="{&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="heading.default">
                                                                             <div class="elementor-widget-container">
+                                                                                <h3 class="elementor-heading-title elementor-size-default">Herramientas</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <section class="ob-is-breaking-bad ob-bb-inner elementor-section elementor-inner-section elementor-element elementor-element-30ac5b3 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="30ac5b3" data-element_type="section" data-settings="{&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
+                                                    <div class="elementor-container elementor-column-gap-default">
+                                                        <div class="elementor-row">
+                                                            <div class="ob-is-hoveranimator elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-ffbcb35" data-id="ffbcb35" data-element_type="column" data-settings="{&quot;_ob_column_hoveranimator&quot;:&quot;yes&quot;,&quot;background_background&quot;:&quot;classic&quot;,&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                                                <div class="elementor-column-wrap elementor-element-populated">
+                                                                    <div class="elementor-widget-wrap">
+                                                                        <div class="elementor-element elementor-element-ccbfe60 elementor-widget elementor-widget-heading" data-id="ccbfe60" data-element_type="widget" data-settings="{&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="heading.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <p class="elementor-heading-title elementor-size-default">Convertidor de divisas</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elementor-element elementor-element-9031f51 elementor-widget elementor-widget-text-editor" data-id="9031f51" data-element_type="widget" data-settings="{&quot;_ob_postman_use&quot;:&quot;no&quot;,&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="text-editor.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <div class="elementor-text-editor elementor-clearfix">
+                                                                                    ​<iframe style="border: none;" src="https://themoneyconverter.com/es/CurrencyConverter?
+tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no" seamless="seamless" width="100%" height="348"></iframe> </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div class="ob-is-hoveranimator elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-defad87" data-id="defad87" data-element_type="column" data-settings="{&quot;_ob_column_hoveranimator&quot;:&quot;yes&quot;,&quot;background_background&quot;:&quot;classic&quot;,&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                                                <div class="elementor-column-wrap elementor-element-populated">
+                                                                    <div class="elementor-widget-wrap">
+                                                                        <div class="elementor-element elementor-element-f33959c elementor-widget elementor-widget-heading" data-id="f33959c" data-element_type="widget" data-settings="{&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="heading.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <p class="elementor-heading-title elementor-size-default">Indice Sintéticos</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elementor-element elementor-element-a47e121 elementor-widget elementor-widget-text-editor" data-id="a47e121" data-element_type="widget" data-settings="{&quot;_ob_postman_use&quot;:&quot;no&quot;,&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="text-editor.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <div class="elementor-text-editor elementor-clearfix">
+                                                                                    <p class="p1"><strong>PROXIMAMENTE</strong></p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ob-is-hoveranimator elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-defad87" data-id="defad87" data-element_type="column" data-settings="{&quot;_ob_column_hoveranimator&quot;:&quot;yes&quot;,&quot;background_background&quot;:&quot;classic&quot;,&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                                                <div class="elementor-column-wrap elementor-element-populated">
+                                                                    <div class="elementor-widget-wrap">
+                                                                        <div class="elementor-element elementor-element-f33959c elementor-widget elementor-widget-heading" data-id="f33959c" data-element_type="widget" data-settings="{&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="heading.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <p class="elementor-heading-title elementor-size-default">Robot de Crypto</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elementor-element elementor-element-a47e121 elementor-widget elementor-widget-text-editor" data-id="a47e121" data-element_type="widget" data-settings="{&quot;_ob_postman_use&quot;:&quot;no&quot;,&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="text-editor.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <div class="elementor-text-editor elementor-clearfix">
+                                                                                    <p class="p1"><strong>PROXIMAMENTE</strong></p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="ob-is-breaking-bad elementor-section elementor-top-section elementor-element elementor-element-9c3b93e explevel elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="9c3b93e" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
+                            <div class="elementor-container elementor-column-gap-default">
+                                <div class="elementor-row">
+                                    <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-c75d2ab" data-id="c75d2ab" data-element_type="column" data-settings="{&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                        <div class="elementor-column-wrap elementor-element-populated">
+                                            <div class="elementor-widget-wrap">
+                                                <section class="ob-is-breaking-bad ob-bb-inner elementor-section elementor-inner-section elementor-element elementor-element-0d1b6c7 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="0d1b6c7" data-element_type="section" data-settings="{&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
+                                                    <div class="elementor-container elementor-column-gap-default">
+                                                        <div class="elementor-row">
+                                                            <div class="ob-is-hoveranimator elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-39d6607" data-id="39d6607" data-element_type="column" data-settings="{&quot;_ob_column_hoveranimator&quot;:&quot;yes&quot;,&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                                                <div class="elementor-column-wrap elementor-element-populated">
+                                                                    <div class="elementor-widget-wrap">
+                                                                        <div class="elementor-element elementor-element-7214f28 elementor-widget elementor-widget-heading" data-id="7214f28" data-element_type="widget" data-settings="{&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}" data-widget_type="heading.default">
+                                                                            <div class="elementor-widget-container">
                                                                                 <h3 class="elementor-heading-title elementor-size-default">¡Tenemos 1 servicio!, Proximamente 2 más</h3>
                                                                             </div>
                                                                         </div>

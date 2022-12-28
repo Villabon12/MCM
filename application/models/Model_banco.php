@@ -41,6 +41,18 @@ class model_banco extends CI_Model
 
         return $resultado->result();
     }
+    public function cargarHistorialRetiro()
+    {
+        $token = $this->session->userdata('ID');
+
+        $this->db->select('c.*, r.*');
+        $this->db->from('retiros c');
+        $this->db->join('r_master_usuarios r','r.id = c.usuario_id');
+        $this->db->where('c.usuario_id',$token);
+        $resultado = $this->db->get();
+
+        return $resultado->result();
+    }
 
     public function cargarHistorialTransferencia()
     {

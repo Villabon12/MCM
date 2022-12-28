@@ -1,0 +1,130 @@
+.coupon {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 355px;
+    padding: 60px 28px 40px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #0F8063;
+    border-radius: 20px;
+    background-color: #0A5743;
+    pointer-events: auto;
+  }
+  
+  .coupon-title {
+    font-family: Euclidcircularb, sans-serif;
+    color: #fff;
+    font-size: 42px;
+    line-height: 42px;
+    text-align: center;
+    letter-spacing: -1px;
+  }
+  
+  .coupon-desc {
+    font-family: Euclidcircularb, sans-serif;
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+  }
+  
+  .coupon-btn {
+    display: inline-block;
+    width: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 18px 28px 16px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px dashed #fff;
+    border-radius: 100px;
+  }
+  
+  .coupon-btn-text {
+    font-family: Euclidcircularb, sans-serif;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .coupon-wrapper {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    z-index: 200;
+    display: none;
+    width: 385px;
+    height: 100vh;
+    padding-bottom: 50px;
+    padding-left: 30px;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    pointer-events: none;
+  }
+  
+  .coupon-wrapper.active {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-bottom: 30px;
+  }
+  
+  .ic-coupon-close {
+    position: absolute;
+    left: auto;
+    top: 15px;
+    right: 15px;
+    bottom: auto;
+  }
+  
+  @media screen and (max-width: 991px) {
+  .coupon-wrapper.active {
+      padding-bottom: 30px;
+    }
+  }
+  
+  @media screen and (max-width: 479px) {
+    .coupon-wrapper.active {
+      padding-right: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+    }
+    .coupon-wrapper {
+      width: 365px;
+    }
+  }
+  
+  @font-face {
+    font-family: 'Euclidcircularb';
+    src: url(https://d2pas86kykpvmq.cloudfront.net/fonts/EuclidCircularB-Regular.otf) format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Euclidcircularb';
+    src: url(https://d2pas86kykpvmq.cloudfront.net/fonts/EuclidCircularB-Medium.otf) format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }

@@ -175,6 +175,15 @@ END;
 
     return $resultado->result();
   }
+  public function cargarBinaria()
+  {
+    $this->db->select('c.*, r.nombre, r.apellido1');
+    $this->db->from('retiros_inversion c');
+    $this->db->join('r_master_usuarios r', 'r.id = c.usuario_id');
+    $resultado = $this->db->get();
+
+    return $resultado->result();
+  }
 
   public function updRetiros($data, $id)
   {

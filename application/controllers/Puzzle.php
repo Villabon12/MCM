@@ -336,7 +336,7 @@ class Puzzle extends CI_Controller
 			$data = base_url() . "Puzzle/reclamar/$valor";
 			$qr = $this->generate_qrcode($data);
 			$data5 = array(
-				"valor" => $datos_puzzle->valor,
+				"valor" => $datos_puzzle->valor + $datos_tipo->valor,
 				"tipo_puzzle" => $datos_tipo->id,
 				"n_ficha" => $datos_puzzle->fichas,
 				"enlace" => $data,
@@ -481,5 +481,41 @@ class Puzzle extends CI_Controller
 			"creacion" => 1
 		);
 		$this->model_puzzle1->actualizar($id,$data);
+		$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Puzzles Creados</div>');
+		redirect(base_url() . "Puzzle/administracion", "refresh");
+	}
+	public function cambiar2($id)
+	{
+		$data = array(
+			"vinculado" => 1
+		);
+		$this->model_puzzle1->actualizarUser($id,$data);
+		$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Puzzles Enviados</div>');
+		redirect(base_url() . "Puzzle/administracion", "refresh");
+	}
+
+	public function acumuladoValor()
+	{
+		if ($this->session->userdata('is_logged_in')) {
+
+			if ($this->session->userdata('ROL') == 'Ultra') {
+
+				$result['perfil'] = $this->model_login->cargar_datos();
+				$result['acumulado'] = $this->model_puzzle1->acumulado();
+
+				$this->load->view('header_socio', $result);
+				$this->load->view('puzzle/acumulado', $result);
+			} else {
+				$intruso = array(
+					'id_usuario' => $this->session->userdata('ID'),
+					'texto' => 'vista puzzle empresa',
+					'fecha_registro' => date("Y-m-d H:i:s"),
+				);
+				$this->model_errorpage->insertIntruso($intruso);
+				redirect("" . base_url() . "errorpage/error");
+			}
+		} else {
+			redirect("" . base_url() . "login/");
+		}
 	}
 }

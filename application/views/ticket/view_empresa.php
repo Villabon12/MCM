@@ -37,6 +37,7 @@
                                         <td><?= $t->pregunta ?></td>
                                         <td><?php if ($t->estado == 'en proceso') { ?>
                                                 <button class="btn btn-info" id="valor<?= $t->id ?>" data-bs-toggle="modal" data-bs-target="#view<?= $t->id ?>" value="<?= $t->id ?>"><i class="icon-magnifier"></i></button>
+                                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#terminar<?= $t->id ?>">Terminar</button>
                                                 <script>
                                                     $(document).ready(function() {
 
@@ -61,16 +62,16 @@
                                                                             html += '    </div>';
                                                                             html += '    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" alt="avatar 1" style="width: 45px; height: 100%;">';
                                                                             html += '</div>';
-                                                                            
+
                                                                         } else {
-                                                                            
+
                                                                             html + '<div class="d-flex flex-row justify-content-start mb-4">';
                                                                             html += '   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" style="width: 45px; height: 100%;">';
                                                                             html += '    <div class="p-3 ms-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
                                                                             html += '         <p class="small mb-0">' + value.mensaje + '</p>';
                                                                             html += '    </div>';
                                                                             html += '</div>';
-                                                                            
+
                                                                         }
 
 
@@ -135,6 +136,21 @@
 
                         </div>
                     </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="terminar<?= $t->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <p>¿Deseas cerrar este ticket?</p>
+                    </div>
+                    <div class="modal-footer">
+
+                        <a href="<?= base_url() ?>Ticket/cambiarEstado/<?= $t->id ?>" class="btn btn-success">Terminar</a>
+                    </div>
                 </div>
             </div>
         </div>
