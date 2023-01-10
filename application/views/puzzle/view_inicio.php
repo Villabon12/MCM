@@ -14,6 +14,8 @@
 
         <?php } ?>
 
+        <center><h1>Puzzle</h1> </center>
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -68,6 +70,7 @@
     </div>
 
     <div class="content-wrapper">
+    <center><h1>Asignacion Puzzle</h1> </center>
 
         <div class="col-lg-12">
             <div class="card">
@@ -101,6 +104,49 @@
                                                 Ya enviado
                                             <?php } else { ?>
                                                 <a class="btn btn-success" href="<?= base_url() ?>Puzzle/cambiar2/<?= $p->id ?>">Enviar</a>
+                                            <?php } ?>
+                                        </td>
+                             
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+    <center><h1>Pagos Transferencia Puzzle</h1> </center>
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table class="table" id="order-listing3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Domicilio</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Comprobante</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($usuario as $p) { ?>
+                                    <tr>
+                                        <td><?= $p->id ?></td>
+                                        <td><?= $p->nombre ?> <?= $p->apellido1 ?></td>
+                                        <td><?= $p->domicilio ?></td>
+                                        <td>$ <?= $p->pesos ?></td>
+                                        <td><a href="<?= base_url() ?>/assets/img/fotosPerfil/<?= $p->comprobante ?>" target="_blank"><?= $p->comprobante ?></a></td>
+                                        <td><?php if ($p->comprobado == 1) { ?>
+                                                Ya asignado
+                                            <?php } else { ?>
+                                                <a class="btn btn-success" href="<?= base_url() ?>Puzzle/asignarPuzzle/<?= $p->id ?>">Asignar</a>
                                             <?php } ?>
                                         </td>
                              

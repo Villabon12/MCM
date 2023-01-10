@@ -24,9 +24,9 @@ class model_login extends CI_Model
 
     if ($query->num_rows() > 0) {
       return $query->row();
-  } else {
+    } else {
       return false;
-  }
+    }
   }
 
   public function cargar_datosxuser($idUsuario)

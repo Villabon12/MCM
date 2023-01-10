@@ -85,6 +85,12 @@ class model_puzzle1 extends CI_Model
         $this->db->update('creacion_puzzle', $data);
     }
 
+    public function actualizarParametro($id, $data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('parametro_puzzle', $data);
+    }
+
     public function consultar($id,$puzzle)
     {
         $this->db->where('usuario_id', $id);
@@ -137,6 +143,12 @@ class model_puzzle1 extends CI_Model
         $this->db->update('creacion_puzzle',$data);
     }
 
+    public function updateTransferencia($id, $data)
+    {
+        $this->db->where('id',$id);
+        $this->db->update('usuarios_puzzle_transferencia',$data);
+    }
+
     public function domicilio()
     {
         $this->db->select('*');
@@ -167,10 +179,45 @@ class model_puzzle1 extends CI_Model
         return $resultado->result();
     }
 
+    public function compraConsultar()
+    {
+        $this->db->select('c.*, u.nombre, u.apellido1, p.codigo, d.nombre as domicilio, e.estadonombre');
+        $this->db->from('usuarios_puzzle_transferencia c');
+        $this->db->join('r_master_usuarios u','u.id = c.usuario_id');
+        $this->db->join('creacion_puzzle p','p.id = c.puzzle_id');
+        $this->db->join('domicilio_puzzle d','d.id = c.domicilio_id');
+        $this->db->join('estado e','e.id = c.municipio_id');
+        $resultado = $this->db->get('');
+
+        return $resultado->result();
+    }
+
+    public function usuariox($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->select('*');
+
+        $resultado = $this->db->get('usuarios_puzzle_transferencia');
+        return $resultado->row();;
+    }
+
     public function transferencia($data)
     {
         $this->db->insert('usuarios_puzzle_transferencia',$data);
 
         return 1;
+    }
+
+    public function confirmarPago($id)
+    {
+        $this->db->where('usuario_id',$id);
+        $this->db->select('*');
+        $resultado = $this->db->get('historial_compra_puzzle');
+
+        if ($resultado->num_rows() > 0) {
+            return $resultado->result();
+        } else {
+            return false;
+        }
     }
 }

@@ -11,13 +11,17 @@
 
 <body>
     <div class="form-structor">
+        <?php if ($accion == 'registrar') { ?>
         <div class="signup">
-            <h2 class="form-title" id="signup"><span>o</span>Registrarse</h2>
+        <?php } else { ?>
+            <div class="signup slideup">
+        <?php } ?>
+                <h2 class="form-title" id="signup"><span>o</span>Registrarse</h2>
             <form class="form" action="<?= base_url() ?>Landing/registrarNew/<?= $perfil->id ?>" method="post">
                 <div class="form-holder">
                     <input type="text" class="input" placeholder="Nombre" name="nombre" required />
                     <input type="text" class="input" placeholder="Apellido" name="apellido1" required />
-                    <input type="number" class="input" placeholder="ID NUMBER" name="cedula" required />
+                    <input type="number" class="input" placeholder="cedula" name="cedula" required />
                     <input type="email" class="input" placeholder="Email" id="email" name="correo" required />
                     <input type="number" class="input" placeholder="Telefono" name="celular" required />
                     <select aria-label="Default select example" class="input" id="pais" name="pais" required>
@@ -41,15 +45,20 @@
                 <button type="submit" class="submit-btn">Registrarme</button>
             </form>
         </div>
-        <div class="login slide-up">
+        <?php if ($accion == 'ingresar') { ?>
+            <div class="login">
+        <?php } else { ?>
+            <div class="login slide-up">
+        <?php } ?>
             <div class="center">
-                <h2 class="form-title" id="login"><span>o</span>Iniciar Sesion</h2>
+                    <h2 class="form-title" id="login"><span>o</span>Iniciar Sesion</h2>
+
                 <form class="form" action="<?= base_url() ?>Landing/validaAcceso/<?= $perfil->id ?>" method="post">
-                <div class="form-holder">
-                    <input type="text" class="input" placeholder="Usuario o Correo" name="user" />
-                    <input type="password" class="input" placeholder="Contraseña" name="pass"/>
-                </div>
-                <button class="submit-btn">Iniciar Sesion</button>
+                    <div class="form-holder">
+                        <input type="text" class="input" placeholder="Usuario o Correo" name="user" />
+                        <input type="password" class="input" placeholder="Contraseña" name="pass" />
+                    </div>
+                    <button class="submit-btn">Iniciar Sesion</button>
                 </form>
             </div>
         </div>

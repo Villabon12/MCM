@@ -129,6 +129,18 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="cc-icon align-self-center"><img src="https://img.icons8.com/wired/64/000000/average-2.png" /></div>
+                        <div class="m-l-10 align-self-center">
+                          <h4 class="m-b-0 amar">Billetera Puzzle</h4>
+                          <h5 class="text-muted m-b-0 blan">$<?= number_format($empresa->cuenta_puzzle, 2) ?></h5>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
 
                 </div>
 

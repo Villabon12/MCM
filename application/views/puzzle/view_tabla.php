@@ -71,6 +71,9 @@
                                         <br>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#compra" class="btn btn-success" id="button" disabled>comprar</button>
                                         <p style="color: red;">Saldo disponible en tu billetera: <?= $billetera->cuenta_compra ?></p>
+
+                                        <br><br><br><br><br>
+                                        <p>Puede promocionar el rompecabeza en el siguiente enlace: <a href="<?=base_url()?>/Rompecabeza/<?=$perfil->id?>"><?=base_url()?>/Rompecabeza/<?=$perfil->id?></a> </p>
                                     </center>
 
                                     <div class="modal fade" id="compra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

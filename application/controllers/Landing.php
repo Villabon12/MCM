@@ -24,20 +24,43 @@ class Landing extends CI_Controller
 
 	public function tienda($id)
 	{
+		$this->load->helper('cookie');
+
+		if (get_cookie('mi_cookie_1') == NULL || get_cookie('mi_cookie_2') == NULL) {
+			$valor_cookie1 = 0;
+			$valor_cookie2 = 0;
+		} else {
+			$valor_cookie1 = get_cookie('mi_cookie_1');
+			$valor_cookie2 = get_cookie('mi_cookie_2');
+		}
+		
+
+		$result['cookie1'] = $valor_cookie1;
+		$result['cookie2'] = $valor_cookie2;
 		$result['perfil'] = $this->model_login->cargar_datosReferencia($id);
 		$result['logueado'] = $this->model_login->cargar_datos();
+		$result['dolar'] = $this->model_puzzle1->traer_parametro(9);
 		if (count($result['perfil']) == 1) {
+			if ($result['logueado'] == false) {
+				$result['billetera'] = 0;
+				$result['domicilio'] = $this->model_puzzle1->domicilio();
+				$result['tipo'] = $this->model_puzzle1->cargar_tipo();
 
-			$result['domicilio'] = $this->model_puzzle1->domicilio();
-			$result['tipo'] = $this->model_puzzle1->cargar_tipo();
+				$this->load->view('landing/landing_view', $result);
+			} else {
+				$valor =  $this->model_proceso->cargar_billetera($result['logueado']->token);
+				$result['billetera'] = $valor->cuenta_compra;
+				$result['domicilio'] = $this->model_puzzle1->domicilio();
+				$result['tipo'] = $this->model_puzzle1->cargar_tipo();
 
-			$this->load->view('landing/landing_view', $result);
+				$this->load->view('landing/landing_view', $result);
+			}
 		} else {
 			$intruso = array(
 
 				'id_usuario' => 0,
 
-				'texto' => 'Compra puzzle',
+				'texto' => 'Landing puzzle',
 
 				'fecha_registro' => date("Y-m-d H:i:s"),
 
@@ -48,8 +71,9 @@ class Landing extends CI_Controller
 		}
 	}
 
-	public function login($id)
+	public function login($id, $valor)
 	{
+		$result['accion'] = $valor;
 		$result['perfil'] = $this->model_login->cargar_datosReferencia($id);
 		$result['logueado'] = $this->model_login->cargar_datos();
 		$result['pais'] = $this->model_login->traerPais();
@@ -65,7 +89,7 @@ class Landing extends CI_Controller
 
 				'id_usuario' => 0,
 
-				'texto' => 'Compra puzzle',
+				'texto' => 'Iniciar sesion puzzle',
 
 				'fecha_registro' => date("Y-m-d H:i:s"),
 
@@ -92,14 +116,14 @@ class Landing extends CI_Controller
 		// 	&& preg_match('/^[0-9a-zA-Z]+$/', $user) && preg_match('/^[0-9]+$/', $idpapa)
 		// ) {
 		if ($contrasena != $contrasena1) {
-			$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Contraseña no coinciden</label></div>');
-			redirect(base_url() . "Landing/login/" . $idpapa);
+			$this->session->set_flashdata('error', '<h1 style="color:red;">Contraseña no coinciden</h1>');
+			redirect(base_url() . "Landing/login/" . $idpapa."/registrar");
 		} else {
 			$result = $this->model_login->consultaregistro($user, $cedula, $correo);
 
 			if ($result->contar == 1) { // no se puede registrar
 
-				$this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name" style="color:black;"> Registro invalido, ya existen las credenciales</label></div>');
+				$this->session->set_flashdata('error', '<h1 style="color:red;"> Registro invalido, ya existen las credenciales</h1>');
 
 				redirect(base_url() . "Landing/login/" . $idpapa);
 			} else { // si se puede registrar
@@ -137,8 +161,8 @@ class Landing extends CI_Controller
 								"id_izquierda" => $id,
 							);
 							$this->model_login->ModificarDerecha($data, $izquierda->id);
-							$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Registro exitoso</div>');
-							redirect(base_url() . "Landing/login/" . $idpapa);
+							$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
+							redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
 						} else if (count($izquierda) > 1) {
 							do {
 								if ($izquierda->id_izquierda == 0) {
@@ -146,8 +170,8 @@ class Landing extends CI_Controller
 										"id_izquierda" => $id,
 									);
 									$this->model_login->ModificarDerecha($data, $izquierda->id);
-									$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Registro exitoso</div>');
-									redirect(base_url() . "Landing/login/" . $idpapa);
+									$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
+									redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
 								}
 								$izquierda = $this->model_login->cargar_datosReferencia($izquierda->id_izquierda);
 							} while ($izquierda->id_izquierda != null);
@@ -158,8 +182,8 @@ class Landing extends CI_Controller
 								"id_derecha" => $id,
 							);
 							$this->model_login->ModificarDerecha($data, $derecha->id);
-							$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Registro exitoso</div>');
-							redirect(base_url() . "Landing/login/" . $idpapa);
+							$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
+							redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
 						} else {
 							do {
 								if ($derecha->id_derecha == 0) {
@@ -167,18 +191,18 @@ class Landing extends CI_Controller
 										"id_derecha" => $id,
 									);
 									$this->model_login->ModificarDerecha($data, $derecha->id);
-									$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Registro exitoso</div>');
-									redirect(base_url() . "Landing/login/" . $idpapa);
+									$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
+									redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
 								}
 								$derecha = $this->model_login->cargar_datosReferencia($derecha->id_derecha);
 							} while ($derecha->id_derecha != null);
 						}
 					}
-					$this->session->set_flashdata('error', '<div class="alert alert-success text-center">Registro exitoso</div>');
-					redirect(base_url() . "Landing/login/" . $idpapa);
+					$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
+					redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
 				} else {
-					$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Un error al guardar intente nuevamente</div>');
-					redirect(base_url() . "Landing/login/" . $idpapa);
+					$this->session->set_flashdata('error', '<h1 style="color:red;">Un error al guardar</h1>');
+					redirect(base_url() . "Landing/login/" . $idpapa."/registrar");
 				}
 			}
 		}
@@ -202,9 +226,7 @@ class Landing extends CI_Controller
 
 		$result = $this->model_login->consultaUser($user, $pass);
 
-		if (
-			$result->contar == 1
-		) {
+		if ($result->contar == 1) {
 			$datos_user = $this->model_login->trae_user($user, $pass);
 			$session = array(
 				'ID' => $datos_user->id,
@@ -232,8 +254,8 @@ class Landing extends CI_Controller
 
 		} else {
 			//en caso contrario mostramos el error de usuario o contraseña invalido
-			$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Usuario/Contraseña Invalido</div>');
-			redirect("" . base_url() . "Landing/login/");
+			$this->session->set_flashdata('error', '<h1 style="color: red;">Usuario/Contraseña Invalido</h1>');
+			redirect("" . base_url() . "Landing/login/$idpapa/registrar");
 		}
 	}
 
@@ -273,7 +295,11 @@ class Landing extends CI_Controller
 
 		$dolar = $this->input->post('id');
 		$amount_col = $dolar * $rate_usd_to_col;
-		echo $amount_col;
+		$data = array(
+			"valor" => $rate_usd_to_col
+		);
+		$this->model_puzzle1->actualizarParametro(9, $data);
+		echo number_format($amount_col,0) ;
 	}
 
 	public function comprarPuzzle()
@@ -302,11 +328,12 @@ class Landing extends CI_Controller
 		$repartir1 = $datos_puzzle->valor * $socio1->valor;
 		$repartir2 = $datos_puzzle->valor * $socio2->valor;
 		$asignacion = $this->model_puzzle1->consultar_puzzle();
+
 		if ($asignacion != false) {
 			if ($metodo == 2) {
 				$mi_archivo = 'foto';
 				$config['upload_path'] = './assets/img/fotosPerfil/';
-				$config['allowed_types'] = "jpg|png|jpeg";
+				$config['allowed_types'] = "*";
 				$config['maintain_ratio'] = TRUE;
 				$config['create_thumb'] = FALSE;
 				$config['width'] = 800;
@@ -314,7 +341,7 @@ class Landing extends CI_Controller
 				$this->load->library('upload', $config);
 				if (!$this->upload->do_upload($mi_archivo)) {
 					$error = array('error' => $this->upload->display_errors());
-					$this->session->set_flashdata('reco', '<div class="alert alert-danger text-center"><label class="login__input name">Error con la imagen</label></div>');
+					$this->session->set_flashdata('reco', '');
 				} else {
 					$data = array("upload_data" => $this->upload->data());
 					$imagen = $data['upload_data']['file_name'];
@@ -331,10 +358,10 @@ class Landing extends CI_Controller
 					);
 					if ($this->model_puzzle1->transferencia($data) == 1) {
 						$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
-						redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+						redirect(base_url() . "Landing/compraRealizada");
 					} else {
 						$this->session->set_flashdata('exito', '<div class="alert alert-danger text-center">Error con la imagen</div>');
-						redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+						redirect(base_url() . "Landing/compraRealizada");
 					}
 				}
 			} else {
@@ -345,9 +372,11 @@ class Landing extends CI_Controller
 					$this->model_proceso->actualizar_wallet($data, $billetera_user->token);
 					if ($tipo == 1) {
 						$papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
+						print_r($papa);
+						$pagarPapa = $this->model_puzzle1->confirmarPago($datosPersona->id_papa_pago);
 
 						//Consultar si tiene papa y pagar
-						if (count($papa) == 1) {
+						if (count($papa) == 1 && $pagarPapa != false) {
 
 							$nivel1 = $this->model_puzzle1->traer_parametro(2);
 							$resultado = $repartir1 * $nivel1->valor;
@@ -369,9 +398,10 @@ class Landing extends CI_Controller
 							$this->model_proceso->actualizar_wallet($data1, $billetera_papa->token);
 
 							$abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
+							$pagarAbuelo = $this->model_puzzle1->confirmarPago($papa->id_papa_pago);
 
 							//Consultar si tiene abuelo y pagar
-							if (count($abuelo) == 1) {
+							if (count($abuelo) == 1 && $pagarAbuelo != false) {
 
 								$nivel2 = $this->model_puzzle1->traer_parametro(3);
 								$resultado2 = $repartir2 * $nivel2->valor;
@@ -392,9 +422,11 @@ class Landing extends CI_Controller
 								$this->model_proceso->historialComisiones($pagar2);
 
 								$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
+								$pagarBisabuelo = $this->model_puzzle1->confirmarPago($abuelo->id_papa_pago);
+
 
 								// Consultar si tiene bisabuelo y pagar
-								if (count($bisabuelo) == 1) {
+								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
 
 									$nivel3 = $this->model_puzzle1->traer_parametro(4);
 									$resultado3 = $repartir2 * $nivel3->valor;
@@ -448,7 +480,42 @@ class Landing extends CI_Controller
 									);
 									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
-									redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+									redirect(base_url() . "Landing/compraRealizada");
+								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado - $resultado2,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
 								} else {
 									//No tiene paga directo la empresa
 									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
@@ -481,7 +548,138 @@ class Landing extends CI_Controller
 									);
 									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
-									redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+									redirect(base_url() . "Landing/compraRealizada");
+								}
+							} else if (count($abuelo) == 1 && $pagarAbuelo == false) {
+
+								$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
+								$pagarBisabuelo = $this->model_puzzle1->confirmarPago($abuelo->id_papa_pago);
+
+
+								// Consultar si tiene bisabuelo y pagar
+								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+
+									$nivel3 = $this->model_puzzle1->traer_parametro(4);
+									$resultado3 = $repartir2 * $nivel3->valor;
+
+									$billetera_bisabuelo = $this->model_proceso->cargar_billetera($bisabuelo->token);
+									$data3 = array(
+										"cuenta_comision" => $billetera_bisabuelo->cuenta_comision + $resultado3,
+									);
+									$this->model_proceso->actualizar_wallet($data3, $billetera_bisabuelo->token);
+
+									//historial de comisiones
+									$pagar3 = array(
+										"usuario_id" => $datosPersona->id,
+										"beneficio_id" => $bisabuelo->id,
+										"valor" => $resultado3,
+										"servicio" => 'puzzle',
+										"detalle" => "compra puzzle"
+									);
+									$this->model_proceso->historialComisiones($pagar3);
+
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado - $resultado3,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								} else {
+									//No tiene paga directo la empresa
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
 								}
 							} else {
 								$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
@@ -514,10 +712,329 @@ class Landing extends CI_Controller
 								);
 								$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 								$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
-								redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+								redirect(base_url() . "Landing/compraRealizada");
 							}
 							//No tiene paga directo la empresa
 
+						} else if (count($papa) == 1 && $pagarPapa == false) {
+							$abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
+							$pagarAbuelo = $this->model_puzzle1->confirmarPago($papa->id_papa_pago);
+
+							//Consultar si tiene abuelo y pagar
+							if (count($abuelo) == 1 && $pagarAbuelo != false) {
+
+								$nivel2 = $this->model_puzzle1->traer_parametro(3);
+								$resultado2 = $repartir2 * $nivel2->valor;
+
+								$billetera_abuelo = $this->model_proceso->cargar_billetera($abuelo->token);
+								$data2 = array(
+									"cuenta_comision" => $billetera_abuelo->cuenta_comision + $resultado2,
+								);
+								$this->model_proceso->actualizar_wallet($data2, $billetera_abuelo->token);
+								//Historial de comisiones
+								$pagar2 = array(
+									"usuario_id" => $datosPersona->id,
+									"beneficio_id" => $abuelo->id,
+									"valor" => $resultado2,
+									"servicio" => 'puzzle',
+									"detalle" => "compra puzzle"
+								);
+								$this->model_proceso->historialComisiones($pagar2);
+
+								$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
+								$pagarBisabuelo = $this->model_puzzle1->confirmarPago($abuelo->id_papa_pago);
+
+
+								// Consultar si tiene bisabuelo y pagar
+								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+
+									$nivel3 = $this->model_puzzle1->traer_parametro(4);
+									$resultado3 = $repartir2 * $nivel3->valor;
+
+									$billetera_bisabuelo = $this->model_proceso->cargar_billetera($bisabuelo->token);
+									$data3 = array(
+										"cuenta_comision" => $billetera_bisabuelo->cuenta_comision + $resultado3,
+									);
+									$this->model_proceso->actualizar_wallet($data3, $billetera_bisabuelo->token);
+
+									//historial de comisiones
+									$pagar3 = array(
+										"usuario_id" => $datosPersona->id,
+										"beneficio_id" => $bisabuelo->id,
+										"valor" => $resultado3,
+										"servicio" => 'puzzle',
+										"detalle" => "compra puzzle"
+									);
+									$this->model_proceso->historialComisiones($pagar3);
+
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado2 - $resultado3,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado2,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								} else {
+									//No tiene paga directo la empresa
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado2,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								}
+							} else if (count($abuelo) == 1 && $pagarAbuelo == false) {
+
+								$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
+								$pagarBisabuelo = $this->model_puzzle1->confirmarPago($abuelo->id_papa_pago);
+
+
+								// Consultar si tiene bisabuelo y pagar
+								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+
+									$nivel3 = $this->model_puzzle1->traer_parametro(4);
+									$resultado3 = $repartir2 * $nivel3->valor;
+
+									$billetera_bisabuelo = $this->model_proceso->cargar_billetera($bisabuelo->token);
+									$data3 = array(
+										"cuenta_comision" => $billetera_bisabuelo->cuenta_comision + $resultado3,
+									);
+									$this->model_proceso->actualizar_wallet($data3, $billetera_bisabuelo->token);
+
+									//historial de comisiones
+									$pagar3 = array(
+										"usuario_id" => $datosPersona->id,
+										"beneficio_id" => $bisabuelo->id,
+										"valor" => $resultado3,
+										"servicio" => 'puzzle',
+										"detalle" => "compra puzzle"
+									);
+									$this->model_proceso->historialComisiones($pagar3);
+
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total - $resultado3,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+									//pago empresa
+									//AQUI EMPIEZA EL ERRORRRRRS
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+									//Compra del puzzle
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								} else {
+									//No tiene paga directo la empresa
+									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+									$data1 = array(
+										"cuenta_global" => $billetera_empresa->cuenta_global + $total,
+									);
+									$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+
+									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+									$acumulado = $this->model_puzzle1->acumulado();
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$cuentas = array(
+										"valor" => $acumulado->valor + $total1
+									);
+									$historial = array(
+										"usuario_id" => $datosPersona->id,
+										"descripcion" => "compra",
+										"puzzle_id" => $asignacion[0]->id,
+										"direccion" => $direccion,
+										"nota" => $nota,
+										"municipio_id" => $municipio,
+										"domicilio_id" => $domicilio
+									);
+									$this->model_puzzle1->insert_historial($historial);
+									$this->model_puzzle1->insert_acumulado($cuentas);
+									//Asignacion del puzzle al usuario
+
+									$asiganr = array(
+										"asignado" => 1
+									);
+									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+									redirect(base_url() . "Landing/compraRealizada");
+								}
+							} else {
+								$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
+								$data1 = array(
+									"cuenta_global" => $billetera_empresa->cuenta_global + $total,
+								);
+								$this->model_proceso->actualizar_wallet_empresa($data1, $billetera_empresa->token);
+
+								$porAcumulado = $this->model_puzzle1->traer_parametro(6);
+								$acumulado = $this->model_puzzle1->acumulado();
+								$total1 = ($total - $repartir1 - $datos_tipo->valor);
+								$cuentas = array(
+									"valor" => $acumulado->valor + $total1
+								);
+								$historial = array(
+									"usuario_id" => $datosPersona->id,
+									"descripcion" => "compra",
+									"puzzle_id" => $asignacion[0]->id,
+									"direccion" => $direccion,
+									"nota" => $nota,
+									"municipio_id" => $municipio,
+									"domicilio_id" => $domicilio
+								);
+								$this->model_puzzle1->insert_historial($historial);
+								$this->model_puzzle1->insert_acumulado($cuentas);
+								//Asignacion del puzzle al usuario
+
+								$asiganr = array(
+									"asignado" => 1
+								);
+								$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
+								$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
+								redirect(base_url() . "Landing/compraRealizada");
+							}
+							//No tiene paga directo la empresa
 						} else {
 
 							$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
@@ -550,19 +1067,49 @@ class Landing extends CI_Controller
 							);
 							$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 							$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
-							redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+							redirect(base_url() . "Landing/compraRealizada");
 						}
 					} else {
 						# code...
 					}
 				} else {
 					$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">No tiene dinero suficiente</div>');
-					redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+					redirect(base_url() . "Rompecabeza/" . $datosPersona->id_papa_pago);
 				};
 			}
 		} else {
 			$this->session->set_flashdata('exito', '<div class="alert alert-danger text-center">No hay puzzle a la venta</div>');
-			redirect(base_url() . "Rompecabeza/".$datosPersona->id_papa_pago);
+			redirect(base_url() . "Rompecabeza/" . $datosPersona->id_papa_pago);
 		}
+	}
+
+	public function compraRealizada()
+	{
+		$this->load->view('landing/compra');
+	}
+
+	public function redireccionamiento($id)
+	{
+		$valor1 = $this->input->post('tipo');
+		$valor2 = $this->input->post('rompecabeza');
+
+		$this->load->helper('cookie');
+
+		$cookie_1 = array(
+			'name'   => 'mi_cookie_1',
+			'value'  => $valor1,
+			'expire' => 86400,
+		);
+
+		$cookie_2 = array(
+			'name'   => 'mi_cookie_2',
+			'value'  => $valor2,
+			'expire' => 86400,
+		);
+
+		set_cookie($cookie_1);
+		set_cookie($cookie_2);
+
+		redirect(base_url() . "Landing/login/" . $id."/registrar");
 	}
 }
