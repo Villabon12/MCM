@@ -101,6 +101,17 @@ class model_login extends CI_Model
     return $query->row();
   }
 
+  public function trae_userInvestor($user = null, $pass = null)
+  {
+
+    $sql = "SELECT * FROM r_master_usuarios
+  WHERE userinvestor=?  AND passinvestor= ?;";
+
+    $query = $this->db->query($sql, array($user, $pass));
+
+    return $query->row();
+  }
+
 
   public function verifica_user($user)
   {
@@ -162,6 +173,19 @@ class model_login extends CI_Model
 
 
     $query = $this->db->query($sql, array($user, $user, $contra));
+
+    return $query->row();
+  }
+
+  public function consultarInvestor($user, $contra)
+  {
+
+    $sql = "SELECT COUNT(*) AS contar
+  FROM r_master_usuarios WHERE userinvestor= ? AND
+  passinvestor = ? ;";
+
+
+    $query = $this->db->query($sql, array($user, $contra));
 
     return $query->row();
   }

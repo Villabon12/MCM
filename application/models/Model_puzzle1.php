@@ -70,6 +70,11 @@ class model_puzzle1 extends CI_Model
         $this->db->insert('historial_compra_puzzle', $data);
     }
 
+    public function insert_historial_premio($data)
+    {
+        $this->db->insert('historial_premios', $data);
+    }
+
     public function comprobar($valor)
     {
         $this->db->where('codigo', $valor);
@@ -216,6 +221,34 @@ class model_puzzle1 extends CI_Model
 
         if ($resultado->num_rows() > 0) {
             return $resultado->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function consultarCompra()
+    {
+        $id = $this->session->userdata('ID');
+
+        $this->db->where('usuario_id',$id);
+        $this->db->select('*');
+        $resultado = $this->db->get('historial_compra_puzzle');
+
+        if ($resultado->num_rows() > 0) {
+            return $resultado->row();
+        } else {
+            return false;
+        }
+    }
+
+    public function consultarPuzzle($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->select('*');
+        $resultado = $this->db->get('creacion_puzzle');
+
+        if ($resultado->num_rows() > 0) {
+            return $resultado->row();
         } else {
             return false;
         }

@@ -26,7 +26,9 @@
                         <table class="table" id="order-listing">
                             <thead>
                                 <tr>
-                                    <th scope="col">id</th>
+                                    <th>id</th>
+                                    <th scope="col">fecha creacion</th>
+                                    <th scope="col">fecha asignacion</th>
                                     <th scope="col">Codigo</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Valor</th>
@@ -38,7 +40,9 @@
                             <tbody>
                                 <?php foreach ($puzzle as $p) { ?>
                                     <tr>
-                                        <td><?= $p->id ?></td>
+                                        <td><?=$p->id?></td>
+                                        <td><?= $p->fecha_creacion ?></td>
+                                        <td><?= $p->fecha_asignacion ?></td>
                                         <td><?= $p->codigo ?></td>
                                         <td><?= $p->tipo ?></td>
                                         <td><?= $p->valor ?></td>
@@ -80,7 +84,8 @@
                         <table class="table" id="order-listing2">
                             <thead>
                                 <tr>
-                                    <th scope="col">id</th>
+                                    <th scope="col">fecha compra</th>
+                                    <th scope="col">fecha envio</th>
                                     <th scope="col">Usuario</th>
                                     <th scope="col">Domicilio</th>
                                     <th scope="col">Municipio</th>
@@ -93,7 +98,8 @@
                             <tbody>
                                 <?php foreach ($compra as $p) { ?>
                                     <tr>
-                                        <td><?= $p->id ?></td>
+                                        <td><?= $p->fecha_compra ?></td>
+                                        <td><?= $p->fecha_envio ?></td>
                                         <td><?= $p->nombre ?> <?= $p->apellido1 ?></td>
                                         <td><?= $p->domicilio ?></td>
                                         <td><?= $p->estadonombre ?></td>
@@ -104,6 +110,7 @@
                                                 Ya enviado
                                             <?php } else { ?>
                                                 <a class="btn btn-success" href="<?= base_url() ?>Puzzle/cambiar2/<?= $p->id ?>">Enviar</a>
+                                                <a class="btn btn-dark" href="<?= base_url() ?>Puzzle/domicilio/<?= $p->puzzle_id ?>">Recoger Tienda</a>
                                             <?php } ?>
                                         </td>
                              
@@ -127,7 +134,8 @@
                         <table class="table" id="order-listing3">
                             <thead>
                                 <tr>
-                                    <th scope="col">id</th>
+                                    <th scope="col">fecha compra</th>
+                                    <th scope="col">fecha aprobacion</th>
                                     <th scope="col">Usuario</th>
                                     <th scope="col">Domicilio</th>
                                     <th scope="col">Valor</th>
@@ -138,7 +146,8 @@
                             <tbody>
                                 <?php foreach ($usuario as $p) { ?>
                                     <tr>
-                                        <td><?= $p->id ?></td>
+                                        <td><?= $p->fecha_compra ?></td>
+                                        <td><?= $p->fecha_confirmacion ?></td>
                                         <td><?= $p->nombre ?> <?= $p->apellido1 ?></td>
                                         <td><?= $p->domicilio ?></td>
                                         <td>$ <?= $p->pesos ?></td>
@@ -147,6 +156,7 @@
                                                 Ya asignado
                                             <?php } else { ?>
                                                 <a class="btn btn-success" href="<?= base_url() ?>Puzzle/asignarPuzzle/<?= $p->id ?>">Asignar</a>
+                                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelar<?= $p->id ?>">Cancelar</button>
                                             <?php } ?>
                                         </td>
                              
@@ -225,6 +235,33 @@
             </div>
         </div>
     <?php } ?>
+
+    <?php foreach ($usuario as $p) { ?>
+
+        <div class="modal fade" id="cancelar<?= $p->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="<?= base_url() ?>Puzzle/cancelarTransferencia/<?= $p->id ?>" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Motivo Cancelacion</h1>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <input type="textarea" class="form-control" name="motivo">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" style="background-color: #36E1F9;" class="btn ">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
 
     <footer class="footer">
         <div class="d-sm-flex justify-content-center justify-content-sm-between">

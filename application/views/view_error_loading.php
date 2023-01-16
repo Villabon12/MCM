@@ -112,7 +112,7 @@
 
                   <div class="creative text_align_center">
 
-                     <h1> <span>Error </span><br> Usted no debería estar aqui.</h1>
+                     <h1> <span>¡Alerta de seguridad! </span><br> Usted no debería estar aqui.</h1>
 
                      <a class="read_more" href="<?=base_url()?>">Back to home</a>
 

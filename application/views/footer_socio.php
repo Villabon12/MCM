@@ -22,6 +22,7 @@
 <!-- inject:js -->
 <script src="<?= base_url() ?>admin_temp/js/off-canvas.js"></script>
 <script src="<?= base_url() ?>admin_temp/js/misc.js"></script>
+<script src="<?= base_url() ?>admin_temp/js/file-upload.js"></script>
 <script src="<?= base_url() ?>admin_temp/js/settings.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page -->

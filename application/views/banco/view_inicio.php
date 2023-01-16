@@ -1,7 +1,7 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <?php if ($perfil->img_selfie == (NULL) || $perfil->img_cedula_back == (NULL) || $perfil->img_cedula_front == (NULL)) { ?>
+                <?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null)) { ?>
 
                     <div class="col-lg 12">
 
@@ -67,8 +67,14 @@
 
                                                 </div>
                                                 <div class="form-group row mb-3">
-                                                    <label for=" sube un archivo">Comprobante (Pantallazo)</label><br><br>
-                                                    <input type="file" class="form-control" aria-label="img" aria-describedby="basic-addon1" name="img" require>
+                                                    <label>Comprobante (Pantallazo): </label>
+                                                    <input type="file" name="img" accept="image/png,image/jpeg,image/jpg" class="file-upload-default">
+                                                    <div class="input-group col-xs-12">
+                                                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                                        <span class="input-group-append">
+                                                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group row mb-3">
                                                     <label for=>Hash</label><br><br>

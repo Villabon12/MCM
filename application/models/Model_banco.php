@@ -68,6 +68,20 @@ class model_banco extends CI_Model
         return $resultado->result();
     }
 
+    public function cargarHistorialTransferenciaRetiros()
+    {
+        $token = $this->session->userdata('token');
+
+        $this->db->select('c.fecha, c.valor, r.nombre as nombre, r.apellido1 as apellido, r2.nombre as nombre1, r2.apellido1 as apellido1');
+        $this->db->from('historial_transferencia_puzzle c');
+        $this->db->where('c.usuario_token',$token);
+        $this->db->join('r_master_usuarios r','r.token = c.usuario_token');
+        $this->db->join('r_master_usuarios r2','r2.token = c.persona_token');
+        $resultado = $this->db->get();
+
+        return $resultado->result();
+    }
+
     public function insertar($servicio)
     {
 		return $this->db->insert("consignaciones", $servicio);

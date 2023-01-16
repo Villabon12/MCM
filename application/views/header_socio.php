@@ -108,7 +108,8 @@
               <div class="collapse" id="puzzle">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/administracion">Administracion Puzzle</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/acumuladoValor">Acumulado</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/acumuladoValor">Gastos</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/parametros_general">Parametro General</a></li>
                 </ul>
               </div>
             </li>

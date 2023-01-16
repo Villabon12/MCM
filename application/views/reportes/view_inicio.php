@@ -1,12 +1,16 @@
 <div class="main-panel">
     <div class="content-wrapper">
+        <select name="" id="year">
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+        </select>
         <center>
             <div class="col-lg-7">
 
                 <div id="chart2"></div>
             </div>
         </center>
-        <div class="col-lg-12">
+        <!-- <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <form id="form-graficar" action="<?= base_url() ?>Ultra/gananciaMes" method="post">
@@ -48,7 +52,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <footer class="footer">
@@ -96,8 +100,11 @@
 
 <script>
     var base_url = "<?= base_url() ?>";
-    var year = (new Date).getFullYear();
-    datagrafico2(base_url, year);
+    $('#year').on('change',function(e) {
+        var year = $(this).val();
+        datagrafico2(base_url, year);
+    });
+
 
     function datagrafico2(base_url, year) {
         namesMonth = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];

@@ -279,7 +279,7 @@
 
                                             <label for="inputCity" class="form-label">Fecha nacimiento</label>
 
-                                            <input type="date" class="form-control" value="<?= date("d/m/Y", strtotime($perfil->fecha_nacimiento)) ?> " name="fecha_nacimiento" id="datepicker">
+                                            <input type="date" class="form-control" value="<?php echo date("d/m/Y", strtotime($perfil->fecha_nacimiento)) ?> " name="fecha_nacimiento" id="datepicker">
 
                                             <p style="color: green;"> Su fecha de nacimiento es : <?= $perfil->fecha_nacimiento ?></p>
 

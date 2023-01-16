@@ -126,7 +126,24 @@ class model_servicio extends CI_Model
 
         $query = $this->db->query($sql,[$idUsuario]);
 
+        
         return $query->row();
+    }
+
+    public function consultarCampos()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $sql = "SELECT * FROM r_master_usuarios WHERE id = ? AND (celular IS NULL OR ciudad_id IS NULL OR fecha_nacimiento IS NULL OR fecha_nacimiento ='0000-00-00')
+        ";
+
+        $query = $this->db->query($sql,[$idUsuario]);
+
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
     }
 
     public function inversion($id,$update)
@@ -141,5 +158,39 @@ class model_servicio extends CI_Model
         $this->db->where('id',$id);
         $this->db->update('r_master_usuarios',$data);
         return 1;
+    }
+
+    public function ganancia($id)
+    {
+        $this->db->where('usuario_id',$id);
+        $this->db->where('tipo','ganancia');
+        $this->db->select('SUM(ganancia) AS ganancia');
+
+        $resultados = $this->db->get('historial_inversion');
+
+        return $resultados->row();
+    }
+
+    public function perdida($id)
+    {
+        $this->db->where('usuario_id',$id);
+        $this->db->where('tipo','perdida');
+        $this->db->select('SUM(ganancia) AS perdida');
+
+        $resultados = $this->db->get('historial_inversion');
+
+        return $resultados->row();
+    }
+
+    public function comisiones()
+    {
+        $id = $this->session->userdata('ID');
+
+        $this->db->where('beneficio_id',$id);
+        $this->db->select('SUM(valor) AS valor');
+
+        $resultados = $this->db->get('historial_comisiones');
+
+        return $resultados->row();
     }
 }

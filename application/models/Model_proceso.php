@@ -86,6 +86,12 @@ class model_proceso extends CI_Model
         return 1;
     }
 
+    public function historialRetiro($data)
+    {
+        $this->db->insert("historial_retiros_individual", $data);
+        return 1;
+    }
+
     public function traerInversion()
     {
         $idUsuario = $this->session->userdata('ID');
@@ -121,13 +127,22 @@ class model_proceso extends CI_Model
         $this->db->insert("historial_transferencia", $data);
     }
 
+    public function insertHistorialPuzzle($data)
+    {
+        $this->db->insert("historial_transferencia_puzzle", $data);
+    }
+
     public function cargarInversion($id)
     {
         $this->db->select('*');
         $this->db->where('id_usuario', $id);
         $resultados = $this->db->get('r_inversion_robot');
 
-        return $resultados->row();
+        if ($resultados->num_rows() > 0) {
+            return $resultados->row();
+        } else {
+            return false;
+        }
     }
 
     public function cargarCapital()
@@ -173,5 +188,18 @@ class model_proceso extends CI_Model
         $resultado = $this->db->get('activo_servicio');
 
         return $resultado->row();
+    }
+    
+    public function cargarHistorialPremios()
+    {
+        $token = $this->session->userdata('ID');
+
+        $this->db->select('c.fecha, c.valor, r.nombre as nombre, r.apellido1 as apellido, c.detalle');
+        $this->db->from('historial_premios c');
+        $this->db->where('c.usuario_id',$token);
+        $this->db->join('r_master_usuarios r','r.id = c.usuario_id');
+        $resultado = $this->db->get();
+
+        return $resultado->result();
     }
 }

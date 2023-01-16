@@ -33,7 +33,6 @@ class Landing extends CI_Controller
 			$valor_cookie1 = get_cookie('mi_cookie_1');
 			$valor_cookie2 = get_cookie('mi_cookie_2');
 		}
-		
 
 		$result['cookie1'] = $valor_cookie1;
 		$result['cookie2'] = $valor_cookie2;
@@ -160,18 +159,26 @@ class Landing extends CI_Controller
 							$data = array(
 								"id_izquierda" => $id,
 							);
+							$data2 = array(
+								"posicion" => "Izquierda"
+							);
 							$this->model_login->ModificarDerecha($data, $izquierda->id);
-							$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
-							redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
+							$this->model_login->ModificarDerecha($data2, $id);
+							$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+							redirect(base_url() . "ingreso", "refresh");
 						} else if (count($izquierda) > 1) {
 							do {
 								if ($izquierda->id_izquierda == 0) {
 									$data = array(
 										"id_izquierda" => $id,
 									);
+									$data2 = array(
+										"posicion" => "Izquierda"
+									);
 									$this->model_login->ModificarDerecha($data, $izquierda->id);
-									$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
-									redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
+									$this->model_login->ModificarDerecha($data2, $id);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+									redirect(base_url() . "ingreso", "refresh");
 								}
 								$izquierda = $this->model_login->cargar_datosReferencia($izquierda->id_izquierda);
 							} while ($izquierda->id_izquierda != null);
@@ -181,18 +188,26 @@ class Landing extends CI_Controller
 							$data = array(
 								"id_derecha" => $id,
 							);
+							$data2 = array(
+								"posicion" => "Derecha"
+							);
 							$this->model_login->ModificarDerecha($data, $derecha->id);
-							$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
-							redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
+							$this->model_login->ModificarDerecha($data2, $id);
+							$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+							redirect(base_url() . "ingreso", "refresh");
 						} else {
 							do {
 								if ($derecha->id_derecha == 0) {
 									$data = array(
 										"id_derecha" => $id,
 									);
+									$data2 = array(
+										"posicion" => "Derecha"
+									);
 									$this->model_login->ModificarDerecha($data, $derecha->id);
-									$this->session->set_flashdata('error', '<h1 style="color:green;">Registro exitoso</h1>');
-									redirect(base_url() . "Landing/login/" . $idpapa."/ingresar");
+									$this->model_login->ModificarDerecha($data2, $id);
+									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
+									redirect(base_url() . "ingreso", "refresh");
 								}
 								$derecha = $this->model_login->cargar_datosReferencia($derecha->id_derecha);
 							} while ($derecha->id_derecha != null);
@@ -299,7 +314,12 @@ class Landing extends CI_Controller
 			"valor" => $rate_usd_to_col
 		);
 		$this->model_puzzle1->actualizarParametro(9, $data);
-		echo number_format($amount_col,0) ;
+
+		$datos = array(
+			"imprimir" => number_format($amount_col,0),
+			"valor" => $amount_col
+		);
+		echo json_encode($datos);
 	}
 
 	public function comprarPuzzle()
@@ -322,7 +342,7 @@ class Landing extends CI_Controller
 		$billetera_user = $this->model_proceso->cargar_billetera($token->token);
 		$empresa = $this->model_proceso->consultar_referido_niveles(6);
 
-		$total = $datos_puzzle->valor + $datos_tipo->valor;
+		$total = $datos_puzzle->valor + $datos_puzzle->costo + $datos_puzzle->envio;
 		$socio1 = $this->model_puzzle1->traer_parametro(5);
 		$socio2 = $this->model_puzzle1->traer_parametro(7);
 		$repartir1 = $datos_puzzle->valor * $socio1->valor;
@@ -458,7 +478,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -493,7 +513,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -526,7 +546,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -589,7 +609,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -624,7 +644,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -657,7 +677,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -690,7 +710,7 @@ class Landing extends CI_Controller
 
 								$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 								$acumulado = $this->model_puzzle1->acumulado();
-								$total1 = ($total - $repartir1 - $datos_tipo->valor);
+								$total1 = ($total - $repartir1 - $datos_puzzle->costo - $datos_puzzle->envio);
 								$cuentas = array(
 									"valor" => $acumulado->valor + $total1
 								);
@@ -778,7 +798,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -813,7 +833,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -846,7 +866,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -909,7 +929,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -944,7 +964,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -977,7 +997,7 @@ class Landing extends CI_Controller
 
 									$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 									$acumulado = $this->model_puzzle1->acumulado();
-									$total1 = ($total - $repartir1 - $repartir2 - $datos_tipo->valor);
+									$total1 = ($total - $repartir1 - $repartir2 - $datos_puzzle->costo - $datos_puzzle->envio);
 									$cuentas = array(
 										"valor" => $acumulado->valor + $total1
 									);
@@ -1010,7 +1030,7 @@ class Landing extends CI_Controller
 
 								$porAcumulado = $this->model_puzzle1->traer_parametro(6);
 								$acumulado = $this->model_puzzle1->acumulado();
-								$total1 = ($total - $repartir1 - $datos_tipo->valor);
+								$total1 = ($total - $repartir1 - $datos_puzzle->costo - $datos_puzzle->envio);
 								$cuentas = array(
 									"valor" => $acumulado->valor + $total1
 								);

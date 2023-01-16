@@ -1,15 +1,16 @@
 const wheel = document.getElementById("wheel");
 const spinBtn = document.getElementById("spin-btn");
+const valuePremio = document.getElementById("valuePremio").value;
 const finalValue = document.getElementById("final-value");
 //Object that stores values of minimum and maximum angle for a value
 const rotationValues = [
-  { minDegree: 0, maxDegree: 30, value: 'Felicidades recuperaste 10% de tu compra' },
+  { minDegree: 0, maxDegree: 30, value: 'Felicidades recuperaste '+valuePremio+'% de tu compra' },
   { minDegree: 31, maxDegree: 90, value: '100% del Acumulado' },
-  { minDegree: 91, maxDegree: 150, value: 'Felicidades recuperaste 10% de tu compra' },
-  { minDegree: 151, maxDegree: 210, value: 'Felicidades recuperaste 10% de tu compra' },
+  { minDegree: 91, maxDegree: 150, value: 'Felicidades recuperaste '+valuePremio+'% de tu compra' },
+  { minDegree: 151, maxDegree: 210, value: 'Felicidades recuperaste '+valuePremio+'% de tu compra' },
   { minDegree: 211, maxDegree: 270, value: '10% Ganaste acumulado' },
   { minDegree: 271, maxDegree: 330, value: '30% Ganaste acumulado' },
-  { minDegree: 331, maxDegree: 360, value: 'Felicidades recuperaste 10% de tu compra' },
+  { minDegree: 331, maxDegree: 360, value: 'Felicidades recuperaste '+valuePremio+'% de tu compra' },
 ];
 //Size of each piece
 const data = [16, 16, 16, 16, 16, 16];
@@ -99,7 +100,7 @@ spinBtn.addEventListener("click", () => {
   //Empty final value
   finalValue.innerHTML = `<p>Buena suerte!</p>`;
   //Generate random degrees to stop at
-  let randomDegree = Math.floor(1 * (155 - 0 + 1) + 0);
+  let randomDegree = Math.floor(1 * (340 - 0 + 1) + 0);
   //Interval for rotation animation
   let rotationInterval = window.setInterval(() => {
     //Set rotation for piechart

@@ -23,5 +23,26 @@ class model_ultra extends CI_Model
     {
         $this->db->insert('reportes_robot',$data);
     }
+
+    public function addRompecabeza($data)
+    {
+        $this->db->insert('puzzle_fichas',$data);
+    }
+
+    public function parametro_puzzle()
+    {
+        $this->db->select('*');
+        $resultado = $this->db->get('parametro_puzzle');
+
+        return $resultado->result();
+    }
+
+    public function fichas()
+    {
+        $this->db->select('*');
+        $resultado = $this->db->get('puzzle_fichas');
+
+        return $resultado->result();
+    }
     
 }

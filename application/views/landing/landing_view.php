@@ -176,7 +176,6 @@ img="https://d2pas86kykpvmq.cloudfront.net/images/main/">
                                                                             } else {
                                                                             }
                                                                             ?>><?= $s->nombre ?></option>
-                                            <input type="hidden" id="valor" value="<?= $s->valor ?>">
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -518,11 +517,11 @@ img="https://d2pas86kykpvmq.cloudfront.net/images/main/">
                                 html += '<option value="' + value.id + '"';
                                 if (value.id == cookie1) {
                                     html += 'selected>';
-                                    html += '' + value.nombre + '-' + value.fichas + ' fichas, $' + Number(parseFloat(value.valor) + valor) + '</option>';
-                                    html += '<input type="hidden" id="valorR" value="' + Number(parseFloat(value.valor) + valor) + '">'
+                                    html += '' + value.nombre + '-' + value.fichas + ' fichas, $' + Number(parseFloat(value.valor) + parseFloat(value.costo) + parseFloat(value.envio)) + '</option>';
+                                    html += '<input type="hidden" id="valorR" value="' + Number(parseFloat(value.valor) + parseFloat(value.costo) + parseFloat(value.envio)) + '">'
                                 } else {
-                                    html += '>' + value.nombre + '-' + value.fichas + ' fichas, $' + Number(parseFloat(value.valor) + valor) + '</option>';
-                                    html += '<input type="hidden" id="valorR" value="' + Number(parseFloat(value.valor) + valor) + '">'
+                                    html += '>' + value.nombre + '-' + value.fichas + ' fichas, $' + Number(parseFloat(value.valor) + parseFloat(value.costo) + parseFloat(value.envio)) + '</option>';
+                                    html += '<input type="hidden" id="valorR" value="' + Number(parseFloat(value.valor) + parseFloat(value.costo) + parseFloat(value.envio)) + '">'
                                 }
 
                             })
@@ -590,12 +589,13 @@ img="https://d2pas86kykpvmq.cloudfront.net/images/main/">
                     data: {
                         id: id,
                     },
+                    dataType: "json",
                     success: function(resp) {
                         html = '';
                         if (datos == 2) {
                             html += '';
-                            html += '<p>Valor a consignar: $' +  resp + '</p>';
-                            html += '<input type="hidden" name="colombia" value="' + resp + '">';
+                            html += '<p>Valor a consignar: $' +  resp["imprimir"] + '</p>';
+                            html += '<input type="hidden" name="colombia" value="' + Number(resp["valor"].toFixed(0)) + '">';
                             html += '<p>Cuenta a consignar: 68827607090 ahorros</p>';
                             html += '<p>Bancolombia Ahorros</p>';
 

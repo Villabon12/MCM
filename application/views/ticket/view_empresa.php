@@ -25,6 +25,7 @@
                                 <tr>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Estado</th>
+                                    <th scope="col">Usuario</th>
                                     <th scope="col">Pregunta</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -34,6 +35,7 @@
                                     <tr>
                                         <td><?= $t->fecha ?></td>
                                         <td><?= $t->estado ?></td>
+                                        <td><?=$t->user?></td>
                                         <td><?= $t->pregunta ?></td>
                                         <td><?php if ($t->estado == 'en proceso') { ?>
                                                 <button class="btn btn-info" id="valor<?= $t->id ?>" data-bs-toggle="modal" data-bs-target="#view<?= $t->id ?>" value="<?= $t->id ?>"><i class="icon-magnifier"></i></button>

@@ -18,9 +18,7 @@ class Reportes extends CI_Controller
 	}
 
 	public function index($ban = null)
-
 	{
-
 		if ($this->session->userdata('is_logged_in')) {
 
 			if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {

@@ -66,6 +66,7 @@
                                                                 <th scope="col">Nombre</th>
                                                                 <th scope="col">Apellido</th>
                                                                 <th scope="col">Celular</th>
+                                                                <th scope="col">Posicion</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -76,6 +77,7 @@
                                                                     <td><?php echo $B->nombre ?></td>
                                                                     <td><?php echo $B->apellido1 ?></td>
                                                                     <td><?php echo $B->celular ?></td>
+                                                                    <td><?php echo $B->posicion ?></td>
                                                                 </tr>
 
                                                             <?php

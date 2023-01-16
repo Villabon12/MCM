@@ -72,12 +72,13 @@ class Perfil extends CI_Controller
 		$nombre = $this->input->post('nombre');
 		$apellido1 = $this->input->post('apellido1');
 		$fecha_nacimiento = $this->input->post('fecha_nacimiento');
-
+		$celular = $this->input->post('celular');
 
 		$data = array(
 			"nombre" => $nombre,
 			"apellido1" => $apellido1,
 			"fecha_nacimiento" => $fecha_nacimiento,
+			"celular" => $celular
 		);
 
 		if ($this->model_login->updPerfil($data, $token)) {
