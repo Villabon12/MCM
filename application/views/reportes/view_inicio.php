@@ -2,7 +2,7 @@
     <div class="content-wrapper">
         <select name="" id="year">
             <option value="2022">2022</option>
-            <option value="2023">2023</option>
+            <option value="2023" selected>2023</option>
         </select>
         <center>
             <div class="col-lg-7">
@@ -103,7 +103,9 @@
     $('#year').on('change',function(e) {
         var year = $(this).val();
         datagrafico2(base_url, year);
+        $('#chart2').load();
     });
+    $('#year').trigger('change');
 
 
     function datagrafico2(base_url, year) {
@@ -118,18 +120,17 @@
             success: function(data) {
                 var dias = new Array();
                 var ganancia = new Array();
-                var perdida = new Array();
                 $.each(data, function(key, value) {
                     dias.push(namesMonth[value.mes - 1]);
                     valor = Number(value.ganancia).toFixed(4) * 100;
                     ganancia.push(valor);
                 });
-                grafica(dias, ganancia, perdida);
+                grafica(dias, ganancia).reset();
             }
         });
     }
 
-    function grafica(dias, ganancia, perdida) {
+    function grafica(dias, ganancia) {
 
         var options = {
             chart: {

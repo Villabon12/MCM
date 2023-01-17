@@ -196,9 +196,16 @@ class login extends CI_Controller
         $pass = md5($this->input->post('pass'));
 
         $result = $this->model_login->consultaUser($user, $pass);
-        $result2 = $this->model_login->consultarInvestor($user,$pass);
+        $result2 = $this->model_login->consultarInvestor($user, $pass);
 
         if ($result->contar == 1) {
+            $cookie_4 = array(
+                'name'   => 'mi_cookie_4',
+                'value'  => '',
+                'expire' => 86400,
+            );
+
+            set_cookie($cookie_4);
             $datos_user = $this->model_login->trae_user($user, $pass);
             $session = array(
                 'ID' => $datos_user->id,
@@ -223,13 +230,13 @@ class login extends CI_Controller
             }
 
             //
-        }else if($result2->contar == 1){
+        } elseif ($result2->contar == 1) {
             $cookie_4 = array(
                 'name'   => 'mi_cookie_4',
                 'value'  => 'investor',
                 'expire' => 86400,
             );
-    
+
             set_cookie($cookie_4);
             $datos_user = $this->model_login->trae_userInvestor($user, $pass);
             $session = array(
@@ -251,7 +258,6 @@ class login extends CI_Controller
             if ($datos_user->rol_investor == 'investor') {
                 redirect(base_url()."Investor");
             }
-
         } else {
             //en caso contrario mostramos el error de usuario o contraseña invalido
             $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Usuario/Contraseña Invalido</div>');
@@ -295,25 +301,9 @@ class login extends CI_Controller
         }
     }
 
-    public function prueba($valor)
+    public function prueba()
     {
-        $puzzle = $this->model_puzzle1->comprobar($valor);
-        $result['puzzle'] =  $this->model_puzzle1->comprobar($valor);
-        $result['recompensa'] = $this->model_puzzle1->cargarP($puzzle->tipo_puzzle);
-        $result['consultar'] = $this->model_puzzle1->consultar_p($puzzle->id);
-        if ($puzzle->activo == 1) {
-            $this->load->view('prueba', $result);
-        } elseif ($puzzle->activo == 2) {
-            $this->load->view('prueba', $result);
-        } else {
-            $intruso = array(
-                'id_usuario' => $this->session->userdata('ID'),
-                'texto' => 'Intento de reclamar premio',
-                'fecha_registro' => date("Y-m-d H:i:s"),
-            );
-            $this->model_errorpage->insertIntruso($intruso);
-            redirect("" . base_url() . "errorpage/error");
-        }
+        $this->load->view('prueba');
     }
 
     public function calcular()
@@ -393,5 +383,12 @@ class login extends CI_Controller
             $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Ya pasaron 3 minutos, vuelve a solicitar el codigo</div>');
             redirect(base_url() . "Login/recuperar");
         }
+    }
+
+    public function probarProbabilidad($valor)
+    {
+        $data = array('valor' => $valor);
+
+        $this->model_reporte->insertPrueba($data);
     }
 }

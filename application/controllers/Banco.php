@@ -239,6 +239,7 @@ class Banco extends CI_Controller
                 $this->model_errorpage->insertIntruso($intruso);
 
                 redirect("" . base_url() . "errorpage/error");
+            } else {
                 if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Ultra') {
                     $token = $this->session->userdata('token');
 

@@ -117,8 +117,8 @@
                                             <h1 class="text-center">Robot Binaria</h1>
                                             <center>
                                                 <p>Inversion</p>
-                                                <input type="number" class="form-control" placeholder="Valor a invertir" name="inversion"><br>
-                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#fondeoAceptar">Invertir</button>
+                                                <input type="number" class="form-control" placeholder="Valor a invertir" name="inversion" readonly><br>
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#fondeoAceptar" disabled>Invertir</button>
                                                 <p style="color: red;">Saldo disponible en tu billetera: <?= $billetera->cuenta_compra ?></p>
                                             </center>
                                             <div class="modal fade" id="fondeoAceptar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

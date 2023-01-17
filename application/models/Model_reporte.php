@@ -205,4 +205,9 @@ GROUP BY 1 ;";
 
         return $resultado->row();
     }
+
+    public function insertPrueba($data)
+    {
+        $this->db->insert('prueba_juego',$data);
+    }
 }
