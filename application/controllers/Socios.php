@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once APPPATH.'/libraries/dompdf_gen.php';
+require_once APPPATH.'/libraries/phpToPDF.php';
 
 
 class Socios extends CI_Controller
@@ -401,30 +401,18 @@ class Socios extends CI_Controller
         $this->load->view('socio/cheque', $result);
     }
 
-    public function generar_imagen()
+    public function generar_imagen($id)
     {
-        
-        $name = $this->generateRandomString(8);
-        // Crear una ruta para guardar la imagen generada
-        $image_path = base_url() . 'images/'.$name.'.jpg';
+        // SET YOUR PDF OPTIONS -- FOR ALL AVAILABLE OPTIONS, VISIT HERE:  http://phptopdf.com/documentation/
+        $pdf_options = array(
+            "source_type" => 'url',
+            "source" => 'https://www.myconnectmind.com/Socios/cheque/'.$id,
+            "action" => 'download',
+            "page_orientation" => 'landscape',
+            "page_size" => 'A5',
+            "file_name" => 'cheque.pdf');
 
-        // Carga la biblioteca Snappy
-        $this->load->library('snappy');
-
-        // Establece la ruta de la imagen de salida
-        // Establece la url del HTML
-        $html_url = 'https://www.myconnectmind.com/Socios/cheque/7';
-
-        // Genera la imagen
-        $this->snappy->generateFromHtml($html_url, $image_path);
-
-        // Muestra la imagen generada
-        header('Content-Type: image/png');
-        readfile($image_path);
-    }
-
-    public function generateRandomString($length)
-    {
-        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+        // CALL THE phpToPDF FUNCTION WITH THE OPTIONS SET ABOVE
+        phptopdf($pdf_options);
     }
 }

@@ -2,6 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once APPPATH.'/libraries/phpToPDF.php';
 
 
 class Banco extends CI_Controller
@@ -1691,5 +1692,20 @@ class Banco extends CI_Controller
         $result['retiro'] = $this->model_banco->cargarHistorialRetiroUnidad($id);
 
         $this->load->view('banco/cheque',$result);
+    }
+
+    public function generar_imagen($id)
+    {
+        // SET YOUR PDF OPTIONS -- FOR ALL AVAILABLE OPTIONS, VISIT HERE:  http://phptopdf.com/documentation/
+        $pdf_options = array(
+            "source_type" => 'url',
+            "source" => 'https://www.myconnectmind.com/banco/cheque/'.$id,
+            "action" => 'download',
+            "page_orientation" => 'landscape',
+            "page_size" => 'A5',
+            "file_name" => 'cheque.pdf');
+
+        // CALL THE phpToPDF FUNCTION WITH THE OPTIONS SET ABOVE
+        phptopdf($pdf_options);
     }
 }

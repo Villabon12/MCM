@@ -44,7 +44,7 @@
       <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
         <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Bienvenido <?= $perfil->nombre ?> <?= $perfil->apellido1 ?></h5> 
         <ul class="navbar-nav navbar-nav-right ml-auto">
-          <a style="color:black;" href="<?=base_url()?>Socios/cheque"><h6 style="    padding-left: 8px;">Ganancia total $<?= $valor ?> USDT</h6></a>
+          <a style="color:black;" href="<?=base_url()?>Socios/generar_imagen/<?= $perfil->id ?>"><h6 style="    padding-left: 8px;">Ganancia total $<?= $valor ?> USDT</h6></a>
 
           <!-- <li class="nav-item"><a href="#" class="nav-link"><i class="icon-basket-loaded"></i></a>Peticiones</li> -->
           <li class="nav-item dropdown">

@@ -23,10 +23,10 @@
                             <tr>
                                 <td class="line">This check is in payment of the following</td>
                             <tr>
-                                <td class="empty line"><input type="text" name="reason" PLACEHOLDER="<?=$retiro->nombre?>"
+                                <td class="empty line"><input type="text" name="reason" value="<?=$retiro->nombre?>"
                                         size="13" readonly></td>
                             <tr>
-                                <td class="empty line"><input type="text" name="reason2" PLACEHOLDER="<?=$retiro->apellido1?>" size="13" readonly></td>
+                                <td class="empty line"><input type="text" name="reason2" value="<?=$retiro->apellido1?>" size="13" readonly></td>
 
                         </table>
 
@@ -36,7 +36,7 @@
 
 
 
-                    <div class="orderof"><input type="text" PLACEHOLDER="$<?=$retiro->valor?>" name="amount" size="15" readonly><span
+                    <div class="orderof"><input type="text" value="$<?=$retiro->valor?>" name="amount" size="15" readonly><span
                             class="dollar"><span class="bd">*********************</span>dollars</span></div>
                     <table class="info">
                         <thead>
@@ -52,14 +52,14 @@
                         <tbody>
                             <tr>
 
-                                <td class="blank short"><input type="text" PLACEHOLDER="<?=$retiro->fecha?>" name="date" readonly>
+                                <td class="blank short"><input type="text" value="<?=$retiro->fecha?>" name="date" readonly>
                                 </td>
-                                <td class="blank long"><input type="text" PLACEHOLDER="<?=$retiro->nombre?> <?=$retiro->apellido1?>" name="name"
+                                <td class="blank long"><input type="text" value="<?=$retiro->nombre?> <?=$retiro->apellido1?>" name="name"
                                         size="15" readonly></td>
-                                <td class="blank short"><input type="text" PLACEHOLDER="<?=$retiro->id?>" name="num" size="15" readonly></td>
-                                <td class="blank long des"><input type="text" PLACEHOLDER="Retiro Billetera Principal"
+                                <td class="blank short"><input type="text" value="<?=$retiro->id?>" name="num" size="15" readonly></td>
+                                <td class="blank long des"><input type="text" value="Retiro Billetera Principal"
                                         name="description" size="15" readonly></td>
-                                <td class="short" id="discount"><input type="text" PLACEHOLDER="null" name="discount"
+                                <td class="short" id="discount"><input type="text" value="null" name="discount"
                                         size="15" readonly></td>
                             </tr>
                         </tbody>
@@ -75,15 +75,15 @@
                         <div class="sign">
                             </div>
                         <div class="box">
-                            <div class="whole"><input type="text" name="whole" placeholder="$  <?=$retiro->valor?>" size="13" readonly><input
-                                    type="text" placeholder="00" name="cent" size="13" readonly></div>
+                            <div class="whole"><input type="text" name="whole" value="$  <?=$retiro->valor?>" size="13" readonly><input
+                                    type="text" value="00" name="cent" size="13" readonly></div>
                             <div class="cent"></div>
                         </div>
                     </div>
                     <table class="add">
-                        <td class="lines"><input type="text" PLACEHOLDER="######" name="address" size="13" readonly></td>
+                        <td class="lines"><input type="text" value="######" name="address" size="13" readonly></td>
                         <tr>
-                            <td class="lines"><input type="text" PLACEHOLDER="######" name="citystate"
+                            <td class="lines"><input type="text" value="######" name="citystate"
                                     size="13" readonly></td>
                         <tr>
                             <td class="bank">Bank Name, N.A.</td>
