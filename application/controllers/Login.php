@@ -13,6 +13,7 @@ class login extends CI_Controller
         $this->load->model('model_errorpage');
         $this->load->model('model_email2');
         $this->load->model('model_puzzle1');
+        $this->load->model('model_reporte');
     }
 
     public function index($ban = null)
@@ -308,15 +309,22 @@ class login extends CI_Controller
 
     public function calcular()
     {
-        $balance = $this->input->post('balance');
-        $periodo = $this->input->post('periodo');
-        $ganancia = $this->input->post('ganancia');
+        $principal = $this->input->post('balance');
+        $tiempo = $this->input->post('periodo');
+        $tasa_interes = ($this->input->post('ganancia')/100);
+        $principio = $principal;
 
-        $elevado = 12 * $periodo;
-        $division = $ganancia / 12;
-        $calcular = $balance * pow($division, $elevado);
 
-        echo $calcular . " division = " . $division . " Elevado= " . $elevado . " balance = " . $balance . " Periodo = " . $periodo . " ganancia = " . $ganancia;
+        for ($i=1; $i <= $tiempo; $i++) {
+            $principal = $principal * (1 + $tasa_interes);
+            echo '<tr>';
+            echo '<th scope="row">'.$i.'</th>';
+            echo '<td>'.$principio.'</td>';
+            echo '<td>'.number_format($principal,2).'</td>';
+            echo '<td>'.number_format(($principal-$principio),2).'</td>';
+            echo '<td>'.number_format((($principal-$principio)*100)/($principio),2).'%</td> ';
+            echo '</tr>';
+        }
     }
 
     public function olvidarClave($cedula)

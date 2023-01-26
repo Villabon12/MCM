@@ -52,6 +52,24 @@ class Puzzle extends CI_Controller
                     $result['domicilio'] = $this->model_puzzle1->domicilio();
                     $result['habilitar'] = $this->model_puzzle1->consultarCompra();
                     $result['historial'] = $this->model_proceso->cargarHistorialPremios();
+                    $result['inicio'] = $this->model_puzzle1->traer_parametro(10);
+                    $result['final'] = $this->model_puzzle1->traer_parametro(11);
+                    $result['disponibilidad'] = $this->model_servicio->consultarCampos();
+
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
 
                     $this->load->view('header_socio', $result);
                     $this->load->view('puzzle/view_tabla', $result);
@@ -77,6 +95,20 @@ class Puzzle extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['parametro'] = $this->model_ultra->parametro_puzzle();
                 $result['servicios'] = $this->model_ultra->fichas();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -1000,12 +1032,29 @@ class Puzzle extends CI_Controller
     public function reclamar($valor)
     {
         $puzzle = $this->model_puzzle1->comprobar($valor);
+        $traer = $this->model_puzzle1->traerCompra($puzzle->id);
+        $token = $this->model_login->cargar_datosxuser($traer->usuario_id);
         $result['puzzle'] =  $this->model_puzzle1->comprobar($valor);
         $result['recompensa'] = $this->model_puzzle1->cargarP($puzzle->tipo_puzzle);
+        
+        $result['billeteraPersona'] = $this->model_proceso->cargar_billetera($token->token);
+        $result['acumulado'] = $this->model_puzzle1->acumulado();
+        $min = 0.0002;
+        $max = 0.0004;
+        $min1 = 0.0005;
+        $max1 = 0.001;
+        $min2 = 0.001;
+        $max2 = 0.02;
+        $num_random1 = mt_rand() / mt_getrandmax() * ($max - $min) + $min;
+        $num_random2 = mt_rand() / mt_getrandmax() * ($max1 - $min1) + $min1;
+        $num_random3 = mt_rand() / mt_getrandmax() * ($max2 - $min2) + $min2;
+        $result['porcentaje_menor'] = number_format($num_random1, 4);
+        $result['porcentaje_medio'] = number_format($num_random2, 4);
+        $result['porcentaje_mayor'] = number_format($num_random3, 4);
         if ($puzzle->activo == 1) {
             $this->load->view('puzzle/ruleta_premio', $result);
         } elseif ($puzzle->activo == 2) {
-            $this->load->view('puzzle/ruleta_premio', $result);
+            $this->load->view('juegos/ruleta', $result);
         } else {
             $intruso = array(
                 'id_usuario' => $this->session->userdata('ID'),
@@ -1050,6 +1099,20 @@ class Puzzle extends CI_Controller
                 $result['compra'] = $this->model_puzzle1->compra();
                 $result['tipo'] = $this->model_puzzle1->cargar_puzzle();
                 $result['usuario'] = $this->model_puzzle1->compraConsultar();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
                 $this->load->view('puzzle/view_inicio', $result);
@@ -1114,6 +1177,20 @@ class Puzzle extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['acumulado'] = $this->model_puzzle1->acumulado();
                 $result['historial'] = $this->model_banco->cargarHistorialTransferenciaRetiros();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
                 $this->load->view('puzzle/acumulado', $result);
@@ -1859,29 +1936,37 @@ class Puzzle extends CI_Controller
         }
     }
 
-    public function reclamarPremio($valor)
+    public function reclamarPremio($token)
     {
-        $puzzle = $this->model_puzzle1->comprobar($valor);
+        $puzzle = $this->model_puzzle1->comprobar($token);
         $consultar = $this->model_puzzle1->consultar_p($puzzle->id);
         $recompensa = $this->model_puzzle1->cargarP($puzzle->tipo_puzzle);
         $user = $this->model_proceso->consultar_referido_niveles($consultar->usuario_id);
         $empresa = $this->model_proceso->consultar_referido_niveles(6);
 
         $acumulado = $this->model_puzzle1->acumulado();
-        $billetera = $this->model_proceso->cargar_billetera($user->token);
+        $billeteraPersona = $this->model_proceso->cargar_billetera($user->token);
+        $valor=$this->input->post('valor');
+
+        $ganancia = $valor - $billeteraPersona->cuenta_juego;
+
         $data1 = array(
-            "cuenta_juego" => $billetera->cuenta_juego + ($recompensa->valor * $recompensa->porcentaje),
+            "cuenta_juego" => $valor,
         );
+        $this->model_proceso->actualizar_wallet($data1, $billeteraPersona->token);
+
+        //cambiar
+
         $data2 = array(
-            "valor" => $acumulado->valor - ($recompensa->valor * $recompensa->porcentaje)
+            "valor" => $acumulado->valor - ($ganancia)
         );
+
         $data3 = array(
             "usuario_id" => $consultar->usuario_id,
-            "valor" => $recompensa->valor * $recompensa->porcentaje,
+            "valor" => $ganancia,
             "detalle" => "Premio girando ruleta"
         );
         $this->model_puzzle1->insert_acumulado($data2);
-        $this->model_proceso->actualizar_wallet($data1, $billetera->token);
         $this->model_puzzle1->insert_historial_premio($data3);
         $data = array(
               "activo" => 0

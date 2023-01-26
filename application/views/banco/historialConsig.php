@@ -95,7 +95,7 @@
                                         <div class="card-body">
                                             <div class="table-responsive">
 
-                                                <table class="table" id="order-listing">
+                                                <table class="table" id="order-listing2">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Fecha</th>
@@ -105,6 +105,7 @@
                                                             <th scope="col">Wallet_binance</th>
                                                             <th scope="col">Comprobante</th>
                                                             <th scope="col">Aprobar</th>
+                                                            <th scope="col">Motivo</th>
                                                             <th scope="col"></th>
                                                         </tr>
                                                     </thead>
@@ -128,6 +129,7 @@
                                                                 <td>
                                                                     <?= $B->motivos ?>
                                                                 </td>
+                                                                <td><a href="<?=base_url()?>Banco/cheque/<?=$B->id?>" class="btn btn-success" target="_blank"><i class="icon-paper-clip"></i></a></td>
                                                             </tr>
 
                                                         <?php

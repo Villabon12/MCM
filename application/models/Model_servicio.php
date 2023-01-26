@@ -129,6 +129,17 @@ class model_servicio extends CI_Model
         
         return $query->row();
     }
+    public function reportesxuser2($idUsuario)
+    {
+        $sql = "SELECT ri.*, hi.valor_antiguo, hi.ganancia as gananciaxuser, hi.tipo as tipoxuser, hi.usuario_id as idxuser
+        FROM resultado_inversion_b ri, historial_inversion hi, r_inversion_robot rb 
+        WHERE hi.fecha = ri.fecha  AND hi.usuario_id = rb.id  AND rb.id_usuario = ? AND ri.senal != 'no' ORDER BY fecha DESC LIMIT 1";
+
+        $query = $this->db->query($sql,[$idUsuario]);
+
+        
+        return $query->row();
+    }
 
     public function consultarCampos()
     {
@@ -193,4 +204,16 @@ class model_servicio extends CI_Model
 
         return $resultados->row();
     }
+
+    public function comisiones2($id)
+    {
+
+        $this->db->where('beneficio_id',$id);
+        $this->db->select('SUM(valor) AS valor');
+
+        $resultados = $this->db->get('historial_comisiones');
+
+        return $resultados->row();
+    }
+    
 }

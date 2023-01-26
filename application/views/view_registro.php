@@ -72,7 +72,7 @@
           </div>
           <div class="login__row">
 
-            <input type="number" class="login__input name plac" placeholder="ID Number" name="cedula" required />
+            <input type="text" class="login__input name plac" placeholder="ID Number" name="cedula" required />
 
           </div>
 

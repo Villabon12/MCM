@@ -198,4 +198,27 @@ class Investor extends CI_Controller
 		$resultados = $this->model_reporte->montosMeses($year ,$id);
 		echo json_encode($resultados);
 	}
+
+    public function generarUsuario()
+    {
+        $perfil = $this->model_login->cargar_datos();
+
+        $user = $perfil->user."Investor";
+        $pass = $this->generateRandomString(8);
+
+        $data = array(
+            "userinvestor" => $user,
+            "passinvestor" => md5($pass),
+            "passInvestor2" => $pass
+        );
+
+        $this->model_login->actualizarUsuario($data,$perfil->id);
+
+        redirect(base_url()."Binaria");
+    }
+
+    public function generateRandomString($length)
+    {
+        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+    }
 }

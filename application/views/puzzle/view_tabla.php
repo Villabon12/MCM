@@ -1,9 +1,11 @@
 <!-- partial -->
-<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null)) { ?>
+<!-- partial -->
+<!-- partial -->
+<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
 <div class="main-panel">
     <div class="content-wrapper">
 
-        <div class="col-lg 12">
+        <div class="col-lg-12">
 
             <div class="card">
 
@@ -19,6 +21,14 @@
 
                         <a href="<?= base_url() ?>Perfil" type="button" class="btn btn-success  ">validar</a>
 
+                        <?php if ($disponibilidad != false) { ?>
+
+                        <h3 style="color: red;">Tienes campo fecha de nacimiento vacio en tu perfil <a
+                                href="<?=base_url()?>Perfil">Ir al
+                                perfil</a></h3>
+                        <br>
+
+                        <?php } ?>
                     </center>
 
                 </div>
@@ -27,7 +37,6 @@
 
         </div>
     </div>
-</div>
 <?php } else { ?>
 <div class="main-panel">
     <?php if ($this->session->flashdata("error")) { ?>
@@ -69,8 +78,15 @@
 
                                     </div>
                                     <br>
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#compra"
+                                    <?php if (date('d') >= $inicio->valor && date('d') <= $final->valor ) { ?>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#compra"
+                                        class="btn btn-success" id="button">comprar</button>
+                                    <?php } else { ?>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#compra"
                                         class="btn btn-success" id="button" disabled>comprar</button>
+                                    <?php } ?>
+                                     
+                                    
                                     <p style="color: red;">Saldo disponible en tu billetera:
                                         <?= $billetera->cuenta_compra ?></p>
                                     <br>

@@ -13,7 +13,8 @@
                 <div class="card cc-widget">
 
                     <button class="buttomo">
-                        <div class="cc-icon align-self-center"><i class="fas fa-address-card auni coloramarillo" title="Ofertar Activos"></i></div>
+                        <div class="cc-icon align-self-center"><i class="fas fa-address-card auni coloramarillo"
+                                title="Ofertar Activos"></i></div>
                         <div class="m-l-10 align-self-center">
                             <h4 class="m-b-0 amar">REPORTES ROBOT</h4>
                         </div>
@@ -39,10 +40,15 @@
         <br><br>
         <div class="col-12">
             <center>
-                <a class="btn btn-dark" download="reportes.txt" href="<?= base_url() ?>txt/datosbot.txt">Descargar txt</a>
-                <?php if ($perfil->rol = 'ultra') { ?>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add">Insertar reporte</button>
+                <a class="btn btn-dark" download="reportes.txt" href="<?= base_url() ?>txt/datosbot.txt">Descargar
+                    txt</a>
+                <?php if ($Encender->valor2 == 1) { ?>
+                    <a class="btn btn-inverse-info" href="<?= base_url() ?>Binaria/configuracion/0">Robot Encendido</a>
+                <?php }else{ ?>
+                    <a class="btn btn-inverse-danger" href="<?= base_url() ?>Binaria/configuracion/1">Robot Apagado</a>
                 <?php } ?>
+
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add">Insertar reporte</button>
             </center>
         </div>
         <br>
@@ -59,7 +65,8 @@
 
                                         <tr>
 
-                                            <th><i class="mdi    mdi-checkbox-multiple-blank-circle-outline"></i> Fecha</th>
+                                            <th><i class="mdi    mdi-checkbox-multiple-blank-circle-outline"></i> Fecha
+                                            </th>
 
                                             <th><i class="mdi mdi-cash"></i> Señal</th>
 
@@ -85,51 +92,51 @@
 
                                         <?php foreach ($reportes as $t) { ?>
 
-                                            <?php if (($t->saldo_final - $t->saldo_inicial) < 0) { ?>
-                                                <tr style="color: red;">
+                                        <?php if (($t->saldo_final - $t->saldo_inicial) < 0) { ?>
+                                        <tr style="color: red;">
 
-                                                    <td><?= $t->fecha ?></td>
+                                            <td><?= $t->fecha ?></td>
 
-                                                    <td><?= $t->señal ?></td>
+                                            <td><?= $t->señal ?></td>
 
-                                                    <td><?= $t->mercado ?></td>
+                                            <td><?= $t->mercado ?></td>
 
-                                                    <td><?= $t->saldo_inicial ?></td>
+                                            <td><?= $t->saldo_inicial ?></td>
 
-                                                    <td><?= $t->saldo_final ?></td>
-                                                    <td><?= $t->porcentajeregistrado ?>%</td>
+                                            <td><?= $t->saldo_final ?></td>
+                                            <td><?= $t->porcentajeregistrado ?>%</td>
 
-                                                    <td><?= $t->saldo_final - $t->saldo_inicial ?></td>
+                                            <td><?= $t->saldo_final - $t->saldo_inicial ?></td>
 
-                                                    <td><?= $t->precio_entrada ?></td>
+                                            <td><?= $t->precio_entrada ?></td>
 
-                                                    <td><?= $t->precio_salida ?></td>
-                                                    <td><?= $t->estrategia ?></td>
+                                            <td><?= $t->precio_salida ?></td>
+                                            <td><?= $t->estrategia ?></td>
 
-                                                </tr>
-                                            <?php  } else { ?>
-                                                <tr style="color: blue;">
+                                        </tr>
+                                        <?php  } else { ?>
+                                        <tr style="color: blue;">
 
-                                                    <td><?= $t->fecha ?></td>
+                                            <td><?= $t->fecha ?></td>
 
-                                                    <td><?= $t->señal ?></td>
+                                            <td><?= $t->señal ?></td>
 
-                                                    <td><?= $t->mercado ?></td>
+                                            <td><?= $t->mercado ?></td>
 
-                                                    <td><?= $t->saldo_inicial ?></td>
+                                            <td><?= $t->saldo_inicial ?></td>
 
-                                                    <td><?= $t->saldo_final ?></td>
-                                                    <td><?= $t->porcentajeregistrado ?>%</td>
+                                            <td><?= $t->saldo_final ?></td>
+                                            <td><?= $t->porcentajeregistrado ?>%</td>
 
-                                                    <td><?= $t->saldo_final - $t->saldo_inicial ?></td>
+                                            <td><?= $t->saldo_final - $t->saldo_inicial ?></td>
 
-                                                    <td><?= $t->precio_entrada ?></td>
+                                            <td><?= $t->precio_entrada ?></td>
 
-                                                    <td><?= $t->precio_salida ?></td>
-                                                    <td><?= $t->estrategia ?></td>
+                                            <td><?= $t->precio_salida ?></td>
+                                            <td><?= $t->estrategia ?></td>
 
-                                                </tr>
-                                            <?php }  ?>
+                                        </tr>
+                                        <?php }  ?>
 
 
 
@@ -159,15 +166,19 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label for="">Balance mensual General</label>
-                        <input type="text" class="form-control" value="<?= number_format($balanceTotalMes->resta, 2) ?>" disabled>
+                        <input type="text" class="form-control" value="<?= number_format($balanceTotalMes->resta, 2) ?>"
+                            disabled>
                     </div>
                     <div class="col-md-3">
                         <label for="">Balance mensual repartido a cliente</label>
-                        <input type="text" class="form-control" value="<?= number_format($balanceMensualRepartido->repartir, 2) ?>" disabled>
+                        <input type="text" class="form-control"
+                            value="<?= number_format($balanceMensualRepartido->repartir, 2) ?>" disabled>
                     </div>
                     <div class="col-md-3">
                         <label for="">Utilidad mensual Empresa</label>
-                        <input type="text" class="form-control" value="<?= number_format($balanceTotalMes->resta - $balanceMensualRepartido->repartir, 2) ?>" disabled>
+                        <input type="text" class="form-control"
+                            value="<?= number_format($balanceTotalMes->resta - $balanceMensualRepartido->repartir, 2) ?>"
+                            disabled>
                     </div>
                 </div>
             </div>
@@ -182,7 +193,7 @@
 
             <div class="modal-content">
 
-                <form action="<?= base_url() ?>Ultra/insertReporte" method="post" enctype="multipart/form-data">
+                <form action="<?= base_url() ?>Ultra/insertReporte" class="forms-sample" method="post" enctype="multipart/form-data">
 
                     <div class="modal-header">
 
@@ -194,35 +205,43 @@
 
                     <div class="modal-body">
 
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="senal" placeholder="señal">
+                        <div class="form-group">
+                            <label for="">Señal: </label>
+                            <input type="text" class="form-control" name="senal" placeholder="Put o Call">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="mercado" placeholder="mercado">
+                        <div class="form-group">
+                            <label for="">Mercado: </label>
+                            <input type="text" class="form-control" name="mercado" placeholder="EURUSD o Cualquiera">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="saldo_inicial" placeholder="saldo_inicial">
+                        <div class="form-group">
+                            <label for="">Saldo inicial: </label>
+                            <input type="text" class="form-control" name="saldo_inicial" placeholder="Valor inicial del capital (Antes operar)">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="saldo_final" placeholder="saldo_final">
+                        <div class="form-group">
+                            <label for="">Saldo final: </label>
+                            <input type="text" class="form-control" name="saldo_final" placeholder="Valor final del capital (Despues operar)">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="porcentaje" placeholder="porcentajeregistrado">
+                        <div class="form-group">
+                            <label for="">Porcentaje Registrado: </label>
+                            <input type="text" class="form-control" name="porcentaje"
+                                placeholder="Porcentaje que reparte broker">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="precio_entrada" placeholder="precio_entrada">
+                        <div class="form-group">
+                            <label for="">Precio entrada: </label>
+                            <input type="text" class="form-control" name="precio_entrada" placeholder="Precio donde entró la operación">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="precio_salida" placeholder="precio_salida">
+                        <div class="form-group">
+                            <label for="">Precio salida: </label>
+                            <input type="text" class="form-control" name="precio_salida" placeholder="Preció donde salió la operación">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="porcentaje_a" placeholder="porcentaje_a">
+                        <div class="form-group">
+                            <label for="">Monto Apostado: </label>
+                            <input type="text" class="form-control" name="porcentaje_a" placeholder="Monto apostado">
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="tipo" placeholder="tipo">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="estado" placeholder="estado">
+                            <input type="hidden" class="form-control" value="6" name="tipo" placeholder="tipo">
+                        <div class="form-group">
+                            <label for="">Estado: </label> 
+                            <input type="text" class="form-control" name="estado" placeholder="Activo = 1; Inactivo = 0">
                         </div>
 
                     </div>

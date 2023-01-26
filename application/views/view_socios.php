@@ -1,5 +1,5 @@
 <!-- partial -->
-<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null)) { ?>
+<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
 <div class="main-panel">
     <div class="content-wrapper">
 
@@ -19,6 +19,14 @@
 
                         <a href="<?= base_url() ?>Perfil" type="button" class="btn btn-success  ">validar</a>
 
+                        <?php if ($disponibilidad != false) { ?>
+
+                        <h3 style="color: red;">Tienes campo fecha de nacimiento vacio en tu perfil <a
+                                href="<?=base_url()?>Perfil">Ir al
+                                perfil</a></h3>
+                        <br>
+
+                        <?php } ?>
                     </center>
 
                 </div>
@@ -46,8 +54,6 @@
             <br>
 
             <?php } ?>
-
-            <h4>Ganancia total con MCM: $<?= $valor ?> USDT</h4>
             <div class="row">
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">

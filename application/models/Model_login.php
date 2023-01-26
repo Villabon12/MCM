@@ -275,7 +275,7 @@ class model_login extends CI_Model
 
   public function cuentasGanancia()
   {
-    $sql = "SELECT hi.fecha, hi.ganancia, u.user, p.icono FROM historial_inversion hi, r_inversion_robot r, r_master_usuarios u, pais p WHERE hi.usuario_id = r.id AND r.id_usuario = u.id AND u.pais_id = p.id AND hi.tipo = 'ganancia' AND hi.fecha > '2022-11-17'";
+    $sql = "SELECT hi.fecha, hi.ganancia, u.user, p.icono FROM historial_inversion hi, r_inversion_robot r, r_master_usuarios u, pais p WHERE hi.usuario_id = r.id AND r.id_usuario = u.id AND u.pais_id = p.id AND hi.tipo = 'ganancia' AND hi.fecha > '2023-01-17' ORDER BY hi.fecha DESC LIMIT 100";
 
     $query = $this->db->query($sql);
 

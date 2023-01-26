@@ -105,5 +105,21 @@
                             </ul>
                         </div>
                     </li>
+
+                    <li class="nav-item nav-category"><span class="nav-link">Reportes</span></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#grafico" aria-expanded="false"
+                            aria-controls="grafico">
+                            <span class="menu-title">Reportes</span>
+                            <i class=" icon-chart menu-icon"></i>
+                        </a>
+                        <div class="collapse" id="grafico">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Investor/reportes">Graficos</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </nav>

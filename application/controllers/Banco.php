@@ -43,6 +43,21 @@ class Banco extends CI_Controller
             } else {
                 if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
                     $result['perfil'] = $this->model_login->cargar_datos();
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
+                    $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $this->load->view('header_socio', $result);
 
@@ -83,6 +98,8 @@ class Banco extends CI_Controller
         if (!$this->upload->do_upload($mi_archivo)) {
             $error = array('error' => $this->upload->display_errors());
             $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Error con la imagen</label></div>');
+            redirect(base_url() . "Banco", "refresh");
+
         } else {
             $data = array("upload_data" => $this->upload->data());
             $imagen = $data['upload_data']['file_name'];
@@ -116,6 +133,21 @@ class Banco extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['consigna'] = $this->model_banco->cargar();
 
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
+
                 $this->load->view('header_socio', $result);
 
                 $this->load->view('banco/view_table', $result);
@@ -148,6 +180,22 @@ class Banco extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['consigna'] = $this->model_banco->cargarHistorial();
                 $result['retira'] = $this->model_banco->cargarHistorialRetiro();
+                $result['disponibilidad'] = $this->model_servicio->consultarCampos();
+
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -250,7 +298,22 @@ class Banco extends CI_Controller
                     $result['equipo'] = $this->model_proceso->traer_parametro(19);
                     $result['juego'] = $this->model_proceso->traer_parametro(23);
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
+                    $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
 
                     $this->load->view('header_socio', $result);
 
@@ -1542,6 +1605,20 @@ class Banco extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['historial'] = $this->model_banco->cargarHistorialTransferencia();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
                 $this->load->view('banco/view_transferencia', $result);
@@ -1607,5 +1684,12 @@ class Banco extends CI_Controller
             $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">No tiene dinero</label></div>');
             redirect(base_url() . "Transferencia", "refresh");
         }
+    }
+
+    public function cheque($id)
+    {
+        $result['retiro'] = $this->model_banco->cargarHistorialRetiroUnidad($id);
+
+        $this->load->view('banco/cheque',$result);
     }
 }

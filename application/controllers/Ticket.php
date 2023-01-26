@@ -38,10 +38,24 @@ class Ticket extends CI_Controller
                 $this->model_errorpage->insertIntruso($intruso);
 
                 redirect("" . base_url() . "errorpage/error");
-
+            } else {
                 if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $result['ticket'] = $this->model_reporte->cargar_ticket();
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
 
                     $this->load->view('header_socio', $result);
                     $this->load->view('ticket/view_inicio', $result);
@@ -136,6 +150,20 @@ class Ticket extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['ticket'] = $this->model_reporte->cargar_ticket_empresa();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
                 $this->load->view('ticket/view_empresa', $result);

@@ -182,7 +182,7 @@ function CGameSection()
             _bRoundEnded = false;
         } else
         {
-            s_oGame.restart();
+            // s_oGame.restart();
         }
     };
 

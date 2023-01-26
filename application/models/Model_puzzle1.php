@@ -253,4 +253,17 @@ class model_puzzle1 extends CI_Model
             return false;
         }
     }
+
+    public function traerCompra($id)
+    {
+        $this->db->where('puzzle_id',$id);
+        $this->db->select('*');
+        $resultado = $this->db->get('historial_compra_puzzle');
+
+        if ($resultado->num_rows() > 0) {
+            return $resultado->row();
+        } else {
+            return false;
+        }
+    }
 }

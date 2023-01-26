@@ -1,104 +1,109 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>ROCK PAPER SCISSORS</title>
-        <link rel="stylesheet" href="<?=base_url()?>puzzle/piedra-papel/css/reset.css" type="text/css">
-        <link rel="stylesheet" href="<?=base_url()?>puzzle/piedra-papel/css/main.css" type="text/css">
-        <link rel="stylesheet" href="<?=base_url()?>puzzle/piedra-papel/css/orientation_utils.css" type="text/css">
-        <link rel="stylesheet" href="<?=base_url()?>puzzle/piedra-papel/css/ios_fullscreen.css" type="text/css">
-        <link rel='shortcut icon' type='image/x-icon' href='./favicon.ico' />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
 
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
-        <meta name="msapplication-tap-highlight" content="no"/>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="<?= base_url() ?>admin_temp/css/cheque.css">
+</head>
 
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/jquery-3.1.1.min.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/platform.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/ios_fullscreen.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/createjs.min.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/screenfull.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/howler.min.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CTweenController.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/sprite_lib.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/settings.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CLang.min.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CPreloader.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/ctl_utils.js"></script>
-        
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CMain.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CCTLText.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CHistoryPanel.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CPlayer.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CSelectPlayers.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CGameSection.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CMatchCount.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CCpuPlayer.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CSelectThrow.js"></script>
-        <!-- <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CRecordPanel.js"></script> -->
+<body>
+    <div class="check">
+        <div class="border">
+            <div class="container-cheque">
+                <div class="content">
+                    <div class="one">
+                        <div class="title">
+                            <div id="bold">OWNERS NAME </div>
+                            <div class="name">COMPANY NAME <br>COMPANY ADDRESS<br> CITY, STATE ZIP</div>
+                        </div>
+                        <table class="following">
+                            <tr>
+                                <td class="line">This check is in payment of the following</td>
+                            <tr>
+                                <td class="empty line"><input type="text" name="reason" placeholder="INSERT_MEMO"
+                                        size="13"></td>
+                            <tr>
+                                <td class="empty line"><input type="text" name="reason2" size="13"></td>
 
-        
-        <!-- <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CAreYouSurePanel.js"></script> -->
+                        </table>
 
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CInterface.js"></script>
+                        <div class="number">0000</div>
+                    </div>
 
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CToggle.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CGfxButton.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CMenu.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CGame.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CCreditsPanel.js"></script>
-        <script type="text/javascript" src="<?=base_url()?>puzzle/piedra-papel/js/CHelpPanel.js"></script>
-    </head>
-    <body ondragstart="return false;" ondrop="return false;" >
-        <div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
-        <script>
-		
-            $(document).ready(function () {
-                var oMain = new CMain({
-                    audio_enable_on_startup:false, //ENABLE/DISABLE AUDIO WHEN GAME STARTS
-                    fullscreen:true, //SET THIS TO FALSE IF YOU DON'T WANT TO SHOW FULLSCREEN BUTTON
-                    check_orientation: true,     //SET TO FALSE IF YOU DON'T WANT TO SHOW ORIENTATION ALERT ON MOBILE DEVICES
-                    victoryOccurences: 6           //0-100 possibility of the player to win
-                });
-                
 
-                $(oMain).on("start_session", function (evt) {
-                    if (getParamValue('ctl-arcade') === "true") {
-                        parent.__ctlArcadeStartSession();
-                    }
-                });
 
-                $(oMain).on("end_session", function (evt) {
-                    if (getParamValue('ctl-arcade') === "true") {
-                        parent.__ctlArcadeEndSession();
-                    }
-                });
 
-                $(oMain).on("show_interlevel_ad", function (evt) {
-                    if (getParamValue('ctl-arcade') === "true") {
-                        parent.__ctlArcadeShowInterlevelAD();
-                    }
-                });
+                    <div class="orderof"><input type="text" placeholder="INSERT_AMOUNT" name="amount" size="15"><span
+                            class="dollar"><span class="bd">*********************</span>dollars</span></div>
+                    <table class="info">
+                        <thead>
+                            <tr>
 
-                
+                                <th class="chart">date</th>
+                                <th class="chart">to the order of</th>
+                                <th class="chart">check no.</th>
+                                <th class="chart">description</th>
+                                <th class="chart" id="discount">discount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
 
-                if (isIOS()) {
-                    setTimeout(function () {
-                        sizeHandler();
-                    }, 200);
-                } else {
-                    sizeHandler();
-                }
-            });
+                                <td class="blank short"><input type="text" PLACEHOLDER="  /  /  " name="date" size="15">
+                                </td>
+                                <td class="blank long"><input type="text" PLACEHOLDER="INSERT_NAME" name="name"
+                                        size="15"></td>
+                                <td class="blank short"><input type="text" PLACEHOLDER="0000" name="num" size="15"></td>
+                                <td class="blank long des"><input type="text" PLACEHOLDER="INSERT_MEMO"
+                                        name="description" size="15"></td>
+                                <td class="short" id="discount"><input type="text" PLACEHOLDER="INSERT" name="discount"
+                                        size="15"></td>
+                            </tr>
+                        </tbody>
+                        </tr>
+                        </tbody>
+                    </table>
 
-        </script>
+                    <div class="amount">
+                        <span class="amounts">
+                            <p>check</p>
+                            <p>amount</p>
+                        </span>
+                        <div class="sign">
+                            $</div>
+                        <div class="box">
+                            <div class="whole"><input type="text" name="whole" placeholder="0000" size="13"><input
+                                    type="text" placeholder="00" name="cent" size="13"></div>
+                            <div class="cent"></div>
+                        </div>
+                    </div>
+                    <table class="add">
+                        <td class="lines"><input type="text" PLACEHOLDER="INSERT_ADDRESS" name="address" size="13"></td>
+                        <tr>
+                            <td class="lines"><input type="text" PLACEHOLDER="CITY, STATE ZIP" name="citystate"
+                                    size="13"></td>
+                        <tr>
+                            <td class="bank">Bank Name, N.A.</td>
+                    </table>
+                    <table class="signature">
+                        <td class="sig"></td>
+                        <tr>
+                            <td class="mp"></td>
+                    </table>
 
-        <div class="check-fonts">
-            <p class="check-font-1">1</p>
-        </div> 
 
-		<canvas id="canvas" class='ani_hack' width="1200" height="600"> </canvas>
-        <div data-orientation="landscape" class="orientation-msg-container"><p class="orientation-msg-text">Please rotate your device</p></div>
-        <div id="block_game" style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%; display:none"></div>
 
-    </body>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
 </html>

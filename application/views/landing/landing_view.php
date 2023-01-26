@@ -599,7 +599,7 @@ img="https://d2pas86kykpvmq.cloudfront.net/images/main/">
                             html += '<p>Cuenta a consignar: 68827607090 ahorros</p>';
                             html += '<p>Bancolombia Ahorros</p>';
 
-                            html += '<input class="form-control" type="file" name="foto">';
+                            html += '<input class="form-control" type="file" name="foto" accept="image/png,image/jpeg,image/jpg">';
 
                             $('#add3').html(html);
                         } else {

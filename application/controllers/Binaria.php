@@ -57,6 +57,19 @@ class Binaria extends CI_Controller
                     $result['inversion'] = $this->model_servicio->cargarCapital();
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
                     if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
+                    if (count($idxuser) == 1) {
                         $result['reportes'] = $this->model_servicio->reportes();
                         $result['ganancia'] = $this->model_wallet->gananciasHoy($idxuser->idxuser);
                         $result['perdida'] = $this->model_wallet->perdidasHoy($idxuser->idxuser);
@@ -80,6 +93,7 @@ class Binaria extends CI_Controller
                     $result['reportes'] = $this->model_servicio->reportes();
                     $result['retiro'] = $this->model_wallet->retiro();
                     $result['deposito'] = $this->model_wallet->deposito();
+                    $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $result['total'] = $this->model_servicio->sumInversion();
                     if (count($activacion) == 1) {
@@ -129,6 +143,20 @@ class Binaria extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['parametro'] = $this->model_socios->parametro();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -165,6 +193,21 @@ class Binaria extends CI_Controller
                 $result['balanceMensualRepartido'] = $this->model_reporte->balanceMensualRepartido($mes->mes, $year->ano);
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['reportes'] = $this->model_socios->reportes();
+                $result['Encender'] = $this->model_socios->traerFuncion();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -197,6 +240,20 @@ class Binaria extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['estado'] = $this->model_socios->estado();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -933,6 +990,20 @@ class Binaria extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['consigna'] = $this->model_banco->cargar_inversion();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -988,5 +1059,17 @@ class Binaria extends CI_Controller
             "inversion" => $inversion
         );
         echo json_encode($datos);
+    }
+
+    public function configuracion($valor)
+    {
+        $data = array(
+            'valor' => 1,
+            'valor2' => $valor
+        );
+
+        $this->model_socios->updateFuncion($data);
+
+        redirect(base_url()."Binaria/reportesRobot");
     }
 }

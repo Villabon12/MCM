@@ -1,10 +1,10 @@
 <!-- partial -->
-
-<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null)) { ?>
+<!-- partial -->
+<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
 <div class="main-panel">
     <div class="content-wrapper">
 
-        <div class="col-lg 12">
+        <div class="col-lg-12">
 
             <div class="card">
 
@@ -20,6 +20,14 @@
 
                         <a href="<?= base_url() ?>Perfil" type="button" class="btn btn-success  ">validar</a>
 
+                        <?php if ($disponibilidad != false) { ?>
+
+                        <h3 style="color: red;">Tienes campo fecha de nacimiento vacio en tu perfil <a
+                                href="<?=base_url()?>Perfil">Ir al
+                                perfil</a></h3>
+                        <br>
+
+                        <?php } ?>
                     </center>
 
                 </div>
@@ -28,7 +36,6 @@
 
         </div>
     </div>
-</div>
 
 <?php } else { ?>
 

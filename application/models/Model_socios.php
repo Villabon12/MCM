@@ -279,4 +279,16 @@ END;
 
         return $query->result();
     }
+
+    public function traerFuncion()
+    {
+        $resultado = $this->db->get('prender_auto');
+        return $resultado->row();
+    }
+
+    public function updateFuncion($data)
+    {
+        $this->db->update('prender_auto',$data);
+
+    }
 }

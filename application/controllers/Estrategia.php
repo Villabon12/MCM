@@ -38,6 +38,20 @@ class Estrategia extends CI_Controller
 				$result['telegram'] = $this->model_socios->telegram();
 				$result['quotex'] = $this->model_socios->quotex();
 				$result['iq'] = $this->model_socios->iq();
+				$idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
 				$this->load->view('header_socio', $result);
 				$this->load->view('estrategia/view_table', $result);
@@ -111,6 +125,20 @@ class Estrategia extends CI_Controller
 				$result['perfil'] = $this->model_login->cargar_datos();
 				$result['parametro'] = $this->model_socios->parametroEstrategia();
 				$result['dia'] = $this->model_socios->dia();
+				$idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
 				$this->load->view('header_socio', $result);
 				$this->load->view('estrategia/parametros', $result);

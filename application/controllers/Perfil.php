@@ -12,6 +12,7 @@ class Perfil extends CI_Controller
         $this->load->model('model_login');
         $this->load->model('model_payments');
         $this->load->model('model_gastos');
+        $this->load->model('model_servicio');
     }
 
 
@@ -60,6 +61,20 @@ class Perfil extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $result['genero'] = $this->model_gastos->getGenero();
                     $result['tipo_documento'] = $this->model_gastos->getTipo();
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+    
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+    
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
 
                     $this->load->view('header_socio', $result);
                     $this->load->view('perfil/view_perfil', $result);

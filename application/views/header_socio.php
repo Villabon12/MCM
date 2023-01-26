@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="<?= base_url() ?>admin_temp/vendors/simple-line-icons/css/simple-line-icons.css">
   <link rel="stylesheet" href="<?= base_url() ?>admin_temp/vendors/flag-icon-css/css/flag-icon.min.css">
   <link rel="stylesheet" href="<?= base_url() ?>admin_temp/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="<?= base_url() ?>admin_temp/css/style.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="<?= base_url() ?>admin_temp/vendors/daterangepicker/daterangepicker.css">
@@ -18,7 +19,6 @@
   <!-- inject:css -->
   <!-- endinject -->
   <!-- Layout styles -->
-  <link rel="stylesheet" href="<?= base_url() ?>admin_temp/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="<?= base_url() ?>images/myconnect/toro.png" />
 </head>
@@ -42,10 +42,30 @@
         <a class="navbar-brand brand-logo-mini"><img style="width: 100px;" src="<?= base_url() ?>images/myconnect/encabezado2.png" alt="logo" /></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
-        <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Bienvenido <?= $perfil->nombre ?> <?= $perfil->apellido1 ?></h5>
+        <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Bienvenido <?= $perfil->nombre ?> <?= $perfil->apellido1 ?></h5> 
         <ul class="navbar-nav navbar-nav-right ml-auto">
+          <a style="color:black;" href="<?=base_url()?>Socios/cheque"><h6 style="    padding-left: 8px;">Ganancia total $<?= $valor ?> USDT</h6></a>
 
-          <li class="nav-item"><a href="#" class="nav-link"><i class="icon-basket-loaded"></i></a>Peticiones</li>
+          <!-- <li class="nav-item"><a href="#" class="nav-link"><i class="icon-basket-loaded"></i></a>Peticiones</li> -->
+          <li class="nav-item dropdown">
+              <a class="nav-link count-indicator message-dropdown" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="icon-speech icon-lg"></i>
+                <span class="count">1</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item" href="<?=base_url()?>Modulo/Videos/1">
+                  <div class="preview-thumbnail" style="background-color: black;">
+                    <img src="<?=base_url()?>images/LOGO.png" alt="image" class="img-sm profile-pic">
+                  </div>
+                  <div class="preview-item-content flex-grow py-2">
+                    <p class="preview-subject ellipsis font-weight-medium text-dark">Million Team</p>
+                    <p class="font-weight-light small-text"> Subió un video </p>
+                  </div>
+                </a>
+                
+              </div>
+            </li>
 
           <li class="nav-item dropdown dropdown d-xl-inline-flex ">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -110,6 +130,17 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/administracion">Administracion Puzzle</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/acumuladoValor">Gastos</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle/parametros_general">Parametro General</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#modulosa" aria-expanded="false" aria-controls="puzzle">
+                <span class="menu-title">Modulo</span>
+                <i class=" icon-game-controller menu-icon"></i>
+              </a>
+              <div class="collapse" id="modulosa">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Modulo/Administracion">Administracion Modulo</a></li>
                 </ul>
               </div>
             </li>
@@ -187,6 +218,20 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Binaria">Servicio binaria</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle">Rompecabeza</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item nav-category"><span class="nav-link">Modulos</span></li>
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#modulo" aria-expanded="false" aria-controls="modulo">
+              <span class="menu-title">Modulos</span>
+              <i class="icon-size-actual menu-icon"></i>
+            </a>
+            <div class="collapse" id="modulo">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Modulo">Videos Apoyo</a></li>
               </ul>
             </div>
           </li>

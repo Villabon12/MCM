@@ -38,12 +38,27 @@ class Equipo extends CI_Controller
                 $this->model_errorpage->insertIntruso($intruso);
 
                 redirect("" . base_url() . "errorpage/error");
+            } else {
                 if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
                     $perfil = $this->model_login->cargar_datos();
 
 
                     $result['perfil'] = $perfil;
                     $result['team'] = $this->model_socios->cargar_equipo();
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
 
                     $this->load->view('header_socio', $result);
 
@@ -138,10 +153,10 @@ class Equipo extends CI_Controller
             $result['izquierdad'] = $izquierdad;
 
             $result['perfil'] = $perfil;
+            $result['perfil2'] = $this->model_login->cargar_datos();
             $result['team'] = $this->model_socios->cargar_equipo();
 
             $this->load->view('equipo/grafico', $result);
-            $this->load->view('footer_socio', $result);
         } else {
             $intruso = array(
 
@@ -168,6 +183,20 @@ class Equipo extends CI_Controller
 
                 $result['perfil'] = $perfil;
                 $result['comision'] = $this->model_socios->comisiones();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 

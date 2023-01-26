@@ -38,6 +38,7 @@
 
 <!-- Custom js for this page -->
 <script src="<?= base_url() ?>admin_temp/js/data-table.js"></script>
+<script src="<?= base_url() ?>admin_temp/js/popover.js"></script>
 <!-- End custom js for this page -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 

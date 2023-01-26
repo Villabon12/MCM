@@ -2,6 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once APPPATH.'/libraries/dompdf_gen.php';
 
 
 class Socios extends CI_Controller
@@ -161,6 +162,20 @@ class Socios extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['parametro'] = $this->model_socios->parametroGeneral();
                 $result['servicios'] = $this->model_socios->costosServicios();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -218,7 +233,20 @@ class Socios extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['retiros'] = $this->model_socios->cargar();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
 
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
                 $this->load->view('header_socio', $result);
 
                 $this->load->view('banco/view_table_r', $result);
@@ -312,6 +340,20 @@ class Socios extends CI_Controller
             if ($this->session->userdata('ROL') == 'Ultra') {
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['retiros'] = $this->model_socios->cargarBinaria();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
 
                 $this->load->view('header_socio', $result);
 
@@ -336,5 +378,53 @@ class Socios extends CI_Controller
         } else {
             redirect("" . base_url() . "login/");
         }
+    }
+
+    public function cheque($id)
+    {
+        $idxuser = $this->model_servicio->reportesxuser($id);
+        if (count($idxuser) == 1) {
+            $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+            $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+            $valor = $this->model_servicio->comisiones2($id);
+
+            $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+        } else {
+            $ganancia = 0;
+            $perdida = 0;
+            $valor = $this->model_servicio->comisiones2($id);
+
+            $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+        }
+        $result['perfil'] = $this->model_login->cargar_datosxuser($id);
+
+        $this->load->view('socio/cheque', $result);
+    }
+
+    public function generar_imagen()
+    {
+        
+        $name = $this->generateRandomString(8);
+        // Crear una ruta para guardar la imagen generada
+        $image_path = base_url() . 'images/'.$name.'.jpg';
+
+        // Carga la biblioteca Snappy
+        $this->load->library('snappy');
+
+        // Establece la ruta de la imagen de salida
+        // Establece la url del HTML
+        $html_url = 'https://www.myconnectmind.com/Socios/cheque/7';
+
+        // Genera la imagen
+        $this->snappy->generateFromHtml($html_url, $image_path);
+
+        // Muestra la imagen generada
+        header('Content-Type: image/png');
+        readfile($image_path);
+    }
+
+    public function generateRandomString($length)
+    {
+        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
     }
 }
