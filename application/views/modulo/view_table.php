@@ -107,10 +107,115 @@
                 </div>
             </div>
         </div>
+        <center>
+            <h1>Libros</h1>
+        </center>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLibro">Crear
+                            Libro</button>
+                        <div class="table-responsive">
+
+                            <table class="table" id="order-listing2">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th scope="col">Titulo</th>
+                                        <th scope="col">Descripcion</th>
+                                        <th scope="col">pdf</th>
+                                        <th scope="col">Autor</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($libros as $p) { ?>
+                                    <tr>
+                                        <td><?=$p->fecha_creacion?></td>
+                                        <td><?= $p->titulo ?></td>
+                                        <td><?= $p->descripcion ?></td>
+                                        <td>
+                                            <?php if ($p->descarga == null) { ?>
+                                            No hay archivos
+                                            <?php } else { ?>
+                                            <?= $p->descarga ?>
+                                            <?php }
+                                             ?>
+
+                                        </td>
+                                        <td><?= $p->autor ?></td>
+
+                                        <td>
+                                            <button class="btn btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#editLibro<?=$p->id?>"><i class="icon-pencil"></i></button>
+                                            <button class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#viewLibro<?= $p->id ?>"><i class="icon-link"></i></button>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
 
+    <div class="modal fade" id="addLibro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <form action="<?= base_url() ?>Modulo/crearLibros" method="post" enctype="multipart/form-data">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Modulo</h1>
+
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="input-group mb-3">
+                            <input type="text" name="titulo" class="form-control" placeholder="Titulo">
+                        </div>
+                        <div class="input-group mb-3">
+                            <textarea name="descripcion" class="form-control" placeholder="Descripcion" id="" cols="30"
+                                rows="10"></textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" name="autor" class="form-control" placeholder="Autor">
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="">Portada:</label>
+                            <input type="file" name="foto" class="form-control" accept="image/png,image/jpeg,image/jpg">
+                        </div>
+
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                        <button type="submit" style="background-color: #36E1F9;" class="btn">Crear</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
     <div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
         <div class="modal-dialog">
@@ -213,6 +318,90 @@
 
                         <div class="input-group mb-3">
                             <input type="text" name="video" class="form-control" value="<?=$p->video?>"
+                                placeholder="Enlace video">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" name="titulo" class="form-control" value="<?=$p->titulo?>"
+                                placeholder="Titulo">
+                        </div>
+                        <div class="input-group mb-3">
+                            <textarea name="descripcion" class="form-control" placeholder="Descripcion" id="" cols="30"
+                                rows="10"><?=$p->descripcion?></textarea>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                        <button type="submit" style="background-color: #36E1F9;" class="btn">Actualizar</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    <?php } ?>
+    <?php foreach ($libros as $p) { ?>
+    <div class="modal fade" id="viewLibro<?= $p->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Subir archivos</h1>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+
+                </div>
+                <form action="<?= base_url() ?>Modulo/documentoSubirLibro/<?= $p->id ?>" method="post"
+                    enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <div class="input-group mb-3">
+                            <label for="">Apoyo:</label>
+                            <input type="file" name="foto" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                        <button type="submit" style="background-color: #36E1F9;" class="btn">Crear</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editLibro<?=$p->id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <form action="<?= base_url() ?>Modulo/updateDatos/<?=$p->id?>" method="post"
+                    enctype="multipart/form-data">
+
+                    <div class="modal-header">
+
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Seccion</h1>
+
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="input-group mb-3">
+                            <input type="text" name="autor" class="form-control" value="<?=$p->autor?>"
                                 placeholder="Enlace video">
                         </div>
                         <div class="input-group mb-3">

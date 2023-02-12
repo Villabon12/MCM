@@ -56,6 +56,15 @@ class model_proceso extends CI_Model
         return $resultados->row();
     }
 
+    public function traer_parametro_arbitraje($id)
+    {
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $resultados = $this->db->get('parametro_Arbitraje');
+
+        return $resultados->row();
+    }
+
     public function consultar_referido($token)
     {
         $this->db->select('*');
@@ -107,11 +116,12 @@ class model_proceso extends CI_Model
         return $resultados->row();
     }
 
-    public function desactivar($data)
+    public function desactivar($data,$robot)
     {
         $idUsuario = $this->session->userdata('ID');
 
         $this->db->where('usuario_id', $idUsuario);
+        $this->db->where('servicio',$robot);
         $this->db->update('activo_servicio', $data);
     }
     public function desactivar_inversion($data)
@@ -120,6 +130,13 @@ class model_proceso extends CI_Model
 
         $this->db->where('id_usuario', $idUsuario);
         $this->db->update('r_inversion_robot', $data);
+    }
+    public function desactivar_inversion_arbitraje($data)
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->where('id_usuario', $idUsuario);
+        $this->db->update('arbitraje_fondeo', $data);
     }
 
     public function insertHistorial($data)
@@ -158,10 +175,29 @@ class model_proceso extends CI_Model
         return $resultados->row();
     }
 
+    public function cargarCapital_arbitraje()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->select('*');
+        $this->db->where('activo_id', 1);
+        $this->db->where('id_usuario', $idUsuario);
+
+        $resultados = $this->db->get('arbitraje_fondeo');
+
+        return $resultados->row();
+    }
+
     public function actualizarInversion($id, $data)
     {
         $this->db->where('id', $id);
         $this->db->update('r_inversion_robot', $data);
+    }
+
+    public function actualizarInversion_arbitraje($id, $data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('arbitraje_fondeo', $data);
     }
 
     public function deposito($data)

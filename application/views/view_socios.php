@@ -114,9 +114,7 @@
                     </div>
                 </div>
             </div>
-            <h5>Libro Inquebrantable By: Daniel</h5>
-            <a class="btn btn-dark" download="InquebrantableByDaniel.pdf"
-                href="<?= base_url() ?>document/DanielInque.pdf">Descargar Libro PDF</a>
+
             <div class="row">
                 <?php if ($perfil->id == 6) { ?>
                 <div class="main-panel">

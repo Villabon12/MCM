@@ -382,7 +382,7 @@ class Socios extends CI_Controller
 
     public function cheque($id)
     {
-        $idxuser = $this->model_servicio->reportesxuser($id);
+        $idxuser = $this->model_servicio->reportesxuser2($id);
         if (count($idxuser) == 1) {
             $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
             $perdida = $this->model_servicio->perdida($idxuser->idxuser);

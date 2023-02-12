@@ -128,6 +128,7 @@
                                             <th><i class="mdi mdi-cash"></i>Costo</th>
                                             <th><i class="mdi mdi-cash"></i>Envio</th>
                                             <th><i class="mdi mdi-cash"></i>Porcentaje</th>
+                                            <th><i class="mdi mdi-cash"></i>Dias</th>
                                             <th></th>
 
 
@@ -149,6 +150,7 @@
                                                 <td><?= $t->costo ?></td>
                                                 <td><?= $t->envio ?></td>
                                                 <td><?= $t->porcentaje ?></td>
+                                                <td><?= $t->dias ?></td>
 
                                                 <td>
                                                     <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificarCosto<?= $t->id ?>">Modificar</button>
@@ -209,6 +211,11 @@
 
                             <label for="">Porcentaje</label>
                             <input type="text" class="form-control" value="" name="porcentaje">
+                        </div>
+                        <div class="form-group mb-3">
+
+                            <label for="">Dias</label>
+                            <input type="text" class="form-control" value="" name="dias">
                         </div>
 
                     </div>
@@ -285,6 +292,11 @@
 
                                 <label for="">Porcentaje</label>
                                 <input type="text" class="form-control" value="<?= $t->porcentaje ?>" name="porcentaje">
+                            </div>
+                            <div class="form-group mb-3">
+
+                                <label for="">Dias</label>
+                                <input type="text" class="form-control" value="<?= $t->dias ?>" name="dias">
                             </div>
 
                         </div>

@@ -223,6 +223,8 @@ function CGame(oData){
                 _iCurBet = (_iMultiply * START_BET).toFixed(2)/1;
                 _oInterface.refreshBet(_iCurBet);    
                 _oWheel.setText(_iMultiply);
+                this.gameOver();
+
             }
         } else {
             this.spinWheel();
@@ -251,7 +253,7 @@ function CGame(oData){
                     valor:valor
                 },
                 success: function (resp) {
-                    alert(resp);
+                    console.log(resp);
                 }
             });
         }

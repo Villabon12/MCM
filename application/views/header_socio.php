@@ -218,6 +218,8 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Binaria">Servicio binaria</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Puzzle">Rompecabeza</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Scalping">Servicio Scalping</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Arbitraje">Servicio Arbitraje</a></li>
               </ul>
             </div>
           </li>
@@ -232,6 +234,7 @@
             <div class="collapse" id="modulo">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Modulo">Videos Apoyo</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Modulo/Libros">Libros</a></li>
               </ul>
             </div>
           </li>

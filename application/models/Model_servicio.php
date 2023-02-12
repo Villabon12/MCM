@@ -48,6 +48,18 @@ class model_servicio extends CI_Model
 
         return $resultados->result();
     }
+    public function cargarCapital_arbitraje()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->select('*');
+        $this->db->where('activo',1);
+        $this->db->where('usuario_id',$idUsuario);
+
+        $resultados = $this->db->get('arbitraje_fondeo');
+
+        return $resultados->result();
+    }
 
     public function cargarCapitalxid()
     {
@@ -59,6 +71,19 @@ class model_servicio extends CI_Model
         $this->db->limit(1);
 
         $resultados = $this->db->get('r_inversion_robot');
+
+        return $resultados->row();
+    }
+    public function cargarCapital_arbitrajexid()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->select('*');
+        $this->db->where('activo',1);
+        $this->db->where('usuario_id',$idUsuario);
+        $this->db->limit(1);
+
+        $resultados = $this->db->get('arbitraje_fondeo');
 
         return $resultados->row();
     }

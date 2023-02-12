@@ -57,7 +57,8 @@
 
     <footer class="footer">
         <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © My Connect Mind 2022</span>
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © My Connect Mind
+                2022</span>
         </div>
     </footer>
     <!-- partial -->
@@ -99,11 +100,13 @@
 
 
 <script>
+$(document).ready(function() {
+
     var base_url = "<?= base_url() ?>";
-    $('#year').on('change',function(e) {
+    var chart = document.querySelector("#chart2");
+    $('#year').on('change', function(e) {
         var year = $(this).val();
         datagrafico2(base_url, year);
-        $('#chart2').load();
     });
     $('#year').trigger('change');
 
@@ -111,8 +114,13 @@
     function datagrafico2(base_url, year) {
         namesMonth = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
         $.ajax({
-            url: base_url + "Reportes/getData?id=<?= $inversion->id ?>",
+            url: base_url + "Reportes/getData/<?= $inversion->id ?>?rand=" + Math.random(),
             type: "POST",
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            },
             data: {
                 year: year
             },
@@ -125,7 +133,10 @@
                     valor = Number(value.ganancia).toFixed(4) * 100;
                     ganancia.push(valor);
                 });
-                grafica(dias, ganancia).reset();
+                grafica(dias, ganancia);
+            },
+            complete: function(data) {
+                console.log('la solicitud ha terminado');
             }
         });
     }
@@ -139,7 +150,7 @@
             },
             series: [{
                 name: 'ganancia %',
-                data: ganancia 
+                data: ganancia
             }],
 
             stroke: {
@@ -166,9 +177,13 @@
                 },
             },
         }
-
+        try {
+            chart.destroy();
+        } catch (err) {
+            console.log(err);
+        }
         var chart = new ApexCharts(document.querySelector("#chart2"), options);
-
         chart.render();
     }
+});
 </script>

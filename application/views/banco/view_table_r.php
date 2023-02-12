@@ -32,6 +32,7 @@
                                                             <th scope="col">Fecha</th>
                                                             <th scope="col">Nombre</th>
                                                             <th scope="col">Apellido</th>
+                                                            <th scope="col">Usuario</th>
                                                             <th scope="col">Valor</th>
                                                             <th scope="col">Wallet a consignar</th>
                                                             <th scope="col"></th>
@@ -44,6 +45,7 @@
                                                                 <td><?= $B->fecha ?></td>
                                                                 <td><?= $B->nombre ?></td>
                                                                 <td><?= $B->apellido1 ?></td>
+                                                                <td><?= $B->user ?></td>
                                                                 <td>$ <?= number_format($B->valor, 2) ?></td>
                                                                 <td><?= $B->wallet_binance ?></td>
                                                                 <td>

@@ -1575,7 +1575,7 @@ class Banco extends CI_Controller
 
                 $this->model_banco->insertRetiro($arre2);
                 $this->model_proceso->historialRetiro($historial2);
-                $this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Retiro exitoso, esperar min 72H</label></div>');
+                $this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Retiro exitoso, esperar entre 5 dias a 45 dias</label></div>');
                 redirect(base_url() . "Retiros", "refresh");
             } else {
                 $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Valor insuficiente en la inversion</label></div>');

@@ -156,6 +156,7 @@ class Puzzle extends CI_Controller
             "costo" => $this->input->post('costo'),
             "envio" => $this->input->post('envio'),
             "porcentaje" => $this->input->post('porcentaje'),
+            "dias" => $this->input->post('dias'),
         );
 
         $this->model_socios->updPuzzle($data, $id);
@@ -207,6 +208,7 @@ class Puzzle extends CI_Controller
             "envio" => $this->input->post('envio'),
             "descripcion" => "arma tu rompecabeza",
             "porcentaje" => $this->input->post('porcentaje'),
+            "dias" => $this->input->post('dias'),
         );
 
         $this->model_ultra->addRompecabeza($data);

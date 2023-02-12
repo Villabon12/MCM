@@ -71,10 +71,9 @@ class Reportes extends CI_Controller
         }
     }
 
-    public function getData()
+    public function getData($id)
     {
         $year = $this->input->post('year');
-        $id = $this->input->get('id');
         $resultados = $this->model_reporte->montosMeses($year, $id);
         echo json_encode($resultados);
     }

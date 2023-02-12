@@ -57,8 +57,8 @@ class Binaria extends CI_Controller
                     $result['inversion'] = $this->model_servicio->cargarCapital();
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
                     if (count($idxuser) == 1) {
-                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
-                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser, $robot);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser, $robot);
                         $valor = $this->model_servicio->comisiones();
 
                         $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
@@ -383,6 +383,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -403,6 +404,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -450,6 +452,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -470,6 +473,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -491,6 +495,7 @@ class Binaria extends CI_Controller
                         "servicio" => $servicio->robot,
                         "fecha_compra" => $fecha_actual,
                         "activo" => 1,
+                        "plan_id" => $id,
                         "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                     );
                     $this->model_proceso->activar_servicio($data5);
@@ -563,6 +568,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -583,6 +589,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -630,6 +637,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -650,6 +658,7 @@ class Binaria extends CI_Controller
                             "servicio" => $servicio->robot,
                             "fecha_compra" => $fecha_actual,
                             "activo" => 1,
+                            "plan_id" => $id,
                             "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                         );
                         $this->model_proceso->activar_servicio($data5);
@@ -671,6 +680,7 @@ class Binaria extends CI_Controller
                         "servicio" => $servicio->robot,
                         "fecha_compra" => $fecha_actual,
                         "activo" => 1,
+                        "plan_id" => $id,
                         "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                     );
                     $this->model_proceso->activar_servicio($data5);
@@ -691,6 +701,7 @@ class Binaria extends CI_Controller
                     "servicio" => $servicio->robot,
                     "fecha_compra" => $fecha_actual,
                     "activo" => 1,
+                    "plan_id" => $id,
                     "fecha_termina" => date("Y-m-d", strtotime($fecha_actual . " + " . $servicio->dias . " days"))
                 );
                 $this->model_proceso->activar_servicio($data5);

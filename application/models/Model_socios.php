@@ -181,7 +181,7 @@ END;
 
     public function cargar()
     {
-        $this->db->select('c.*, r.nombre, r.apellido1');
+        $this->db->select('c.*, r.nombre, r.apellido1, r.user');
         $this->db->from('retiros c');
         $this->db->join('r_master_usuarios r', 'r.id = c.usuario_id');
         $resultado = $this->db->get();

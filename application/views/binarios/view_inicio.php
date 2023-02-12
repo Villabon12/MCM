@@ -259,12 +259,12 @@
                         <div class="row" style="padding-bottom: 27px;">
                             <div class="col-md-3">
                                 <label for="form-label">Desde: </label>
-                                <input type="date" name="fecha" id="fecha">
+                                <input type="date" name="fecha" id="fecha" required>
 
                             </div>
                             <div class="col-md-3">
                                 <label for="form-label">Hasta: </label>
-                                <input type="date" name="fecha2" id="fecha2">
+                                <input type="date" name="fecha2" id="fecha2" required>
 
                             </div>
                             <button type="submit" class="btn btn-success">Enviar</button>
@@ -439,17 +439,11 @@
 <!-- End custom js for this page -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-
-<script>
-function cambiar() {
-    var pdrs = document.getElementById('file-upload').files[0].name;
-    document.getElementById('info').innerHTML = pdrs;
-}
-</script>
-
 <script>
 $(document).ready(function() {
     var base_url = "<?= base_url() ?>";
+
+    <?php if ($perfil->userinvestor != null) { ?>
 
     function copyText() {
         var text = "Usuario: " + "<?=$perfil->userinvestor?>" + " Contraseña: " +
@@ -465,6 +459,8 @@ $(document).ready(function() {
 
     var copyButton = document.getElementById("copy-button");
     copyButton.addEventListener("click", copyText);
+
+    <?php } ?>
 
     $("#form-graficar").on("submit", function(e) {
         e.preventDefault();

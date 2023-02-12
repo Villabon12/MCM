@@ -75,9 +75,7 @@
                         <div class="sign">
                             </div>
                         <div class="box">
-                            <div class="whole"><input type="text" name="whole" value="$  <?= $valor ?>" size="13" readonly><input
-                                    type="text" value="00" name="cent" size="13" readonly></div>
-                            <div class="cent"></div>
+                            <div class="whole"><input type="text" name="whole" value="$<?= $valor ?>" size="13" readonly></div>
                         </div>
                     </div>
                     <table class="add">

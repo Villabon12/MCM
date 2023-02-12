@@ -17,6 +17,14 @@ class model_modulo extends CI_Model
         return $resultado->result();
     }
 
+    public function cargar_libro()
+    {
+        $this->db->order_by('fecha_creacion','DESC');
+        $resultado = $this->db->get('libros');
+
+        return $resultado->result();
+    }
+
     public function cargar_detalle()
     {
         $this->db->select('m.titulo as titulo1, mi.*');
@@ -51,6 +59,11 @@ class model_modulo extends CI_Model
         $this->db->insert('modulo',$data);
     }
 
+    public function crear_libro($data)
+    {
+        $this->db->insert('libros',$data);
+    }
+
     public function crear_detalle($data)
     {
         $this->db->insert('detalle_modulo',$data);
@@ -60,5 +73,11 @@ class model_modulo extends CI_Model
     {
         $this->db->where('id',$id);
         $this->db->update('detalle_modulo',$data);
+    }
+
+    public function update_libro($data,$id)
+    {
+        $this->db->where('id',$id);
+        $this->db->update('libros',$data);
     }
 }
