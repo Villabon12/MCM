@@ -31,7 +31,7 @@ class model_login extends CI_Model
 
   public function cargar_datosxuser($idUsuario)
   {
-    $sql = "SELECT u.*FROM r_master_usuarios u WHERE u.id= ?";
+    $sql = "SELECT * FROM r_master_usuarios WHERE id= ?";
 
     $query = $this->db->query($sql, [$idUsuario]);
 

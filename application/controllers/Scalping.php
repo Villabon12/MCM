@@ -69,8 +69,6 @@ class Scalping extends CI_Controller
                     }
                     $result['requisito'] = $this->model_scalping->requisito();
                     $result['reportes'] = $this->model_servicio->reportes();
-                    $result['retiro'] = $this->model_wallet->retiro();
-                    $result['deposito'] = $this->model_wallet->deposito();
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $result['total'] = $this->model_servicio->sumInversion();
@@ -547,5 +545,77 @@ class Scalping extends CI_Controller
             $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">No tiene dinero suficiente</div>');
             redirect(base_url() . "Scalping", "refresh");
         }
+    }
+
+    public function registrar()
+    {
+        if ($this->session->userdata('is_logged_in')) {
+            if ($this->session->userdata('ROL') == 'Ultra') {
+                $result['perfil'] = $this->model_login->cargar_datos();
+                $result['reportes'] = $this->model_scalping->traerDatos();
+                $result['usuarios']= $this->model_scalping->usuarios();
+                $idxuser = $this->model_servicio->reportesxuser();
+                if (count($idxuser) == 1) {
+                    $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                    $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                } else {
+                    $ganancia = 0;
+                    $perdida = 0;
+                    $valor = $this->model_servicio->comisiones();
+
+                    $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                }
+
+                $this->load->view('header_socio', $result);
+
+                $this->load->view('scalping/view_table', $result);
+
+                $this->load->view('footer_socio', $result);
+            } else {
+                $intruso = array(
+
+                    'id_usuario' => $this->session->userdata('ID'),
+
+                    'texto' => 'view_socios',
+
+                    'fecha_registro' => date("Y-m-d H:i:s"),
+
+                );
+
+                $this->model_errorpage->insertIntruso($intruso);
+
+                redirect("" . base_url() . "errorpage/error");
+            }
+        } else {
+            redirect("" . base_url() . "login/");
+        }
+    }
+
+    public function fondoScalping()
+    {
+        $usuario = $this->input->post('usuario');
+        $valor = $this->input->post('valor');
+
+        $cargar = $this->model_login->cargar_datosxuser($usuario);
+
+        $data = array(
+            "usuario_id" => $usuario,
+            "valor" => $valor,
+            "papa_id" => $cargar->id_papa_pago
+        );
+
+        $historial = array(
+            "usuario_id" => $usuario,
+            "valor" => $valor,
+            "robot" => "scalping"
+        );
+
+        $this->model_proceso->deposito($historial);
+        $this->model_scalping->insertarDeposito($data);
+        $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Fondeo exitoso</div>');
+        redirect(base_url() ."Scalping/registrar");
     }
 }

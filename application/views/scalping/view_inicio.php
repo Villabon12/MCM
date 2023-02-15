@@ -131,7 +131,10 @@
 
                             <div class="card-body">
                                 <div class="col-md-12">
-                                    Aqui va los enlaces y demas cosas
+                                    <center>
+                                        <h4>Paso N1</h4> <br>
+                                    </center>
+
                                 </div>
                             </div>
                         </div>

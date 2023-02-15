@@ -180,8 +180,8 @@ class model_proceso extends CI_Model
         $idUsuario = $this->session->userdata('ID');
 
         $this->db->select('*');
-        $this->db->where('activo_id', 1);
-        $this->db->where('id_usuario', $idUsuario);
+        $this->db->where('activo', 1);
+        $this->db->where('usuario_id', $idUsuario);
 
         $resultados = $this->db->get('arbitraje_fondeo');
 

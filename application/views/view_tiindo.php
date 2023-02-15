@@ -8450,6 +8450,8 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
     <script src='https://stats.wp.com/e-202237.js' defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/b205d257a54c65afe78184e7b/884e9410cd14efe4218d673ab.js");</script>
 </body>
 
 </html>

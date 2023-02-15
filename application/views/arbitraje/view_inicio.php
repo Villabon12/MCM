@@ -301,8 +301,8 @@
                                             <?php foreach ($inversion as $B) { ?>
 
                                             <tr>
-                                                <td><?= $B->fecha ?></td>
-                                                <td><?= $B->inversion ?></td>
+                                                <td><?= $B->fecha_creacion ?></td>
+                                                <td><?= $B->valor ?></td>
 
                                             </tr>
 
@@ -365,22 +365,8 @@
                                 <?php if (count($inversion) >= 1) { ?>
                                 <?php foreach ($reportes as $r) { ?>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <?php if ($r->senal == 'PUT') { ?>
-                                        <p style="color: red;">VENDER, <?= $r->mercado ?></p>
-                                        <?php } else { ?>
-                                        <p style="color: blue;">COMPRAR, <?= $r->mercado ?></p>
-                                        <?php } ?>
-                                    </div>
                                     <div class="col-md-6">
                                         <p style="font-size: 12.9375px;"><?= $r->fecha ?></p>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <p style="font-size: 11.9375px;"><?= $r->saldo_entra ?> => <?= $r->saldo_sale ?>
-                                        </p>
                                     </div>
                                     <div class="col-md-6">
                                         <?php if ($r->tipoxuser == 'ganancia') { ?>
@@ -498,8 +484,8 @@ $(document).ready(function() {
                 html += '</tr>';
                 html += '</thead>';
                 html += '<tbody>';
-                html += '<tr><td>' + resp["inversion"].fecha + '</td>';
-                html += '<td>' + resp["inversion"].inversion + '</td></tr>';
+                html += '<tr><td>' + resp["inversion"].fecha_creacion + '</td>';
+                html += '<td>' + resp["inversion"].valor + '</td></tr>';
                 html += '<tr><td>Total: </td>';
                 html += '<tr><td>Balance: ' + Number(resp["ganancia"].ganancia - resp[
                     "perdida"].perdida).toFixed(2) + '</td></tr>';
@@ -524,24 +510,9 @@ $(document).ready(function() {
 
                 $.each(resp["reporte"], function(key, value) {
                     html += '<div class="row">';
-                    html += '<div class="col-md-4">';
-                    if (value.senal == 'PUT') {
-                        html += '<p style="color: red;">VENDER, ' + value.mercado +
-                            '</p>';
-                    } else {
-                        html += '<p style="color: blue;">COMPRAR, ' + value
-                            .mercado + '</p>';
-                    }
-                    html += '</div>';
                     html += '<div class="col-md-6">';
                     html += '<p style="font-size: 12.9375px;">' + value.fecha +
                         '</p>';
-                    html += '</div>';
-                    html += '</div>';
-                    html += '<div class="row">';
-                    html += '<div class="col-md-4">';
-                    html += ' <p style="font-size: 11.9375px;">' + value
-                        .saldo_entra + ' => ' + value.saldo_sale + '</p>';
                     html += '</div>';
                     html += '<div class="col-md-6">';
                     if (value.tipoxuser == 'ganancia') {

@@ -37,7 +37,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($binaria as $B) { ?>
+                                                <?php foreach ($arbitraje as $B) { ?>
                                                     <tr>
                                                         <td><?= $B->nombre ?></td>
                                                         <td><?= $B->apellido1 ?></td>
@@ -72,7 +72,7 @@
             </div>
         </div>
     </div>
-    <?php foreach ($binaria as $B) { ?>
+    <?php foreach ($arbitraje as $B) { ?>
 
         <!-- Modal cancelar -->
 
@@ -82,7 +82,7 @@
 
                 <div class="modal-content">
 
-                    <form action="<?= base_url() ?>Ultra/activar" method="post" enctype="multipart/form-data">
+                    <form action="<?= base_url() ?>Ultra/activar_arbitraje" method="post" enctype="multipart/form-data">
 
                         <div class="modal-header">
 
@@ -94,14 +94,8 @@
 
                         <div class="modal-body">
 
-                            <p>¿Qué plan deseas activar a <?= $B->nombre ?> <?= $B->apellido1 ?>?</p>
+                            <p>¿Esta seguro que quiere activar el servicio a <?= $B->nombre ?> <?= $B->apellido1 ?></p>
                             <input type="hidden" class="form-control" name="id" value="<?= $B->id ?>">
-                            <select aria-label="Default select example" style="width:450px" class="text-center" id="robot" name="servicio" required>
-                                <option selected>Selecciona Plan</option>
-                                <?php foreach ($servicio as $s) { ?>
-                                    <option value="<?= $s->id ?>"><?= $s->descripcion ?></option>
-                                <?php } ?>
-                            </select>
 
                         </div>
 

@@ -86,4 +86,28 @@ class model_scalping extends CI_Model
 
         return $resultados->row();
     }
+
+    public function traerDatos()
+    {
+        $this->db->where('r.id = d.usuario_id');
+        $this->db->where('r2.id = r.id_papa_pago');
+        $this->db->select('d.fecha, d.valor, r.nombre, r.apellido1, r.user, r2.nombre as papa, r2.apellido1 as papap');
+        $this->db->from('deposito_scalping d, r_master_usuarios r, r_master_usuarios r2');
+
+        $resultados = $this->db->get();
+
+        return $resultados->result();
+    }
+
+    public function insertarDeposito($data)
+    {
+        $this->db->insert('deposito_scalping',$data);
+    }
+
+    public function usuarios()
+    {
+        $resultado = $this->db->get('r_master_usuarios');
+
+        return $resultado->result();
+    }
 }

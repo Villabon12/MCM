@@ -20,6 +20,7 @@ class Arbitraje extends CI_Controller
         $this->load->model('model_reporte');
         $this->load->model('model_terminos');
         $this->load->model('model_scalping');
+        $this->load->model('model_arbitraje');
     }
 
     public function index()
@@ -70,33 +71,33 @@ class Arbitraje extends CI_Controller
 
                         $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
                     }
-                    // if (count($idxuser) == 1) {
-                    //     $result['reportes'] = $this->model_servicio->reportes();
-                    //     $result['ganancia'] = $this->model_wallet->gananciasHoy($idxuser->idxuser);
-                    //     $result['perdida'] = $this->model_wallet->perdidasHoy($idxuser->idxuser);
-                    //     $result['porcentaje'] = $this->model_reporte->porcMeses($year->ano, $inversion->id);
-                    //     $result['porcentajehoyG'] = $this->model_wallet->porcentajeHoyG($idxuser->idxuser);
-                    //     $result['porcentajehoyP'] = $this->model_wallet->porcentajeHoyP($idxuser->idxuser);
-                    //     $mesInicial = $this->model_reporte->inicialMes($idxuser->idxuser, $mes->mes, $year->ano);
-                    //     $result['mesInicial'] =$mesInicial;
-                    //     $result['gananciaMes'] = $this->model_reporte->gananciaMes($idxuser->idxuser, $mes->mes, $year->ano);
-                    //     $result['perdidaMes'] = $this->model_reporte->perdidaMes($idxuser->idxuser, $mes->mes, $year->ano);
-                    // } else {
-                    //     $result['ganancia'] = 0;
-                    //     $result['perdida'] = 0;
-                    //     $result['reportes'] =  0;
-                    //     $result['porcentaje'] = 0;
-                    //     $result['porcentajehoyG'] = 0;
-                    //     $result['mesInicial'] =0;
-                    //     $result['gananciaMes'] = 0;
-                    //     $result['perdidaMes'] = 0;
-                    // }
-                    $result['reportes'] = $this->model_servicio->reportes();
-                    $result['retiro'] = $this->model_wallet->retiro();
-                    $result['deposito'] = $this->model_wallet->deposito();
+                    if (count($inversion) == 1) {
+                         $result['reporteshoy'] = $this->model_servicio->reportesArbitraje();
+                         $result['ganancia'] = $this->model_wallet->gananciasHoyArbitraje($inversion->usuario_id);
+                         $result['perdida'] = $this->model_wallet->perdidasHoyArbitraje($inversion->usuario_id);
+                         $result['porcentaje'] = $this->model_reporte->porcMesesArbitraje($year->ano, $inversion->usuario_id);
+                         $result['porcentajehoyG'] = $this->model_wallet->porcentajeHoyGArbitraje($inversion->usuario_id);
+                         $result['porcentajehoyP'] = $this->model_wallet->porcentajeHoyPArbitraje($inversion->usuario_id);
+                         $mesInicial = $this->model_reporte->inicialMesArbitraje($inversion->usuario_id, $mes->mes, $year->ano);
+                         $result['mesInicial'] =$mesInicial;
+                         $result['gananciaMes'] = $this->model_reporte->gananciaMesArbitraje($inversion->usuario_id, $mes->mes, $year->ano);
+                         $result['perdidaMes'] = $this->model_reporte->perdidaMesArbitraje($inversion->usuario_id, $mes->mes, $year->ano);
+                    } else {
+                         $result['ganancia'] = 0;
+                         $result['perdida'] = 0;
+                         $result['reporteshoy'] =  0;
+                         $result['porcentaje'] = 0;
+                         $result['porcentajehoyG'] = 0;
+                         $result['mesInicial'] =0;
+                         $result['gananciaMes'] = 0;
+                         $result['perdidaMes'] = 0;
+                     }
+                    $result['reportes'] = $this->model_servicio->reportesArbitraje();
+                    $result['retiro'] = $this->model_wallet->retiro($robot);
+                    $result['deposito'] = $this->model_wallet->deposito($robot);
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
                     $result['requisito'] = $this->model_scalping->requisito();
-                    $result['total'] = $this->model_servicio->sumInversion();
+                    $result['total'] = $this->model_servicio->sumInversionArbitraje();
                     if (count($activacion) == 1) {
                         $result['activo'] = 1;
                         if ($activacion->fecha_termina < date("Y-m-d")) {
@@ -866,7 +867,7 @@ class Arbitraje extends CI_Controller
                         );
                         $this->model_proceso->deposito($historial);
 
-                        $this->model_servicio->insertInversion($data2);
+                        $this->model_servicio->insertInversionArbitraje($data2);
 
                         //Consultar si tiene papá
                         $papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
@@ -1055,14 +1056,13 @@ class Arbitraje extends CI_Controller
 
     public function jsonConsulta()
     {
-        $inversion = $this->model_servicio->sumInversion();
-        $idxuser = $this->model_servicio->reportesxuser();
+        $inversion = $this->model_servicio->sumInversionArbitraje();
         $fecha1 = $this->input->post('fecha');
         $fecha2 = $this->input->post('fecha2');
 
-        $reporte = $this->model_servicio->consulta_reportes($fecha1, $fecha2);
-        $ganancia = $this->model_wallet->gananciasConsulta($idxuser->idxuser, $fecha1, $fecha2);
-        $perdida = $this->model_wallet->perdidaConsulta($idxuser->idxuser, $fecha1, $fecha2);
+        $reporte = $this->model_servicio->consulta_reportesArbitraje($fecha1, $fecha2);
+        $ganancia = $this->model_wallet->gananciasConsultaArbitraje($inversion->usuario_id, $fecha1, $fecha2);
+        $perdida = $this->model_wallet->perdidaConsultaArbitraje($inversion->usuario_id, $fecha1, $fecha2);
 
         $datos = array(
             "reporte" => $reporte,
@@ -1083,5 +1083,30 @@ class Arbitraje extends CI_Controller
         $this->model_socios->updateFuncion($data);
 
         redirect(base_url()."Arbitraje/reportesRobot");
+    }
+
+    public function repartirArbitraje()
+    {
+        $usuarios_repartir = $this->model_arbitraje->general();
+
+        for ($i=0; $i < count($usuarios_repartir); $i++) { 
+            $ganancia = 0.05;
+            $data = array(
+                "valor" => ($usuarios_repartir[$i]->valor * $ganancia) + $usuarios_repartir[$i]->valor,
+            );
+
+            $historial = array(
+                "valor_antiguo" => $usuarios_repartir[$i]->valor,
+                "usuario_id" => $usuarios_repartir[$i]->usuario_id,
+                "ganancia" => $usuarios_repartir[$i]->valor * $ganancia,
+                "porcentaje" => ($usuarios_repartir[$i]->valor * $ganancia)/$usuarios_repartir[$i]->valor,
+                "tipo" => "ganancia",
+                "robot" => "arbitraje",
+                "sumar" => $ganancia
+            );
+
+            $this->model_arbitraje->actualizar_fondeo($usuarios_repartir[$i]->id, $data);
+            $this->model_arbitraje->insertarHistorial($historial);
+        }
     }
 }

@@ -35,6 +35,10 @@ class model_servicio extends CI_Model
     {
         $this->db->insert('r_inversion_robot',$data);
     }
+    public function insertInversionArbitraje($data)
+    {
+        $this->db->insert('arbitraje_fondeo',$data);
+    }
 
     public function cargarCapital()
     {
@@ -101,6 +105,18 @@ class model_servicio extends CI_Model
 
         return $resultados->row();
     }
+    public function sumInversionArbitraje()
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $this->db->select('*,SUM(valor) as total');
+        $this->db->where('usuario_id',$idUsuario);
+        $this->db->where('activo',1);
+
+        $resultados = $this->db->get('arbitraje_fondeo');
+
+        return $resultados->row();
+    }
     public function sumInversionBilletera()
     {
         $this->db->select('SUM(inversion) as total');
@@ -126,7 +142,34 @@ class model_servicio extends CI_Model
 
         return $query->result();
     }
+    public function reportesArbitraje()
+    {
+        $idUsuario = $this->session->userdata('ID');
+        $fecha = date("Y-m-d");
 
+        $sql = "SELECT  hi.fecha, hi.valor_antiguo, hi.ganancia AS gananciaxuser, hi.tipo AS tipoxuser
+        FROM  historial_inversion_a hi, arbitraje_fondeo rb 
+        WHERE hi.usuario_id = rb.usuario_id  AND rb.usuario_id = ? 
+        AND DATE(hi.fecha) = ? ORDER BY fecha DESC";
+
+        $query = $this->db->query($sql,[$idUsuario, $fecha]);
+
+        return $query->result();
+    }
+
+    public function consulta_reportesArbitraje($fecha1,$fecha2)
+    {
+        $idUsuario = $this->session->userdata('ID');
+
+        $sql = "SELECT  hi.fecha, hi.valor_antiguo, hi.ganancia AS gananciaxuser, hi.tipo AS tipoxuser
+         FROM  historial_inversion_a hi, arbitraje_fondeo rb 
+        WHERE hi.usuario_id = rb.usuario_id  AND rb.usuario_id = ? AND date(hi.fecha) >=?
+        AND date(hi.fecha) <=? ORDER BY fecha DESC";
+
+        $query = $this->db->query($sql,[$idUsuario, $fecha1, $fecha2]);
+
+        return $query->result();
+    }
     public function consulta_reportes($fecha1,$fecha2)
     {
         $idUsuario = $this->session->userdata('ID');

@@ -61,6 +61,32 @@ GROUP BY 1 ;";
         return $resultados->row();
     }
 
+    public function porcMesesArbitraje($year, $id)
+    {
+
+        $sql = "SELECT MONTH(hi.fecha) AS mes, (SELECT  SUM(hi2.sumar) AS perdida
+        FROM historial_inversion_a hi2
+        WHERE MONTH(hi2.fecha)= MONTH(hi.fecha)
+        AND hi2.tipo = 'ganancia'
+        AND hi2.usuario_id=$id
+        AND hi2.fecha >='$year-01-01'
+        AND hi2.fecha <='$year-12-31') ganancia , 
+    (SELECT  SUM(hi1.sumar) AS perdida
+        FROM historial_inversion_a hi1
+        WHERE MONTH(hi1.fecha)= MONTH(hi.fecha)
+        AND hi1.tipo = 'perdida'
+        AND hi1.usuario_id=$id
+        AND hi1.fecha >='$year-01-01'
+        AND hi1.fecha <='$year-12-31') perdida					
+FROM historial_inversion_a hi
+WHERE hi.fecha >='$year-01-01'
+AND hi.fecha <='$year-12-31'
+AND hi.usuario_id = $id
+GROUP BY 1 ;";
+        $resultados = $this->db->query($sql);
+        return $resultados->row();
+    }
+
     public function cargarInversion()
     {
         $idUsuario = $this->session->userdata('ID');
@@ -148,6 +174,16 @@ GROUP BY 1 ;";
         return $resultado->row();
     }
 
+    public function inicialMesArbitraje($id,$mes, $year)
+    {
+        $sql = "SELECT valor_antiguo FROM historial_inversion_a 
+        WHERE usuario_id = ? AND MONTH(fecha) = ? AND YEAR(fecha) = ? LIMIT 1;";
+
+        $resultado = $this->db->query($sql,[$id,$mes, $year]);
+
+        return $resultado->row();
+    }
+
     public function gananciaMes($id,$mes,$year)
     {
         $sql = "SELECT SUM(ganancia) as ganancia FROM historial_inversion 
@@ -160,6 +196,24 @@ GROUP BY 1 ;";
     public function perdidaMes($id,$mes,$year)
     {
         $sql = "SELECT SUM(ganancia) as perdida FROM historial_inversion 
+        WHERE usuario_id = ? AND MONTH(fecha) = ? AND YEAR(fecha) = ? AND tipo = 'perdida';";
+
+        $resultado = $this->db->query($sql,[$id,$mes,$year]);
+
+        return $resultado->row();
+    }
+    public function gananciaMesArbitraje($id,$mes,$year)
+    {
+        $sql = "SELECT SUM(ganancia) as ganancia FROM historial_inversion_a 
+        WHERE usuario_id = ? AND MONTH(fecha) = ? AND YEAR(fecha) = ? AND tipo = 'ganancia';";
+
+        $resultado = $this->db->query($sql,[$id,$mes, $year]);
+
+        return $resultado->row();
+    }
+    public function perdidaMesArbitraje($id,$mes,$year)
+    {
+        $sql = "SELECT SUM(ganancia) as perdida FROM historial_inversion_a 
         WHERE usuario_id = ? AND MONTH(fecha) = ? AND YEAR(fecha) = ? AND tipo = 'perdida';";
 
         $resultado = $this->db->query($sql,[$id,$mes,$year]);

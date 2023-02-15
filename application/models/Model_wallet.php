@@ -50,6 +50,21 @@ class model_wallet extends CI_Model
     return $resultado->row();
   }
 
+  public function gananciasHoyArbitraje($id)
+  {
+
+    $this->db->select('SUM(ganancia) as ganancia');
+    $this->db->from('historial_inversion_a');
+    $this->db->where('DATE(fecha)', date('Y-m-d'));
+    $this->db->where('tipo', 'ganancia');
+    $this->db->where('robot', 'arbitraje');
+    $this->db->where('usuario_id', $id);
+
+    $resultado = $this->db->get();
+
+    return $resultado->row();
+  }
+
   public function gananciasConsulta($id,$fecha1,$fecha2)
   {
 $sql = "SELECT SUM(ganancia) AS ganancia, SUM(sumar) AS porcentajeG 
@@ -61,10 +76,31 @@ DATE(fecha) >= ? AND DATE(fecha) <= ?";;
     return $resultado->row();
   }
 
+  public function gananciasConsultaArbitraje($id,$fecha1,$fecha2)
+  {
+$sql = "SELECT SUM(ganancia) AS ganancia, SUM(sumar) AS porcentajeG 
+FROM historial_inversion_a WHERE usuario_id = ? AND tipo='ganancia' AND 
+DATE(fecha) >= ? AND DATE(fecha) <= ?";;
+
+    $resultado = $this->db->query($sql,[$id,$fecha1,$fecha2]);
+
+    return $resultado->row();
+  }
+
   public function perdidaConsulta($id,$fecha1,$fecha2)
   {
 $sql = "SELECT SUM(ganancia) AS perdida, SUM(sumar) AS porcentajeP 
 FROM historial_inversion WHERE usuario_id = ? AND tipo='perdida' AND 
+DATE(fecha) >= ? AND DATE(fecha) <= ?";;
+
+    $resultado = $this->db->query($sql,[$id,$fecha1,$fecha2]);
+
+    return $resultado->row();
+  }
+  public function perdidaConsultaArbitraje($id,$fecha1,$fecha2)
+  {
+$sql = "SELECT SUM(ganancia) AS perdida, SUM(sumar) AS porcentajeP 
+FROM historial_inversion_a WHERE usuario_id = ? AND tipo='perdida' AND 
 DATE(fecha) >= ? AND DATE(fecha) <= ?";;
 
     $resultado = $this->db->query($sql,[$id,$fecha1,$fecha2]);
@@ -85,6 +121,19 @@ DATE(fecha) >= ? AND DATE(fecha) <= ?";;
 
     return $resultado->row();
   }
+  public function perdidasHoyArbitraje($id)
+  {
+
+    $this->db->select('SUM(ganancia) as perdida');
+    $this->db->where('DATE(fecha)', date('Y-m-d'));
+    $this->db->where('tipo', 'perdida');
+    $this->db->where('robot', 'arbitraje');
+    $this->db->where('usuario_id', $id);
+
+    $resultado = $this->db->get('historial_inversion_a');
+
+    return $resultado->row();
+  }
   public function porcentajeHoyP($id)
   {
 
@@ -95,6 +144,19 @@ DATE(fecha) >= ? AND DATE(fecha) <= ?";;
     $this->db->where('usuario_id', $id);
 
     $resultado = $this->db->get('historial_inversion');
+
+    return $resultado->row();
+  }
+  public function porcentajeHoyPArbitraje($id)
+  {
+
+    $this->db->select('SUM(sumar) as perdida');
+    $this->db->where('DATE(fecha)', date('Y-m-d'));
+    $this->db->where('tipo', 'perdida');
+    $this->db->where('robot', 'binarias');
+    $this->db->where('usuario_id', $id);
+
+    $resultado = $this->db->get('historial_inversion_a');
 
     return $resultado->row();
   }
@@ -123,24 +185,39 @@ DATE(fecha) >= ? AND DATE(fecha) <= ?";;
 
     return $resultado->row();
   }
-  public function deposito()
+
+  public function porcentajeHoyGArbitraje($id)
+  {
+
+    $this->db->select('SUM(sumar) as ganancia');
+    $this->db->where('DATE(fecha)', date('Y-m-d'));
+    $this->db->where('tipo', 'ganancia');
+    $this->db->where('robot', 'arbitraje');
+    $this->db->where('usuario_id', $id);
+
+    $resultado = $this->db->get('historial_inversion_a');
+
+    return $resultado->row();
+  }
+
+  public function deposito($robot)
   {
     $id = $this->session->userdata('ID');
 
     $this->db->select('SUM(valor) as deposito');
-    $this->db->where('robot', 'binarias');
+    $this->db->where('robot', $robot);
     $this->db->where('usuario_id', $id);
 
     $resultado = $this->db->get('deposito');
 
     return $resultado->row();
   }
-  public function retiro()
+  public function retiro($robot)
   {
     $id = $this->session->userdata('ID');
 
     $this->db->select('SUM(valor) as retiro');
-    $this->db->where('robot', 'binarias');
+    $this->db->where('robot', $robot);
     $this->db->where('usuario_id', $id);
 
     $resultado = $this->db->get('retiros_inversion');

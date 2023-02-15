@@ -109,14 +109,38 @@
               </a>
             </li>
 
+            <li class="nav-item nav-category"><span class="nav-link">Servicios</span></li>
+
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#activar" aria-expanded="false" aria-controls="activar">
-                <span class="menu-title">Activacion servicios</span>
+                <span class="menu-title">Servicios Binarias</span>
                 <i class=" icon-check menu-icon"></i>
               </a>
               <div class="collapse" id="activar">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Ultra/servicio_binaria">Robot de binaria</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Ultra/servicio_binaria">Activar</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#scalpingAdmin" aria-expanded="false" aria-controls="activar">
+                <span class="menu-title">Servicios Scalping</span>
+                <i class=" icon-check menu-icon"></i>
+              </a>
+              <div class="collapse" id="scalpingAdmin">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Scalping/registrar">Añadir fondeo</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#arbitrajeAdmin" aria-expanded="false" aria-controls="activar">
+                <span class="menu-title">Servicios Arbitraje</span>
+                <i class=" icon-check menu-icon"></i>
+              </a>
+              <div class="collapse" id="arbitrajeAdmin">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Ultra/servicio_arbitraje">Robot de arbitraje</a></li>
                 </ul>
               </div>
             </li>

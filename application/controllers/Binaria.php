@@ -91,8 +91,8 @@ class Binaria extends CI_Controller
                         $result['perdidaMes'] = 0;
                     }
                     $result['reportes'] = $this->model_servicio->reportes();
-                    $result['retiro'] = $this->model_wallet->retiro();
-                    $result['deposito'] = $this->model_wallet->deposito();
+                    $result['retiro'] = $this->model_wallet->retiro($robot);
+                    $result['deposito'] = $this->model_wallet->deposito($robot);
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $result['total'] = $this->model_servicio->sumInversion();
