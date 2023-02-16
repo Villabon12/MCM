@@ -32,4 +32,9 @@ class model_landing extends CI_Model
         $this->db->where('usuario_id',$id);
         $this->db->update('landingxuser',$data);
     }
+
+    public function insertarUsuario($data)
+    {
+        $this->db->insert('eventos_principal',$data);
+    }
 }

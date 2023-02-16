@@ -36,6 +36,17 @@ class LandingxUser extends CI_Controller
             redirect("" . base_url() . "errorpage/error");
         }
     }
+
+    public function plantilla()
+    {
+        $this->load->view('landingxuser/plantilla');
+    }
+
+    public function plantilla2()
+    {
+        $this->load->view('landingxuser/plantilla2');
+    }
+
     public function edit()
     {
         $this->load->helper('cookie');
@@ -138,5 +149,15 @@ class LandingxUser extends CI_Controller
             $ruta_completa = base_url(). "document/" . $imagen;
             echo $ruta_completa;
         }
+    }
+
+    public function insertarDatos()
+    {
+        $data = array(
+            "correo" => $this->input->post('email')
+        );
+
+        $this->model_landing->insertarUsuario($data);
+        redirect(base_url()."LandingxUser/plantilla2");
     }
 }

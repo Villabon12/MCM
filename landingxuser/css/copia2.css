@@ -1,0 +1,166 @@
+@font-face{
+	font-family:'poppins';
+	src: url(font/Poppins-Regular.ttf) format('truetype');
+	font-style: normal;
+	font-weight: normal;
+	 font-display: swap;
+}
+
+@font-face{
+	font-family:'poppins-b';
+	src: url(font/Poppins-Bold.ttf) format('truetype');
+	 font-display: swap;
+}
+
+@font-face{
+	font-family:'audiowide';
+	src: url(font/Audiowide-Regular.ttf) format('truetype');
+	 font-display: swap;
+}
+
+
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Poppins', sans-serif;
+	/*scroll-behavior: smooth;*/
+}
+
+.onep{
+	width: 100%;
+	height: 110vh;
+	background-image: url(../images/fntks.jpeg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.onep, h2 p{
+	color: #fff;
+}
+
+.onep h2{
+font-family: 'Montserrat', sans-serif;
+font-size: 58px;
+}
+
+.onep .pe{
+	font-size: 28px;
+	 font-family: 'Poppins', sans-serif;
+	font-weight: 100;
+	margin-bottom: 20px;
+}
+
+.textv{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 60%;
+}
+
+.textv h2, p{
+	text-align: center;
+}
+
+.textv h2{
+	margin-top: 20px;
+	font-size: 37px;
+	line-height: 1.1em;
+	margin-bottom: 15px;
+}
+.rojo{
+	color: #ff0000;
+}
+
+.textv p{
+	width: 70%;
+	font-size: 19px;
+	 font-family: 'Poppins', sans-serif;
+	 margin-bottom: 15px;
+	 line-height: 1.1em;
+}
+
+.textv a{
+	height: 64px;
+	border-radius: 10px;
+	box-shadow: rgba(255, 0, 245, 0) 0px 0px 20px 0px;
+	background: #32A909;
+	width: 60%;
+	 border: 1px solid green;
+	 cursor: pointer;
+	 color: #fff;
+	 font-size: 24px;
+	 font-family: 'Poppins', sans-serif;
+	 font-weight: 600;
+	 margin-bottom: 20px;
+	 display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+	flex-direction: column;
+	text-decoration: none;
+	}
+
+
+.footer{
+	background: #000;
+	width: 100%;
+	height: 20vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.footer p{
+	color: #fff;
+
+}
+
+@media only screen and (max-width: 768px) {
+ 
+	.onep{
+		padding: 15px;
+		height: 100vh;
+	}
+
+	.onep h2{
+		font-size: 38px;
+	}
+
+	.onep .video, iframe{
+		width: 100%;
+		padding: 0;
+		height: 100%;
+	}
+	.textv{
+		width: 100%;
+	}
+	.textv h2{
+		font-size: 22px;
+		margin-top: 5px;
+		width: 100%;
+	}
+	.textv p{
+	width: 100%;
+	font-size: 17px;
+		
+}
+
+.textv a{
+	width: 100%;
+	
+	font-size: 16px;
+	}
+
+
+.footer p{
+	font-size: 13px;
+
+}
+.one
+
+}

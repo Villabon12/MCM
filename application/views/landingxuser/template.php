@@ -26,7 +26,7 @@
 <body>
     <div data-keditor="html">
         <div id="mensaje"></div>
-        <div id="content-area">
+        <div id="content-area" >
             <?php if ($contenido != false) { ?>
             <?=$contenido->contenido?>
             <?php } ?>

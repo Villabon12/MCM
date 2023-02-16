@@ -17,6 +17,8 @@ class Ultra extends CI_Controller
 		$this->load->model('model_servicio');
 		$this->load->model('model_ultra');
 		$this->load->model('model_proceso');
+		$this->load->model('model_errorpage');
+		
 	}
 
 	public function servicio_binaria($ban = null)
