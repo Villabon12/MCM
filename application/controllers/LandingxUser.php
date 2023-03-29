@@ -19,7 +19,7 @@ class LandingxUser extends CI_Controller
         $result['perfil'] = $this->model_login->cargar_datosReferencia($id);
         $result['contenido'] = $this->model_landing->cargarContenido($id);
 
-        if (count($result['perfil']) == 1) {
+        if ($result['perfil']->contar == 1) {
             $this->load->view('landingxuser/cargar', $result);
         } else {
             $intruso = array(
@@ -58,7 +58,7 @@ class LandingxUser extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $result['contenido'] = $this->model_landing->cargarContenido($result['perfil']->id);
 
-                    if (count($result['perfil']) == 1) {
+                    if ($result['perfil']->contar == 1) {
                         $this->load->view('landingxuser/template', $result);
                     } else {
                         $intruso = array(

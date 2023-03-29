@@ -8,16 +8,10 @@ class login extends CI_Controller
     {
         parent::__construct();
         $this->load->model('model_login');
-        $this->load->model('model_socios');
-        $this->load->model('model_proceso');
         $this->load->model('model_errorpage');
-        $this->load->model('model_email2');
-        $this->load->model('model_puzzle1');
         $this->load->model('model_reporte');
         $this->load->model('model_modulo');
-        $this->load->model('model_servicio');
-        $this->load->model('model_terminos');
-        $this->load->model('model_arbitraje');
+        $this->load->model('model_ultra');
     }
 
     public function index($ban = null)
@@ -38,7 +32,7 @@ class login extends CI_Controller
     {
         $result['pais'] = $this->model_login->traerPais();
         $result['perfil'] = $this->model_login->cargar_datosReferencia($idpapa);
-        if (count($result['perfil']) == 1) {
+        if ($result['perfil']->contar == 1) {
             $this->load->view('view_registro', $result);
         } else {
             $intruso = array(
@@ -128,7 +122,7 @@ class login extends CI_Controller
                             $this->model_login->ModificarDerecha($data2, $id);
                             $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
                             redirect(base_url() . "ingreso", "refresh");
-                        } elseif (count($izquierda) > 1) {
+                        } elseif ($izquierda->contar > 1) {
                             do {
                                 if ($izquierda->id_izquierda == 0) {
                                     $data = array(
@@ -189,6 +183,110 @@ class login extends CI_Controller
         // }
     }
 
+    public function olvidarClave($cedula)
+    {
+        $consulta = $this->model_errorpage->verificarCedula($cedula);
+        if ($consulta->contar == 1) {
+            $date = new DateTime();
+            $date->modify('+3 minute');
+            $codigo = $this->generateRandomString(6);
+
+            $data = array(
+                "cod_cambio" => $codigo,
+                "fecha_caduca_cod" => $date->format('Y-m-d H:i:s')
+            );
+            if (($this->model_errorpage->update($data, $cedula) == 1)) {
+                $datos = $this->model_errorpage->traerDatos($cedula);
+                $pais = $this->model_ultra->traer_pais($datos->pais_id);
+                $enlace = 'Login/procesoCambio/'.$datos->token;
+
+                $this->sendMensage($pais->celular, $datos->celular, $codigo, $datos->nombre, $enlace);
+            } else {
+                $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Revisa tu conexion a internet</div>');
+                redirect(base_url() . "Login/recuperar");
+            }
+        } else {
+            $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Cedula no encontrada</div>');
+            redirect(base_url() . "Login/recuperar");
+        }
+    }
+
+    public function sendMensage($pais, $celular, $codigo, $nombre, $enlace)
+    {
+        $this->load->library('curl');
+
+        $url = "https://graph.facebook.com/v15.0/109906238696085/messages";
+        $access_token = "EAAIXHbrbkkUBAF8GUGG2Uy3ax2eK7YrMg6BIEJEOLZBDff8TJYM8FtcbqXPHTNSJemkcFL4aL38tNyuPcqmO4YUzwnMYzh1cBB9MiwMrttkk3mIxP8o5hiVDEoqASSezVNYhGKj5ssJTf8lsZAmc1xVh0VQ8EXMgA7TN52pydjpUN00mcA";
+        $celularenvio = "".$pais."".$celular;
+        $data = array(
+          'messaging_product' => 'whatsapp',
+          'to' => $celularenvio,
+          'type' => 'template',
+          'template' => array(
+            'name' => 'codigo_seguridad',
+            'language' => array(
+              'code' => 'es_MX'
+            ),
+            'components' => array(
+              array(
+                'type' => 'body',
+                'parameters' => array(
+                  array(
+                    'type' => 'text',
+                    'text' => $nombre
+                  ),
+                  array(
+                    'type' => 'text',
+                    'text' => $codigo
+                  )
+                )
+              ),
+              array(
+                'type' => 'button',
+                'sub_type' => 'url',
+                'index' => 0,
+                'parameters' => array(
+                  array(
+                    'type' => 'text',
+                    'text' => $enlace
+                   )
+                 )
+              )
+            )
+          )
+        );
+
+        $options = array(
+          CURLOPT_URL => $url,
+          CURLOPT_POST => true,
+          CURLOPT_POSTFIELDS => json_encode($data),
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$access_token,
+            'Content-Type: application/json'
+          )
+        );
+
+        $curl = curl_init();
+        curl_setopt_array($curl, $options);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        // handle response
+        if (!$response) {
+            echo 'Error: ' . curl_error($curl);
+        } else {
+            $json = json_decode($response);
+            if (isset($json->error)) {
+                $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Comprueba si tienes bien tu número de celular</div>');
+                redirect(base_url() . "Login/recuperar");
+            } else {
+                $this->session->set_flashdata('error', '<div class="alert alert-success text-center">Se ha enviado el paso a seguir a Whatsapp</div>');
+                redirect(base_url() . "Login/recuperar");
+            }
+        }
+    }
+
     public function generateRandomString($length)
     {
         return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
@@ -201,79 +299,93 @@ class login extends CI_Controller
         $user = $this->input->post('user');
         $pass = md5($this->input->post('pass'));
 
-        $result = $this->model_login->consultaUser($user, $pass);
-        $result2 = $this->model_login->consultarInvestor($user, $pass);
+        $perfil = $this->model_login->trae_user_codigo($user);
+        $codigo = $this->input->post('codigo');
+        $date = new DateTime();
 
-        if ($result->contar == 1) {
-            $cookie_4 = array(
-                'name'   => 'mi_cookie_4',
-                'value'  => '',
-                'expire' => 86400,
-            );
+        if ($perfil->fecha_caduca_cod >= $date->format('Y-m-d H:i:s')) {
+            if ($codigo == $perfil->codigo_seguridad) {
+                $result = $this->model_login->consultaUser($user, $pass);
+                $result2 = $this->model_login->consultarInvestor($user, $pass);
 
-            set_cookie($cookie_4);
-            $datos_user = $this->model_login->trae_user($user, $pass);
-            $session = array(
-                'ID' => $datos_user->id,
-                'USUARIO' => $datos_user->correo,
-                'NOMBRE' => $datos_user->nombre,
-                'APELLIDO' => $datos_user->apellido1,
-                'CORREO' => $datos_user->correo,
-                'USER' => $datos_user->user,
-                'CONTRASENA' => $datos_user->contrasena,
-                'ROL' => $datos_user->tipo,
-                'token' => $datos_user->token,
-                'url_img' => $datos_user->img_perfil,
-                'is_logged_in' => true,
-            );
-            $this->session->set_userdata($session);
+                if ($result->contar == 1) {
+                    $cookie_4 = array(
+                        'name'   => 'mi_cookie_4',
+                        'value'  => '',
+                        'expire' => 86400,
+                    );
+
+                    set_cookie($cookie_4);
+                    $datos_user = $this->model_login->trae_user($user, $pass);
+                    $session = array(
+                        'ID' => $datos_user->id,
+                        'USUARIO' => $datos_user->correo,
+                        'NOMBRE' => $datos_user->nombre,
+                        'APELLIDO' => $datos_user->apellido1,
+                        'CORREO' => $datos_user->correo,
+                        'USER' => $datos_user->user,
+                        'CONTRASENA' => $datos_user->contrasena,
+                        'ROL' => $datos_user->tipo,
+                        'token' => $datos_user->token,
+                        'url_img' => $datos_user->img_perfil,
+                        'is_logged_in' => true,
+                    );
+                    $this->session->set_userdata($session);
 
 
-            if ($datos_user->tipo == 'Socio' || $datos_user->tipo == 'SocioAdmin' || $datos_user->tipo == 'Ultra') {
-                if ($this->session->userdata('is_logged_in')) {
-                    redirect("" . base_url() . "MCM");
-                }
-            }
-            if ($datos_user->tipo == 'Editor') {
-                if ($this->session->userdata('is_logged_in')) {
-                    redirect(base_url() . "Modulo/Administracion");
-                }
-            }
+                    if ($datos_user->tipo == 'Socio' || $datos_user->tipo == 'SocioAdmin' || $datos_user->tipo == 'Ultra') {
+                        if ($this->session->userdata('is_logged_in')) {
+                            redirect("" . base_url() . "MCM");
+                        }
+                    }
+                    if ($datos_user->tipo == 'Editor') {
+                        if ($this->session->userdata('is_logged_in')) {
+                            redirect(base_url() . "Modulo/Administracion");
+                        }
+                    }
 
 
             //
-        } elseif ($result2->contar == 1) {
-            $cookie_4 = array(
-                'name'   => 'mi_cookie_4',
-                'value'  => 'investor',
-                'expire' => 86400,
-            );
+                } elseif ($result2->contar == 1) {
+                    $cookie_4 = array(
+                        'name'   => 'mi_cookie_4',
+                        'value'  => 'investor',
+                        'expire' => 86400,
+                    );
 
-            set_cookie($cookie_4);
-            $datos_user = $this->model_login->trae_userInvestor($user, $pass);
-            $session = array(
-                'ID' => $datos_user->id,
-                'USUARIO' => $datos_user->correo,
-                'NOMBRE' => $datos_user->nombre,
-                'APELLIDO' => $datos_user->apellido1,
-                'CORREO' => $datos_user->correo,
-                'USER' => $datos_user->user,
-                'CONTRASENA' => $datos_user->contrasena,
-                'ROL' => $datos_user->tipo,
-                'token' => $datos_user->token,
-                'url_img' => $datos_user->img_perfil,
-                'is_logged_in' => true,
-            );
-            $this->session->set_userdata($session);
+                    set_cookie($cookie_4);
+                    $datos_user = $this->model_login->trae_userInvestor($user, $pass);
+                    $session = array(
+                        'ID' => $datos_user->id,
+                        'USUARIO' => $datos_user->correo,
+                        'NOMBRE' => $datos_user->nombre,
+                        'APELLIDO' => $datos_user->apellido1,
+                        'CORREO' => $datos_user->correo,
+                        'USER' => $datos_user->user,
+                        'CONTRASENA' => $datos_user->contrasena,
+                        'ROL' => $datos_user->tipo,
+                        'token' => $datos_user->token,
+                        'url_img' => $datos_user->img_perfil,
+                        'is_logged_in' => true,
+                    );
+                    $this->session->set_userdata($session);
 
 
-            if ($datos_user->rol_investor == 'investor') {
-                redirect(base_url()."Investor");
+                    if ($datos_user->rol_investor == 'investor') {
+                        redirect(base_url()."Investor");
+                    }
+                } else {
+                    //en caso contrario mostramos el error de usuario o contraseña invalido
+                    $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Usuario/Contraseña Invalido</div>');
+                    redirect("" . base_url() . "ingreso");
+                }
+            } else {
+                $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Codigo de seguridad no son iguales</div>');
+                redirect(base_url() . "ingreso", "refresh");
             }
         } else {
-            //en caso contrario mostramos el error de usuario o contraseña invalido
-            $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Usuario/Contraseña Invalido</div>');
-            redirect("" . base_url() . "ingreso");
+            $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Vuelve a solicitar codigo, ya pasó 3 minutos</div>');
+            redirect(base_url() . "ingreso", "refresh");
         }
     }
 
@@ -313,77 +425,89 @@ class login extends CI_Controller
         }
     }
 
+    public function prueba3()
+    {
+        $this->load->view('prueba');
+    }
+
     public function prueba()
     {
-        $this->load->helper('cookie');
+        $texto = $this->input->post('texto');
+        $curl = curl_init();
+        $api = "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";
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://api.openai.com/v1/completions",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => json_encode(array(
+              'prompt' => $texto,
+              'model' => 'text-davinci-002',
+              'temperature' => 0.5,
+              'max_tokens' => 100,
+              'top_p' => 1,
+              'frequency_penalty' => 0,
+              'presence_penalty' => 0
+          )),
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json",
+            "Authorization: Bearer ".$api
+          ),
+        ));
 
-        if ($this->session->userdata('is_logged_in')) {
-            $cookie = get_cookie('mi_cookie_4');
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
 
-            if ($cookie == 'investor') {
-                $intruso = array(
+        curl_close($curl);
 
-                    'id_usuario' => $this->session->userdata('ID'),
-
-                    'texto' => 'Ingreso cuenta Investor Inicio',
-
-                    'fecha_registro' => date("Y-m-d H:i:s"),
-
-                );
-
-                $this->model_errorpage->insertIntruso($intruso);
-
-                redirect("" . base_url() . "errorpage/error");
-            } else {
-                if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
-                    $token = $this->session->userdata('token');
-                    $id = $this->session->userdata('ID');
-                    $idxuser = $this->model_servicio->reportesxuser();
-                    if (count($idxuser) == 1) {
-                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
-                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
-                        $valor = $this->model_servicio->comisiones();
-
-                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
-                    } else {
-                        $ganancia = 0;
-                        $perdida = 0;
-                        $valor = $this->model_servicio->comisiones();
-
-                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
-                    }
-                    $result['disponibilidad'] = $this->model_servicio->consultarCampos();
-                    $result['perfil'] = $this->model_login->cargar_datos();
-                    $result['billetera'] = $this->model_proceso->cargar_billetera($token);
-                    $result['empresa'] = $this->model_proceso->cargar_billetera_global($token);
-                    $result['validar'] = $this->model_proceso->traer_parametro(13);
-                    $result['total'] = $this->model_servicio->sumInversion();
-                    $result['total1'] = $this->model_servicio->sumInversionBilletera();
-                    $result['terminos'] = $this->model_terminos->comprobar_registro($id);
-                    $result['arbitraje'] = $this->model_arbitraje->cargarCapitalxid();
-                    $result['premio'] = $this->model_login->ganador();
-
-                    $this->load->view('header_socio', $result);
-                    $this->load->view('prueba', $result);
-                } else {
-                    $intruso = array(
-
-                        'id_usuario' => $this->session->userdata('ID'),
-
-                        'texto' => 'view_socios',
-
-                        'fecha_registro' => date("Y-m-d H:i:s"),
-
-                    );
-
-                    $this->model_errorpage->insertIntruso($intruso);
-
-                    redirect("" . base_url() . "errorpage/error");
-                }
-            }
+        if ($err) {
+            echo "cURL Error #:" . $err;
         } else {
-            redirect("" . base_url() . "login/");
+            $result = json_decode($response, true);
+            echo $result['choices'][0]['text'];
         }
+        //
+    }
+
+    public function prueba4()
+    {
+        $texto = $this->input->post('texto');
+        $curl = curl_init();
+
+        $api = "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";
+
+        $data = array(
+            'model' => 'image-alpha-001',
+            'prompt' => $texto,
+            'num_images' => 1,
+            'size' => '512x512',
+            'response_format' => 'url'
+        );
+
+        $data_string = json_encode($data);
+
+        $ch = curl_init('https://api.openai.com/v1/images/generations');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string),
+                'Authorization: Bearer '.$api
+            )
+        );
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        echo $response;
     }
     public function prueba2()
     {
@@ -392,14 +516,27 @@ class login extends CI_Controller
         curl_setopt($ch, CURLOPT_URL, 'https://mandrillapp.com/api/1.0/users/ping');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array('key' => '6ad191f642c63930775153647cfaf829-us11')));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array('key' => 'md-H4_txbJm9OK66OXSU4FdRg')));
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        
+
         $result = curl_exec($ch);
         curl_close($ch);
-        
+
         var_dump($result);
-        
+    }
+    public function prueba20()
+    {
+        $api = "pat-na1-e2ab90f5-23a5-4db2-8336-cb3f6341f266";
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://api.hubapi.com/crm/v3/objects/contacts?limit=10&archived=false');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json","Authorization: Bearer ".$api));
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        var_dump($result);
     }
 
     public function calcular()
@@ -419,34 +556,6 @@ class login extends CI_Controller
             echo '<td>'.number_format(($principal-$principio), 2).'</td>';
             echo '<td>'.number_format((($principal-$principio)*100)/($principio), 2).'%</td> ';
             echo '</tr>';
-        }
-    }
-
-    public function olvidarClave($cedula)
-    {
-        $consulta = $this->model_errorpage->verificarCedula($cedula);
-        if ($consulta->contar == 1) {
-            $date = new DateTime();
-            $date->modify('+3 minute');
-
-            $data = array(
-                "cod_cambio" => $this->generateRandomString(6),
-                "fecha_caduca_cod" => $date->format('Y-m-d H:i:s')
-            );
-            if (($this->model_errorpage->update($data, $cedula) == 1)) {
-                $datos = $this->model_errorpage->traerDatos($cedula);
-
-                $this->model_email2->recupera_contra($datos->correo, $datos->cod_cambio, $datos->token);
-                $this->model_email2->envio_correos_pendientes_bd();
-                $this->session->set_flashdata('error', '<div class="alert alert-success text-center">Revisa tu Correo electronico registrado</div>');
-                redirect(base_url() . "Login/recuperar");
-            } else {
-                $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Revisa tu conexion a internet</div>');
-                redirect(base_url() . "Login/recuoerar");
-            }
-        } else {
-            $this->session->set_flashdata('error', '<div class="alert alert-danger text-center">Cedula no encontrada</div>');
-            redirect(base_url() . "Login/recuperar");
         }
     }
 

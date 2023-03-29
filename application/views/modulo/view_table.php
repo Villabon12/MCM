@@ -47,6 +47,9 @@
 
                                             <button class="btn btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#crear<?= $p->id ?>"><i class="icon-plus"></i></button>
+                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#delete<?= $p->id ?>"><i
+                                                    class="icon-close"></i></button>
                                         </td>
                                     </tr>
                                     <?php } ?>
@@ -89,7 +92,7 @@
                                             <?php } else { ?>
                                             <?= $p->pdf ?>
                                             <?php }
-                                             ?>
+                                            ?>
 
                                         </td>
                                         <td>
@@ -114,11 +117,12 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLibro">Crear
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#addLibro">Crear
                             Libro</button>
                         <div class="table-responsive">
 
-                            <table class="table" id="order-listing2">
+                            <table class="table" id="order-listing3">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -141,16 +145,18 @@
                                             <?php } else { ?>
                                             <?= $p->descarga ?>
                                             <?php }
-                                             ?>
+                                            ?>
 
                                         </td>
                                         <td><?= $p->autor ?></td>
 
                                         <td>
                                             <button class="btn btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#editLibro<?=$p->id?>"><i class="icon-pencil"></i></button>
+                                                data-bs-target="#editLibro<?=$p->id?>"><i
+                                                    class="icon-pencil"></i></button>
                                             <button class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#viewLibro<?= $p->id ?>"><i class="icon-link"></i></button>
+                                                data-bs-target="#viewLibro<?= $p->id ?>"><i
+                                                    class="icon-link"></i></button>
                                         </td>
                                     </tr>
                                     <?php } ?>
@@ -348,9 +354,12 @@
         </div>
 
     </div>
+
+
     <?php } ?>
     <?php foreach ($libros as $p) { ?>
-    <div class="modal fade" id="viewLibro<?= $p->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="viewLibro<?= $p->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -381,7 +390,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editLibro<?=$p->id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editLibro<?=$p->id?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
 
         <div class="modal-dialog">
 
@@ -479,6 +489,34 @@
                     </div>
 
                 </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="delete<?=$p->id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+
+                <div class="modal-body">
+
+                    <h4>¿Estás seguro en eliminar este evento?</h4>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                    <a href="<?=base_url()?>Modulo/eliminarModulo/<?=$p->id?>" style="background-color: #36E1F9;"
+                        class="btn">Si</a>
+
+                </div>
+
 
             </div>
 

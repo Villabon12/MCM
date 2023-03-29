@@ -40,7 +40,7 @@ class Reportes extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $result['inversion'] = $this->model_reporte->cargarInversion();
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();

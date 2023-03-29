@@ -43,7 +43,7 @@ class Ticket extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $result['ticket'] = $this->model_reporte->cargar_ticket();
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -151,7 +151,7 @@ class Ticket extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['ticket'] = $this->model_reporte->cargar_ticket_empresa();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();

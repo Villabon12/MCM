@@ -6,7 +6,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="Descubre cómo firmar 15 socios a la semana haciendo una sola llamada">
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>landingxuser/css/copia.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>landingxuser/css/copia.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,14 +17,15 @@
 
         <div class="content">
             <div class="text-area">
-                <img src="<?=base_url()?>landingxuser/images/LOGO.png" alt="prospeccion" class="text-area">
-                <h1 class="text-area">CÓMO <b class="rojo">FIRMAR +15 SOCIOS A LA SEMANA</b> HACIENDO UNA SOLA LLAMADA
+                <img src="<?= base_url() ?>landingxuser/images/LOGO.png" alt="prospeccion" class="text-area">
+                <h1 class="text-area">CÓMO TENER <b class="rojo">4 SISTEMAS </b> 100% PROBADOS
                 </h1>
-                <p class="text-area">En este evento de 4 clases gratuitas te enseñaré el paso a paso para firmar +15
-                    socios a la semana haciendo una sola llamada, incluso si aún no tienes resultados y crees que has
-                    intentado de todo.</p>
+                <p class="text-area">En este evento de 2 clases gratuitas te enseñaré el paso a paso DESDE CERO,
+                    todo lo que hemos hecho
+                    <b class="rojo"> + de 2.000</b> para iniciar a tener ingresos adicionales
+                </p>
 
-                <form action="<?=base_url()?>LandingxUser/insertarDatos" method="post">
+                <form action="<?= base_url() ?>LandingxUser/insertarDatos" method="post">
                     <div class="_form-content">
                         <div class="_form_element _x37026976 _full_width ">
                             <label for="email" class="_form-label">
@@ -43,8 +44,7 @@
 
                     </div>
                 </form>
-
-
+                <!-- 
                 <div class="point">
                     <div class="one lol">
                         <span class="material-symbols-outlined icon">
@@ -56,7 +56,7 @@
                         <span class="material-symbols-outlined icon">
                             calendar_month
                         </span>
-                        <p>DEL 13 AL 16 DE FEBRERO</p>
+                        <p>DEL 2 y 3 DE MARZO</p>
                     </div>
                     <div class="tres lol">
                         <span class="material-symbols-outlined icon">
@@ -64,7 +64,7 @@
                         </span>
                         <p>100% EN VIVO</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -167,7 +167,7 @@
         <div>
             <h2>ÍNDICANOS TU CORREO PARA RESERVAR TU LUGAR PARA LAS <b class="rojo">CLASES GRATIS DEL 13 AL 16 DE
                     FEBRERO</b></h2>
-            <form action="<?=base_url()?>LandingxUser/insertarDatos" method="post">
+            <form action="<?= base_url() ?>LandingxUser/insertarDatos" method="post">
 
                 <div class="_form-content">
                     <div class="_form_element _x37026976 _full_width ">
@@ -211,7 +211,7 @@
     <section class="stickify">
         <div class="formv">
 
-            <form action="<?=base_url()?>LandingxUser/insertarDatos" method="post">
+            <form action="<?= base_url() ?>LandingxUser/insertarDatos" method="post">
 
                 <div class="_form-contentpro">
                     <div class="_form_element _x37026976 _full_widthh ">

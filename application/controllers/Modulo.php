@@ -29,7 +29,7 @@ class Modulo extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -95,7 +95,7 @@ class Modulo extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -159,7 +159,7 @@ class Modulo extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -225,7 +225,7 @@ class Modulo extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -377,7 +377,7 @@ class Modulo extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -512,7 +512,7 @@ class Modulo extends CI_Controller
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -601,5 +601,12 @@ class Modulo extends CI_Controller
         $this->model_modulo->deleteEvento($id);
         $this->session->set_flashdata('error', '<div class="alert alert-success text-center"><label class="login__input name">Evento eliminado</label></div>');
         redirect(base_url()."Modulo/evento");
+    }
+
+    public function eliminarModulo($id)
+    {
+        $this->model_modulo->deleteModulo($id);
+        $this->session->set_flashdata('error', '<div class="alert alert-success text-center"><label class="login__input name">Evento eliminado</label></div>');
+        redirect(base_url()."Modulo/administracion");
     }
 }

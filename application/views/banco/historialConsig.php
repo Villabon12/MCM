@@ -129,7 +129,7 @@
                                                                 <td>
                                                                     <?= $B->motivos ?>
                                                                 </td>
-                                                                <td><a href="<?=base_url()?>Banco/generar_imagen/<?=$B->id?>" class="btn btn-success" target="_blank"><i class="icon-paper-clip"></i></a></td>
+                                                                <td><a href="<?=base_url()?>Banco/cheque/<?=$B->id?>" class="btn btn-success" target="_blank"><i class="icon-paper-clip"></i></a></td>
                                                             </tr>
 
                                                         <?php

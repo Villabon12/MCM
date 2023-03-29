@@ -264,7 +264,7 @@
                             <div class="card">
                                 <div class="card-body performane-indicator-card">
 
-                                    <?php if (count($inversion) >= 1) { ?>
+                                    <?php if ($inversion->contar >= 1) { ?>
                                         <?php foreach ($reportes as $r) { ?>
                                             <div class="row">
                                                 <div class="col-md-4">

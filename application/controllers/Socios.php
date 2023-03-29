@@ -2,8 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once APPPATH.'/libraries/phpToPDF.php';
-
 
 class Socios extends CI_Controller
 {
@@ -47,7 +45,7 @@ class Socios extends CI_Controller
                     $token = $this->session->userdata('token');
                     $id = $this->session->userdata('ID');
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -70,6 +68,9 @@ class Socios extends CI_Controller
                     $result['terminos'] = $this->model_terminos->comprobar_registro($id);
                     $result['arbitraje'] = $this->model_arbitraje->cargarCapitalxid();
                     $result['premio'] = $this->model_login->ganador();
+                    $result['plan_binaria'] = $this->model_servicio->plan_binaria();
+                    $result['plan_arbitraje'] = $this->model_servicio->plan_arbitraje();
+                    $result['plan_scalping'] = $this->model_servicio->plan_scalping();
 
                     $this->load->view('header_socio', $result);
                     $this->load->view('view_socios', $result);
@@ -92,6 +93,11 @@ class Socios extends CI_Controller
         } else {
             redirect("" . base_url() . "login/");
         }
+    }
+
+    public function prueba()
+    {
+      $this->load->view('prueba/prueba');
     }
 
     public function aceptar_terminos()
@@ -166,7 +172,7 @@ class Socios extends CI_Controller
                 $result['parametro'] = $this->model_socios->parametroGeneral();
                 $result['servicios'] = $this->model_socios->costosServicios();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -237,7 +243,7 @@ class Socios extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['retiros'] = $this->model_socios->cargar();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -344,7 +350,7 @@ class Socios extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['retiros'] = $this->model_socios->cargarBinaria();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -386,7 +392,7 @@ class Socios extends CI_Controller
     public function cheque($id)
     {
         $idxuser = $this->model_servicio->reportesxuser2($id);
-        if (count($idxuser) == 1) {
+        if ( $idxuser != false) {
             $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
             $perdida = $this->model_servicio->perdida($idxuser->idxuser);
             $valor = $this->model_servicio->comisiones2($id);
@@ -404,17 +410,4 @@ class Socios extends CI_Controller
         $this->load->view('socio/cheque', $result);
     }
 
-    public function generar_imagen($id)
-    {
-        // Create a blank image and add some text
-        $im = imagecreatetruecolor(120, 20);
-        $text_color = imagecolorallocate($im, 233, 14, 91);
-        imagestring($im, 1, 5, 5, 'A Simple Text String', $text_color);
-
-        // Save the image as 'simpletext.jpg'
-        imagejpeg($im, 'simpletext.jpg');
-
-        // Free up memory
-        imagedestroy($im);
-    }
 }

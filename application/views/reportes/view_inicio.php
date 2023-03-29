@@ -7,7 +7,7 @@
         <center>
             <div class="col-lg-7">
 
-                <div id="chart2"></div>
+                <canvas id="miGrafico"></canvas>
             </div>
         </center>
         <!-- <div class="col-lg-12">
@@ -96,7 +96,7 @@
 <!-- Custom js for this page -->
 <script src="<?= base_url() ?>admin_temp/js/data-table.js"></script>
 <!-- End custom js for this page -->
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="<?= base_url() ?>admin_temp/js/chart.min.js"></script>
 
 
 <script>
@@ -143,47 +143,57 @@ $(document).ready(function() {
 
     function grafica(dias, ganancia) {
 
-        var options = {
-            chart: {
-                type: 'bar',
-
+        var ctx = document.getElementById('miGrafico').getContext('2d');
+        var miGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dias,
+                datasets: [{
+                    label: 'Porcentaje',
+                    data: ganancia,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
             },
-            series: [{
-                name: 'ganancia %',
-                data: ganancia
-            }],
-
-            stroke: {
-                show: true,
-                width: 3
-            },
-
-            plotOptions: {
-                bar: {
-                    columnWidth: '90%',
-                    distributed: true,
+            options: {
+                plugins: {
+                    // Agrega un plugin que dibuja el valor de cada barra encima de ella
+                    datalabels: {
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'start',
+                        offset: 2,
+                        font: {
+                            size: '14'
+                        },
+                        formatter: function(value, context) {
+                            return value;
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            },
-            xaxis: {
-                labels: {
-                    rotate: -45
-                },
-                categories: dias,
-                tickPlacement: 'on'
-            },
-            yaxis: {
-                title: {
-                    text: 'Mes',
-                },
-            },
-        }
-        try {
-            chart.destroy();
-        } catch (err) {
-            console.log(err);
-        }
-        var chart = new ApexCharts(document.querySelector("#chart2"), options);
-        chart.render();
+            }
+        });
+
     }
 });
 </script>

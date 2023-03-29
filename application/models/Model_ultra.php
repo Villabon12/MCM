@@ -44,5 +44,45 @@ class model_ultra extends CI_Model
 
         return $resultado->result();
     }
+
+    public function traer_pais($id)
+    {
+        $this->db->where('id',$id);
+        $resultado = $this->db->get('pais');
+
+        return $resultado->row();
+    }
+
+    public function usuariosActivos()
+    {
+        $resultado = $this->db->get('activo_servicio');
+
+        return $resultado->result();
+    }
+    public function contar_usuariosActivos()
+    {
+        $this->db->select('count(*) as contar');
+        $resultado = $this->db->get('activo_servicio');
+
+        return $resultado->row();
+    }
+
+    public function updateActivo($data,$id)
+    {
+        $this->db->where('id',$id);
+        $this->db->update('activo_servicio',$data);
+    }
+
+    public function desactivar_inversion($data, $idUsuario)
+    {
+        $this->db->where('id_usuario', $idUsuario);
+        $this->db->update('r_inversion_robot', $data);
+    }
+
+    public function desactivar_inversion_arbitraje($data,$idUsuario)
+    {
+        $this->db->where('usuario_id', $idUsuario);
+        $this->db->update('arbitraje_fondeo', $data);
+    }
     
 }

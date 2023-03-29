@@ -54,7 +54,7 @@ class Scalping extends CI_Controller
                     $activacion = $this->model_servicio->activo_servicio($robot);
                     $result['servicio'] = $this->model_servicio->costos_robot($robot);
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser, $robot);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser, $robot);
                         $valor = $this->model_servicio->comisiones();
@@ -72,7 +72,7 @@ class Scalping extends CI_Controller
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $result['total'] = $this->model_servicio->sumInversion();
-                    if (count($activacion) == 1) {
+                    if ($activacion != false) {
                         $result['activo'] = 1;
                         if ($activacion->fecha_termina < date("Y-m-d")) {
                             $data = array(
@@ -81,7 +81,7 @@ class Scalping extends CI_Controller
                             $data2 = array(
                                 "consignado" => 0
                             );
-                            $this->model_proceso->desactivar($data);
+                            $this->model_proceso->desactivar($data,$robot);
                             $this->model_proceso->desactivar_inversion($data2);
                         }
                     } else {
@@ -132,7 +132,7 @@ class Scalping extends CI_Controller
             $activo_papa = $this->model_proceso->revisar_activo($datosPersona->id_papa_pago);
 
             //Consultar si tiene papa y pagar
-            if (count($papa) == 1 && count($activo_papa) == 1) {
+            if ($papa != false && $activo_papa != false) {
                 $nivel1 = $this->model_proceso->traer_parametro(2);
                 $resultado = $servicio->precio * $nivel1->valor;
 
@@ -157,7 +157,7 @@ class Scalping extends CI_Controller
 
 
                 //Consultar si tiene abuelo y pagar
-                if (count($abuelo) == 1 && count($activo_abuelo) == 1) {
+                if ($abuelo != false && $activo_abuelo != false) {
                     $nivel2 = $this->model_proceso->traer_parametro(7);
                     $resultado2 = $servicio->precio * $nivel2->valor;
 
@@ -181,7 +181,7 @@ class Scalping extends CI_Controller
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -244,13 +244,13 @@ class Scalping extends CI_Controller
                         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                         redirect(base_url() . "Scalping", "refresh");
                     }
-                } elseif (count($abuelo) == 1 && count($activo_abuelo) == 0) {
+                } elseif ($abuelo != false && $activo_abuelo == false) {
                     $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                     $activo_bisabuelo = $this->model_proceso->revisar_activo($abuelo->id_papa_pago);
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -336,13 +336,13 @@ class Scalping extends CI_Controller
                     redirect(base_url() . "Scalping", "refresh");
                 }
             //No tiene paga directo la empresa
-            } elseif (count($papa) == 1 && count($activo_papa) == 0) {
+            } elseif ($papa != false && $activo_papa == false) {
                 $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
                 $activo_abuelo = $this->model_proceso->revisar_activo($papa->id_papa_pago);
 
 
                 //Consultar si tiene abuelo y pagar
-                if (count($abuelo) == 1 && count($activo_abuelo) == 1) {
+                if ($abuelo != false && $activo_abuelo != false) {
                     $nivel2 = $this->model_proceso->traer_parametro(7);
                     $resultado2 = $servicio->precio * $nivel2->valor;
 
@@ -366,7 +366,7 @@ class Scalping extends CI_Controller
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -429,13 +429,13 @@ class Scalping extends CI_Controller
                         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                         redirect(base_url() . "Scalping", "refresh");
                     }
-                } elseif (count($abuelo) == 1 && count($activo_abuelo) == 0) {
+                } elseif ($abuelo != false && $activo_abuelo == false) {
                     $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                     $activo_bisabuelo = $this->model_proceso->revisar_activo($abuelo->id_papa_pago);
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -555,7 +555,7 @@ class Scalping extends CI_Controller
                 $result['reportes'] = $this->model_scalping->traerDatos();
                 $result['usuarios']= $this->model_scalping->usuarios();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();

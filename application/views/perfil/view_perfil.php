@@ -15,12 +15,12 @@
     <div class="content-wrapper">
         <?php if ($this->session->flashdata("error")) { ?>
 
-            <p><?php echo $this->session->flashdata("error") ?></p>
+        <p><?php echo $this->session->flashdata("error") ?></p>
 
         <?php } ?>
         <?php if ($this->session->flashdata("exito")) { ?>
 
-            <p><?php echo $this->session->flashdata("exito") ?></p>
+        <p><?php echo $this->session->flashdata("exito") ?></p>
 
         <?php } ?>
         <div class="row">
@@ -37,10 +37,14 @@
 
                                 <div class="border-bottom text-center pb-4">
 
-                                    <button type="button" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#verFoto">
-                                        <img src="<?= base_url() ?>assets/img/fotosPerfil/<?= $perfil->img_perfil ?>" alt="profile" class="img-lg rounded-circle mb-3" />
+                                    <button type="button" style="border:none;background:none;" data-bs-toggle="modal"
+                                        data-bs-target="#verFoto">
+                                        <img src="<?= base_url() ?>assets/img/fotosPerfil/<?= $perfil->img_perfil ?>"
+                                            alt="profile" class="img-lg rounded-circle mb-3" />
                                     </button>
-                                    <button type="button" style="padding:0;border:none;background:none;position: relative; top:35px; right:30px; " data-bs-toggle="modal" data-bs-target="#subirFoto">
+                                    <button type="button"
+                                        style="padding:0;border:none;background:none;position: relative; top:35px; right:30px; "
+                                        data-bs-toggle="modal" data-bs-target="#subirFoto">
                                         <i style=" color:#36E1F9;  font-size: 30px;" class="bi bi-gear-fill"></i>
                                     </button>
 
@@ -50,7 +54,8 @@
 
                                     <!-- Modal ver -->
 
-                                    <div class="modal fade" id="verFoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="verFoto" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                                         <div class="modal-dialog">
 
@@ -58,7 +63,8 @@
 
                                                 <div class="modal-header">
 
-                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-bs-dismiss="modal"
+                                                        aria-label="Close">
 
                                                 </div>
 
@@ -66,7 +72,8 @@
 
                                                     <div class="modal-body">
 
-                                                        <img src="<?= base_url() ?>assets/img/fotosPerfil/<?= $perfil->img_perfil ?>" width="300px" height="250px" alt="profile">
+                                                        <img src="<?= base_url() ?>assets/img/fotosPerfil/<?= $perfil->img_perfil ?>"
+                                                            width="300px" height="250px" alt="profile">
 
                                                     </div>
 
@@ -82,19 +89,24 @@
 
                                     <!-- Modal actualizar -->
 
-                                    <div class="modal fade" id="subirFoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="subirFoto" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                                         <div class="modal-dialog">
 
                                             <div class="modal-content">
 
-                                                <form action="<?= base_url() ?>Perfil/actualizarFoto/<?= $perfil->token ?>" method="post" enctype="multipart/form-data">
+                                                <form
+                                                    action="<?= base_url() ?>Perfil/actualizarFoto/<?= $perfil->token ?>"
+                                                    method="post" enctype="multipart/form-data">
 
                                                     <div class="modal-header">
 
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Sube una foto de perfil</h1>
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Sube una
+                                                            foto de perfil</h1>
 
-                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                                            aria-label="Close">
 
                                                     </div>
 
@@ -104,7 +116,9 @@
 
                                                             <label for=" sube un archivo"></label>
 
-                                                            <input type="file" class="form-control" placeholder="Username" aria-label="img" aria-describedby="basic-addon1" name="img">
+                                                            <input type="file" class="form-control"
+                                                                placeholder="Username" aria-label="img"
+                                                                aria-describedby="basic-addon1" name="img">
 
                                                         </div>
 
@@ -112,9 +126,11 @@
 
                                                     <div class="modal-footer">
 
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Cerrar</button>
 
-                                                        <button type="submit" style="background-color: #36E1F9;" class="btn ">Modificar</button>
+                                                        <button type="submit" style="background-color: #36E1F9;"
+                                                            class="btn ">Modificar</button>
 
                                                     </div>
 
@@ -138,30 +154,31 @@
 
                                         <?php if ($perfil->cedula == "1003895100" || $perfil->cedula == "1075316223") { ?>
 
-                                            <div class="d-flex align-items-center justify-content-center">
+                                        <div class="d-flex align-items-center justify-content-center">
 
-                                                <h5 class="mb-0 me-2 text-muted"> Desarrollador</h5>
+                                            <h5 class="mb-0 me-2 text-muted"> Desarrollador</h5>
 
-                                            </div> <br>
+                                        </div> <br>
 
-                                            <div class="d-flex align-items-center justify-content-center">
+                                        <div class="d-flex align-items-center justify-content-center">
 
-                                                <h5 class="mb-0 me-2 text-muted"><?= $perfil->tipo ?></h5>
+                                            <h5 class="mb-0 me-2 text-muted"><?= $perfil->tipo ?></h5>
 
-                                            </div>
+                                        </div>
 
                                         <?php } else { ?>
 
-                                            <div class="d-flex align-items-center justify-content-center">
+                                        <div class="d-flex align-items-center justify-content-center">
 
-                                                <h5 class="mb-0 me-2 text-muted"><?= $perfil->tipo ?></h5>
+                                            <h5 class="mb-0 me-2 text-muted"><?= $perfil->tipo ?></h5>
 
-                                            </div>
+                                        </div>
 
                                         <?php } ?>
                                         <?php if ($perfil->img_cedula_front == null || $perfil->img_cedula_back == null || $perfil->img_selfie == null) { ?>
-                                            <br>
-                                            <a href="<?= base_url() ?>Perfil/updateCuenta/<?= $perfil->token ?>" class="btn btn-success">Verificar usuario</a>
+                                        <br>
+                                        <a href="<?= base_url() ?>Perfil/updateCuenta/<?= $perfil->token ?>"
+                                            class="btn btn-success">Verificar usuario</a>
                                         <?php } else { ?>
 
                                         <?php } ?>
@@ -239,7 +256,8 @@
 
                                             <label for="inputCity" class="form-label">Nombre</label>
 
-                                            <input type="text" class="form-control" placeholder="Nombre" value="<?= $perfil->nombre ?>" name="nombre">
+                                            <input type="text" class="form-control" placeholder="Nombre"
+                                                value="<?= $perfil->nombre ?>" name="nombre">
 
                                         </div>
 
@@ -247,7 +265,8 @@
 
                                             <label for="inputCity" class="form-label">Apellido</label>
 
-                                            <input type="text" class="form-control" placeholder="" value="<?= $perfil->apellido1 ?>" name="apellido1">
+                                            <input type="text" class="form-control" placeholder=""
+                                                value="<?= $perfil->apellido1 ?>" name="apellido1" required>
 
                                         </div>
 
@@ -259,7 +278,8 @@
 
                                             <label for="inputCity" class="form-label">Cedula</label>
 
-                                            <span class="input-group-text" id="basic-addon2"><?= $perfil->cedula ?> </span>
+                                            <span class="input-group-text" id="basic-addon2"><?= $perfil->cedula ?>
+                                            </span>
 
                                         </div>
 
@@ -267,21 +287,47 @@
 
                                             <label for="inputCity" class="form-label">Celular</label>
 
-                                            <input type="text" class="form-control" placeholder="celular" value="<?= $perfil->celular ?>" name="celular">
+                                            <input type="text" class="form-control" placeholder="celular"
+                                                value="<?= $perfil->celular ?>" name="celular" required>
 
                                         </div>
 
-                                    </div><br>
 
+
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <label for="inputCity" class="form-label">Pais</label>
+
+                                            <select class="form-control" class="text-center" id="pais" name="pais"
+                                                required>
+                                                <option value="<?=$perfil->paisid?>" selected><?=$perfil->paisnombre?></option>
+                                                <?php foreach ($pais as $d) { ?>
+                                                <option value="<?= $d->id ?>"><?= $d->paisnombre ?></option>
+                                                <?php } ?>
+                                            </select>
+
+                                        </div>
+                                    </div>
                                     <div class="row">
 
                                         <div class="col">
 
                                             <label for="inputCity" class="form-label">Fecha nacimiento</label>
+                                            <?php if ($perfil->fecha_nacimiento == null || $perfil->fecha_nacimiento == '00/00/0000') { ?>
+                                                <input type="date" class="form-control"
+                                                value=""
+                                                name="fecha_nacimiento" id="datepicker" required>
+                                            <?php } else { ?>
+                                                <input type="date" class="form-control"
+                                                value=""
+                                                name="fecha_nacimiento" id="datepicker" >
+                                            <?php }
+                                             ?>
+                                            
+                                            <input type="hidden" name="" value="<?= $perfil->fecha_nacimiento ?>" id="fechaa">
 
-                                            <input type="date" class="form-control" value="<?php echo date("d/m/Y", strtotime($perfil->fecha_nacimiento)) ?> " name="fecha_nacimiento" id="datepicker">
-
-                                            <p style="color: green;"> Su fecha de nacimiento es : <?= $perfil->fecha_nacimiento ?></p>
 
                                         </div>
 
@@ -289,7 +335,8 @@
 
                                             <label for="inputCity" class="form-label">Usuario</label>
 
-                                            <span class="input-group-text" id="basic-addon2"> <?= $perfil->user ?> </span>
+                                            <span class="input-group-text" id="basic-addon2"> <?= $perfil->user ?>
+                                            </span>
 
                                         </div>
 
@@ -297,8 +344,13 @@
                                             <label for="inputCity" class="form-label">Contraseña</label>
                                             <div class="row">
                                                 <div class="input-group lg-3">
-                                                    <input type="text" class="form-control" placeholder="" value="***************" aria-label="Recipient's username" aria-describedby="button-addon2" readonly>
-                                                    <button class="btn btn-success" style="line-height: 0;" type="button" data-bs-toggle="modal" data-bs-target="#actualizarcontra<?= $perfil->id ?>"><i class="mdi mdi-wrench"></i></button>
+                                                    <input type="text" class="form-control" placeholder=""
+                                                        value="***************" aria-label="Recipient's username"
+                                                        aria-describedby="button-addon2" readonly>
+                                                    <button class="btn btn-success" style="line-height: 0;"
+                                                        type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#actualizarcontra<?= $perfil->id ?>"><i
+                                                            class="mdi mdi-wrench"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -310,7 +362,8 @@
 
                                             <label for="inputCity" class="form-label">Correo</label>
 
-                                            <span class="input-group-text" id="basic-addon2"> <?= $perfil->correo ?> </span>
+                                            <span class="input-group-text" id="basic-addon2"> <?= $perfil->correo ?>
+                                            </span>
                                         </div>
                                     </div><br>
 
@@ -319,13 +372,30 @@
 
                                             <label for="inputCity" class="form-label">Fecha registro</label>
 
-                                            <span class="input-group-text" id="basic-addon2"> <?= $perfil->fecha_registro ?> </span>
+                                            <span class="input-group-text" id="basic-addon2">
+                                                <?= $perfil->fecha_registro ?> </span>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <label for="inputCity" class="form-label">Wallet Binance</label>
+                                            <?php if ($perfil->wallet_binance == null) { ?>
+                                                <input type="text" class="form-control" placeholder="Wallet Binance"
+                                                value="<?= $perfil->wallet_binance ?>" name="wallet" required>
+                                            <?php } else { ?>
+                                                <input type="text" class="form-control" placeholder="Wallet Binance"
+                                                value="<?= $perfil->wallet_binance ?>" name="wallet" readonly>
+                                            <?php }
+                                             ?>
+                                            
                                         </div>
                                     </div><br>
 
                                     <div class="row">
 
-                                        <button style="background-color: #36E1F9;" type="submit" class="btn">Modificar</button>
+                                        <button style="background-color: #36E1F9;" type="submit"
+                                            class="btn">Modificar</button>
 
                                     </div>
 
@@ -345,7 +415,8 @@
 
     </div>
 
-    <div class="modal fade" id="actualizarcontra<?= $perfil->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="actualizarcontra<?= $perfil->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -360,20 +431,25 @@
                             <label for="inputCity" class="form-label">Contraseña actual</label>
                             <div class="row">
                                 <div class="input-group lg-3">
-                                    <input type="password" class="form-control" placeholder="" name="contra_actual" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                    <input type="password" class="form-control" placeholder="" name="contra_actual"
+                                        aria-label="Recipient's username" aria-describedby="button-addon2">
                                 </div>
                             </div>
                             <label for="inputCity" class="form-label">Contraseña nueva</label>
                             <div class="row">
                                 <div class="input-group lg-3">
-                                    <input type="password" class="form-control" placeholder="" id="Input" name="contra_nueva" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                    <input type="password" class="form-control" placeholder="" id="Input"
+                                        name="contra_nueva" aria-label="Recipient's username"
+                                        aria-describedby="button-addon2">
                                     <!-- <button class="btn btn-success" style="line-height: 0;" id="Eye" type="button" ><i class="mdi mdi-adjust"></i></button> -->
                                 </div>
                             </div>
                             <label for="inputCity" class="form-label">Confirme su contraseña</label>
                             <div class="row">
                                 <div class="input-group lg-3">
-                                    <input type="password" class="form-control" placeholder="" aria-label="Recipient's username" name="confir_contra" aria-describedby="button-addon2">
+                                    <input type="password" class="form-control" placeholder=""
+                                        aria-label="Recipient's username" name="confir_contra"
+                                        aria-describedby="button-addon2">
                                 </div>
                             </div>
                         </div>
@@ -386,3 +462,77 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © My Connect Mind 2022</span>
+    </div>
+</footer>
+<!-- partial -->
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+
+<script src="<?= base_url() ?>admin_temp/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="<?= base_url() ?>admin_temp/vendors/moment/moment.min.js"></script>
+<script src="<?= base_url() ?>admin_temp/vendors/daterangepicker/daterangepicker.js"></script>
+<script src="<?= base_url() ?>admin_temp/vendors/chartist/chartist.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="<?= base_url() ?>admin_temp/js/off-canvas.js"></script>
+<script src="<?= base_url() ?>admin_temp/js/misc.js"></script>
+<script src="<?= base_url() ?>admin_temp/js/file-upload.js"></script>
+<script src="<?= base_url() ?>admin_temp/js/settings.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="<?= base_url() ?>admin_temp/vendors/clipboard/clipboard.min.js"></script>
+
+<script src="<?= base_url() ?>admin_temp/js/dashboard.js"></script>
+<!-- End custom js for this page -->
+
+<script src="<?= base_url() ?>admin_temp/vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="<?= base_url() ?>admin_temp/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+<!-- End plugin js for this page -->
+
+<!-- Custom js for this page -->
+<script src="<?= base_url() ?>admin_temp/js/data-table.js"></script>
+<script src="<?= base_url() ?>admin_temp/js/popover.js"></script>
+<!-- End custom js for this page -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+
+<script>
+    function cambiar() {
+        var pdrs = document.getElementById('file-upload').files[0].name;
+        document.getElementById('info').innerHTML = pdrs;
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        var fecha = moment($('#fechaa').val(), "YYYY-MM-DD").format("YYYY-MM-DD");
+        console.log(fecha);
+        // Actualizamos el valor del input de tipo "date"
+        document.getElementsByName("fecha_nacimiento")[0].value = fecha;
+        var base_url = "<?= base_url() ?>";
+
+
+
+    });
+</script>
+
+
+
+</body>
+
+</html>

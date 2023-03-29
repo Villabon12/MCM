@@ -70,3 +70,9 @@ $route['Grafico/(:any)'] = 'Equipo/grafico/$1';
 $route['Comisiones/historial'] = 'Equipo/comisiones';
 $route['Rompecabeza/(:any)'] = 'Landing/tienda/$1';
 $route['Marketing/general'] = 'LandingxUser/plantilla';
+
+/* LinkTree*/
+$route['MCMLink/(:any)'] = 'LinkTree/view/$1' ; 
+$route['MCMLink/make/(:any)'] = 'LinkTree/making/$1' ; 
+$route['MCMLink/apariencia/(:any)'] = 'LinkTree/apariencia/$1' ; 
+$route['MCMLink'] = 'LinkTree/choose' ; 

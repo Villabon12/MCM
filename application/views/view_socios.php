@@ -16,7 +16,8 @@
 }
 </style>
 <?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
-<div class="main-panel">
+    <div class="main-panel">
+    
     <div class="content-wrapper">
 
         <div class="col-lg-12">
@@ -54,8 +55,13 @@
 
     <?php } else { ?>
     <div class="main-panel">
-
         <div class="content-wrapper">
+            <marquee behavior="scroll" direction="left">
+              <h2>Últimas noticias:</h2>
+              
+              
+              <p>Se llevará acabo nueva validación de seguridad, importante, ir a perfil actualizar los campos: Celular, Correo, Fecha de nacimiento, Wallet Binance. Si no tienen actualizado los datos, afectará el ingreso a la plataforma</p>
+            </marquee>
             <?php if ($this->session->flashdata("exito")) { ?>
 
             <p><?php echo $this->session->flashdata("exito") ?></p>
@@ -70,24 +76,32 @@
             <br>
 
             <?php } ?>
-            <div class="contenedor">
+            <!-- <center>
+                <div class="contenedor">
                     <img src="<?=base_url()?>images/primer.png"
-                        srcset="<?=base_url()?>images/primer.png, <?=base_url()?>images/primer.png 840w"
-                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;">
-                        <div class="centrado"><?=$premio[1]->user?>, directos: <?=$premio[1]->contar?> $<?=$premio[1]->total?></div>
-            </div>
-            <div class="contenedor">
+                        srcset="<?=base_url()?>images/primer.png, <?=base_url()?>images/primer.png 990w"
+                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 420px" style="max-width: 100%;">
+                    <div class="centrado"><?=$premio[1]->user?>, directos: <?=$premio[1]->contar?>
+                        $<?=$premio[1]->total?>
+                    </div>
+                </div>
+                <div class="contenedor">
                     <img src="<?=base_url()?>images/segundo.png"
-                        srcset="<?=base_url()?>images/segundo.png, <?=base_url()?>images/segundo.png 840w"
-                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;">
-                        <div class="centrado"><?=$premio[2]->user?>, directos: <?=$premio[2]->contar?> $<?=$premio[2]->total?></div>
-            </div>
-            <div class="contenedor">
+                        srcset="<?=base_url()?>images/segundo.png, <?=base_url()?>images/segundo.png 990w"
+                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 420px" style="max-width: 100%;">
+                    <div class="centrado"><?=$premio[2]->user?>, directos: <?=$premio[2]->contar?>
+                        $<?=$premio[2]->total?>
+                    </div>
+                </div>
+                <div class="contenedor">
                     <img src="<?=base_url()?>images/tercer.png"
-                        srcset="<?=base_url()?>images/tercer.png, <?=base_url()?>images/tercer.png 840w"
-                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;">
-                        <div class="centrado"><?=$premio[3]->user?>, directos: <?=$premio[3]->contar?> $<?=$premio[3]->total?></div>
-            </div>
+                        srcset="<?=base_url()?>images/tercer.png, <?=base_url()?>images/tercer.png 990w"
+                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 420px" style="max-width: 100%;">
+                    <div class="centrado"><?=$premio[3]->user?>, directos: <?=$premio[3]->contar?>
+                        $<?=$premio[3]->total?>
+                    </div>
+                </div>
+            </center> -->
             <div class="row">
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
@@ -121,8 +135,41 @@
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <div class="cc-icon align-self-center"><img
-                                    src="https://img.icons8.com/wired/64/000000/average-2.png" /></div>
+                            <div class="cc-icon align-self-center">
+                                <?php if ($plan_scalping == false) {?>
+                                <p style="text-transform: uppercase;">
+                                    <Strong style="color:red;">Membresia no adquirida</Strong>
+                                </p>
+                                <?php }else{ ?>
+
+                                <p style="text-transform: uppercase;">
+                                    <strong><?=$plan_scalping->descripcion?> -- Dias restante:
+                                        <?=$plan_scalping->dias?>
+                                </p></strong>
+                                <?php } ?>
+                                <img src="https://img.icons8.com/wired/64/000000/average-2.png" />
+                            </div>
+                            <div class="m-l-10 align-self-center">
+                                <h4 class="m-b-0 amar">Membresia Scalping</h4>
+                                
+                                    <a href="<?=base_url()?>Scalping" class="btn btn-dark">Ir al servicio</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="cc-icon align-self-center">
+                                <p style="text-transform: uppercase;">
+                                    <?php if ($plan_binaria == false) { ?>
+                                    <Strong style="color:red;">Robot no adquirido</Strong>
+                                    <?php }else{ ?>
+                                    <strong><?=$plan_binaria->descripcion?> -- Dias restante: <?=$plan_binaria->dias?>
+                                </p></strong> <?php } ?>
+                                <img src="https://img.icons8.com/wired/64/000000/average-2.png" />
+                            </div>
                             <div class="m-l-10 align-self-center">
                                 <h4 class="m-b-0 amar">Billetera Binaria</h4>
                                 <h5 class="text-muted m-b-0 blan">$<?= number_format($total->total, 2) ?></h5>
@@ -150,8 +197,20 @@
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <div class="cc-icon align-self-center"><img
-                                    src="https://img.icons8.com/wired/64/000000/average-2.png" /></div>
+                            <div class="cc-icon align-self-center">
+                                <?php if ($plan_arbitraje == false) {?>
+                                <p style="text-transform: uppercase;">
+                                    <Strong style="color:red;">Robot no adquirido</Strong>
+                                </p>
+                                <?php }else{ ?>
+
+                                <p style="text-transform: uppercase;">
+                                    <strong><?=$plan_arbitraje->descripcion?> -- Dias restante:
+                                        <?=$plan_arbitraje->dias?>
+                                </p></strong>
+                                <?php } ?>
+                                <img src="https://img.icons8.com/wired/64/000000/average-2.png" />
+                            </div>
                             <div class="m-l-10 align-self-center">
                                 <h4 class="m-b-0 amar">Billetera Arbitraje</h4>
                                 <?php if ($arbitraje == null) { ?>
@@ -168,6 +227,7 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
 
             <div class="row">

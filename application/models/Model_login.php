@@ -18,7 +18,7 @@ class model_login extends CI_Model
   public function cargar_datos()
   {
     $idUsuario = $this->session->userdata('ID');
-    $sql = "SELECT * FROM r_master_usuarios WHERE id= ?";
+    $sql = "SELECT r.*, p.paisnombre, p.id as paisid FROM r_master_usuarios r, pais p WHERE r.pais_id = p.id AND r.id= ?";
 
     $query = $this->db->query($sql, [$idUsuario]);
 
@@ -48,7 +48,7 @@ class model_login extends CI_Model
 
   public function cargar_datosReferencia($id)
   {
-    $this->db->select("*");
+    $this->db->select("*, count(id) as contar");
     $this->db->from("r_master_usuarios");
     $this->db->where("id", $id);
     $resultados = $this->db->get();
@@ -97,6 +97,16 @@ class model_login extends CI_Model
   WHERE (user=? || correo = ?) AND contrasena= ?;";
 
     $query = $this->db->query($sql, array($user, $user, $pass));
+
+    return $query->row();
+  }
+  public function trae_user_codigo($user = null)
+  {
+
+    $sql = "SELECT * FROM r_master_usuarios
+  WHERE (user=? || correo = ?);";
+
+    $query = $this->db->query($sql, array($user, $user));
 
     return $query->row();
   }

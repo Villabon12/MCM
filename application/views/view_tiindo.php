@@ -7776,7 +7776,7 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
                                                                             <div class="elementor-widget-container">
                                                                                 <h3
                                                                                     class="elementor-heading-title elementor-size-default">
-                                                                                    ¡Tenemos 1 servicio!, Proximamente 2
+                                                                                    ¡Tenemos 3 servicios!, Proximamente 2
                                                                                     más</h3>
                                                                             </div>
                                                                         </div>
@@ -7851,7 +7851,7 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
                                                                                 <div
                                                                                     class="elementor-text-editor elementor-clearfix">
                                                                                     <p class="p1">
-                                                                                        <strong>PROXIMAMENTE</strong>
+                                                                                        Accede al sistema algorítmico mas potente en el mercado ejecutando ordenes compras y ventas en los diferentes Exchange de criptomonedas en cuestión de milisegundo obteniendo beneficios al comparar los diferentes precios de diferentes tokens en el mercado de las criptomonedas
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
@@ -7883,7 +7883,7 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
                                                                                 <div
                                                                                     class="elementor-text-editor elementor-clearfix">
                                                                                     <p class="p1">
-                                                                                        <strong>PROXIMAMENTE</strong>
+                                                                                        Genera ingresos pasivos en el mercado de CFD´s, Materias primas e Índices con nuestro BOT funcionando las 24 horas del día los 6 días de las semana, conéctate y ten el control de tu dinero, deposita y retira por ti mismo mediante el sistema de social trading.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>

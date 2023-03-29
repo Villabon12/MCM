@@ -13,6 +13,7 @@ class Perfil extends CI_Controller
         $this->load->model('model_payments');
         $this->load->model('model_gastos');
         $this->load->model('model_servicio');
+        $this->load->model('model_errorpage');
     }
 
 
@@ -55,30 +56,31 @@ class Perfil extends CI_Controller
 
                 redirect("" . base_url() . "errorpage/error");
             } else {
-                if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
+                if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin'|| $this->session->userdata('ROL') == 'Editor') {
                     $result['banco'] = $this->model_payments->bancos();
                     $result['cuenta'] = $this->model_payments->tipo_cuenta();
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $result['genero'] = $this->model_gastos->getGenero();
                     $result['tipo_documento'] = $this->model_gastos->getTipo();
+                    $result['pais'] = $this->model_login->traerPais();
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if (count($idxuser) == 1) {
+
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
-    
+
                         $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
                     } else {
                         $ganancia = 0;
                         $perdida = 0;
                         $valor = $this->model_servicio->comisiones();
-    
+
                         $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
                     }
 
                     $this->load->view('header_socio', $result);
                     $this->load->view('perfil/view_perfil', $result);
-                    $this->load->view('footer_socio');
                 } else {
                     $intruso = array(
                         'id_usuario' => $this->session->userdata('ID'),
@@ -97,16 +99,20 @@ class Perfil extends CI_Controller
 
     public function updatePerfil($token)
     {
+        $wallet = $this->input->post('wallet');
         $nombre = $this->input->post('nombre');
         $apellido1 = $this->input->post('apellido1');
         $fecha_nacimiento = $this->input->post('fecha_nacimiento');
         $celular = $this->input->post('celular');
+        $pais = $this->input->post('pais');
 
         $data = array(
             "nombre" => $nombre,
             "apellido1" => $apellido1,
             "fecha_nacimiento" => $fecha_nacimiento,
-            "celular" => $celular
+            "celular" => $celular,
+            "pais_id" => $pais,
+            "wallet_binance" => $wallet
         );
 
         if ($this->model_login->updPerfil($data, $token)) {

@@ -101,4 +101,10 @@ class model_modulo extends CI_Model
         $this->db->where('id',$id);
         $this->db->delete('eventos');
     }
+    
+    public function deleteModulo($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->delete('modulo');
+    }
 }
