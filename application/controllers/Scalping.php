@@ -598,23 +598,43 @@ class Scalping extends CI_Controller
     {
         $usuario = $this->input->post('usuario');
         $valor = $this->input->post('valor');
+        $servicio = $this->input->post('servicio');
 
         $cargar = $this->model_login->cargar_datosxuser($usuario);
 
         $data = array(
             "usuario_id" => $usuario,
             "valor" => $valor,
-            "papa_id" => $cargar->id_papa_pago
+            "papa_id" => $cargar->id_papa_pago,
+            "servicio" => $servicio
         );
 
         $historial = array(
             "usuario_id" => $usuario,
             "valor" => $valor,
-            "robot" => "scalping"
+            "robot" => $servicio
         );
 
         $this->model_proceso->deposito($historial);
         $this->model_scalping->insertarDeposito($data);
+        $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Fondeo exitoso</div>');
+        redirect(base_url() ."Scalping/registrar");
+    }
+
+    public function fondoWsport()
+    {
+        $usuario = $this->input->post('usuario');
+        $valor = $this->input->post('valor');
+        $User = $this->input->post('User');
+
+        $data = array(
+            "usuario_papa" => $usuario,
+            "valor" => $valor,
+            "usuario_registro" => $User,
+            "servicio" => 'Wsport'
+        );
+
+        $this->model_scalping->insertarDepositoW($data);
         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Fondeo exitoso</div>');
         redirect(base_url() ."Scalping/registrar");
     }

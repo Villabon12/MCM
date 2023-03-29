@@ -223,6 +223,25 @@
               </div>
             </li>
           <?php } ?>
+
+          <?php if ($perfil->tipo == 'Editor') { ?>
+            <li class="nav-item nav-category"><span class="nav-link">Modulos</span></li>
+
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#modulosa" aria-expanded="false" aria-controls="puzzle">
+                <span class="menu-title">Modulo</span>
+                <i class=" icon-game-controller menu-icon"></i>
+              </a>
+              <div class="collapse" id="modulosa">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Modulo/Administracion">Administracion Modulo</a></li>
+                </ul>
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url() ?>Modulo/evento">Añadir Evento</a></li>
+                </ul>
+              </div>
+            </li>
+          <?php } ?>
           <li class="nav-item nav-category"><span class="nav-link">Dashboard</span></li>
 
           <li class="nav-item">

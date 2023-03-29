@@ -80,4 +80,25 @@ class model_modulo extends CI_Model
         $this->db->where('id',$id);
         $this->db->update('libros',$data);
     }
+
+    public function cargar_eventos()
+    {
+        $date = date('Y-m-d');
+        $sql = "SELECT * FROM eventos WHERE DATE(fecha_evento) >= ?";
+        
+        $query = $this->db->query($sql, [$date]);
+
+        return $query->result();
+    }
+
+    public function insertarEventos($data)
+    {
+        $this->db->insert('eventos',$data);
+    }
+
+    public function deleteEvento($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->delete('eventos');
+    }
 }

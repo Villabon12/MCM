@@ -14,12 +14,17 @@ class login extends CI_Controller
         $this->load->model('model_email2');
         $this->load->model('model_puzzle1');
         $this->load->model('model_reporte');
+        $this->load->model('model_modulo');
+        $this->load->model('model_servicio');
+        $this->load->model('model_terminos');
+        $this->load->model('model_arbitraje');
     }
 
     public function index($ban = null)
     {
         $result['usuario'] = $this->model_login->agrupar();
         $result['ganancia'] = $this->model_login->cuentasGanancia();
+        $result['eventos'] = $this->model_modulo->cargar_eventos();
 
         $this->load->view('view_tiindo', $result);
     }
@@ -229,6 +234,12 @@ class login extends CI_Controller
                     redirect("" . base_url() . "MCM");
                 }
             }
+            if ($datos_user->tipo == 'Editor') {
+                if ($this->session->userdata('is_logged_in')) {
+                    redirect(base_url() . "Modulo/Administracion");
+                }
+            }
+
 
             //
         } elseif ($result2->contar == 1) {
@@ -304,7 +315,91 @@ class login extends CI_Controller
 
     public function prueba()
     {
-        $this->load->view('prueba');
+        $this->load->helper('cookie');
+
+        if ($this->session->userdata('is_logged_in')) {
+            $cookie = get_cookie('mi_cookie_4');
+
+            if ($cookie == 'investor') {
+                $intruso = array(
+
+                    'id_usuario' => $this->session->userdata('ID'),
+
+                    'texto' => 'Ingreso cuenta Investor Inicio',
+
+                    'fecha_registro' => date("Y-m-d H:i:s"),
+
+                );
+
+                $this->model_errorpage->insertIntruso($intruso);
+
+                redirect("" . base_url() . "errorpage/error");
+            } else {
+                if ($this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin') {
+                    $token = $this->session->userdata('token');
+                    $id = $this->session->userdata('ID');
+                    $idxuser = $this->model_servicio->reportesxuser();
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
+                    $result['disponibilidad'] = $this->model_servicio->consultarCampos();
+                    $result['perfil'] = $this->model_login->cargar_datos();
+                    $result['billetera'] = $this->model_proceso->cargar_billetera($token);
+                    $result['empresa'] = $this->model_proceso->cargar_billetera_global($token);
+                    $result['validar'] = $this->model_proceso->traer_parametro(13);
+                    $result['total'] = $this->model_servicio->sumInversion();
+                    $result['total1'] = $this->model_servicio->sumInversionBilletera();
+                    $result['terminos'] = $this->model_terminos->comprobar_registro($id);
+                    $result['arbitraje'] = $this->model_arbitraje->cargarCapitalxid();
+                    $result['premio'] = $this->model_login->ganador();
+
+                    $this->load->view('header_socio', $result);
+                    $this->load->view('prueba', $result);
+                } else {
+                    $intruso = array(
+
+                        'id_usuario' => $this->session->userdata('ID'),
+
+                        'texto' => 'view_socios',
+
+                        'fecha_registro' => date("Y-m-d H:i:s"),
+
+                    );
+
+                    $this->model_errorpage->insertIntruso($intruso);
+
+                    redirect("" . base_url() . "errorpage/error");
+                }
+            }
+        } else {
+            redirect("" . base_url() . "login/");
+        }
+    }
+    public function prueba2()
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://mandrillapp.com/api/1.0/users/ping');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array('key' => '6ad191f642c63930775153647cfaf829-us11')));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        
+        $result = curl_exec($ch);
+        curl_close($ch);
+        
+        var_dump($result);
+        
     }
 
     public function calcular()
@@ -320,9 +415,9 @@ class login extends CI_Controller
             echo '<tr>';
             echo '<th scope="row">'.$i.'</th>';
             echo '<td>'.$principio.'</td>';
-            echo '<td>'.number_format($principal,2).'</td>';
-            echo '<td>'.number_format(($principal-$principio),2).'</td>';
-            echo '<td>'.number_format((($principal-$principio)*100)/($principio),2).'%</td> ';
+            echo '<td>'.number_format($principal, 2).'</td>';
+            echo '<td>'.number_format(($principal-$principio), 2).'</td>';
+            echo '<td>'.number_format((($principal-$principio)*100)/($principio), 2).'%</td> ';
             echo '</tr>';
         }
     }

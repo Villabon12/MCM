@@ -25,7 +25,7 @@ class Modulo extends CI_Controller
             $cookie = get_cookie('mi_cookie_4');
 
             if ($cookie != 'investor') {
-                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
+                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Editor') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
@@ -91,7 +91,7 @@ class Modulo extends CI_Controller
             $cookie = get_cookie('mi_cookie_4');
 
             if ($cookie != 'investor') {
-                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
+                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Editor') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
@@ -155,7 +155,7 @@ class Modulo extends CI_Controller
             $cookie = get_cookie('mi_cookie_4');
 
             if ($cookie != 'investor') {
-                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
+                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Editor') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
@@ -221,7 +221,7 @@ class Modulo extends CI_Controller
             $cookie = get_cookie('mi_cookie_4');
 
             if ($cookie != 'investor') {
-                if ($this->session->userdata('ROL') == 'Ultra') {
+                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'Editor') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
@@ -373,7 +373,7 @@ class Modulo extends CI_Controller
             $cookie = get_cookie('mi_cookie_4');
 
             if ($cookie != 'investor') {
-                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
+                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio' || $this->session->userdata('ROL') == 'Editor') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
 
@@ -498,5 +498,108 @@ class Modulo extends CI_Controller
             $this->session->set_flashdata('error', '<div class="alert alert-success text-center"><label class="login__input name">Adjunto subido</label></div>');
             redirect(base_url()."Modulo/Administracion");
         }
+    }
+
+    public function evento()
+    {
+        $this->load->helper('cookie');
+
+        if ($this->session->userdata('is_logged_in')) {
+            $cookie = get_cookie('mi_cookie_4');
+
+            if ($cookie != 'investor') {
+                if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'Editor') {
+                    $result['perfil'] = $this->model_login->cargar_datos();
+                    $idxuser = $this->model_servicio->reportesxuser();
+
+                    if (count($idxuser) == 1) {
+                        $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
+                        $perdida = $this->model_servicio->perdida($idxuser->idxuser);
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia->ganancia - $perdida->perdida), 2);
+                    } else {
+                        $ganancia = 0;
+                        $perdida = 0;
+                        $valor = $this->model_servicio->comisiones();
+
+                        $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
+                    }
+                    $result['evento'] = $this->model_modulo->cargar_eventos();
+
+                    $this->load->view('header_socio', $result);
+
+                    $this->load->view('modulo/view_eventos', $result);
+                } else {
+                    $intruso = array(
+
+                        'id_usuario' => $this->session->userdata('ID'),
+
+                        'texto' => 'modulo/videos',
+
+                        'fecha_registro' => date("Y-m-d H:i:s"),
+
+                    );
+
+                    $this->model_errorpage->insertIntruso($intruso);
+
+                    redirect(base_url() . "errorpage/error");
+                }
+            } else {
+                $intruso = array(
+
+                    'id_usuario' => $this->session->userdata('ID'),
+
+                    'texto' => 'Equipo/Inicio',
+
+                    'fecha_registro' => date("Y-m-d H:i:s"),
+
+                );
+
+                $this->model_errorpage->insertIntruso($intruso);
+
+                redirect(base_url() . "errorpage/error");
+            }
+        } else {
+            redirect(base_url() . "login/");
+        }
+    }
+
+    public function insertEvento()
+    {
+        $mi_archivo = 'foto';
+        $config['upload_path'] = './document/';
+        $config['allowed_types'] = "jpg|png|jpeg";
+        $config['maintain_ratio'] = true;
+        $config['create_thumb'] = false;
+        $config['width'] = 800;
+        $config['height'] = 800;
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload($mi_archivo)) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Error con la imagen</label></div>');
+            redirect(base_url()."Modulo/evento");
+        } else {
+            $data = array("upload_data" => $this->upload->data());
+            $imagen = $data['upload_data']['file_name'];
+
+            $data2 = array(
+                "evento" => $this->input->post('titulo'),
+                "fecha_evento" => $this->input->post('fecha'),
+                "imagen" => $imagen,
+                "enlace" => $this->input->post('enlace')
+            );
+
+            $this->model_modulo->insertarEventos($data2);
+            $this->session->set_flashdata('error', '<div class="alert alert-success text-center"><label class="login__input name">Evento creado</label></div>');
+            redirect(base_url()."Modulo/evento");
+        }
+    }
+
+    public function eliminarEvento($id)
+    {
+        $this->model_modulo->deleteEvento($id);
+        $this->session->set_flashdata('error', '<div class="alert alert-success text-center"><label class="login__input name">Evento eliminado</label></div>');
+        redirect(base_url()."Modulo/evento");
     }
 }

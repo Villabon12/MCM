@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once APPPATH.'/libraries/phpToPDF.php';
+require_once APPPATH . 'libraries/Html2Pdf/Html2Pdf.php';
 
 
 class Banco extends CI_Controller
@@ -59,6 +59,7 @@ class Banco extends CI_Controller
                         $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
                     }
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
+                    $result['consigna'] = $this->model_banco->cargarHistorial();
 
                     $this->load->view('header_socio', $result);
 
@@ -1689,6 +1690,8 @@ class Banco extends CI_Controller
 
     public function cheque($id)
     {
+        $this->load->library('html2pdf');
+
         $result['retiro'] = $this->model_banco->cargarHistorialRetiroUnidad($id);
 
         $this->load->view('banco/cheque',$result);

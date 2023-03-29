@@ -18,6 +18,7 @@ class Socios extends CI_Controller
         $this->load->model('model_servicio');
         $this->load->model('model_errorpage');
         $this->load->model('model_terminos');
+        $this->load->model('model_arbitraje');
     }
 
     public function index($ban = null)
@@ -67,6 +68,8 @@ class Socios extends CI_Controller
                     $result['total'] = $this->model_servicio->sumInversion();
                     $result['total1'] = $this->model_servicio->sumInversionBilletera();
                     $result['terminos'] = $this->model_terminos->comprobar_registro($id);
+                    $result['arbitraje'] = $this->model_arbitraje->cargarCapitalxid();
+                    $result['premio'] = $this->model_login->ganador();
 
                     $this->load->view('header_socio', $result);
                     $this->load->view('view_socios', $result);
@@ -403,16 +406,15 @@ class Socios extends CI_Controller
 
     public function generar_imagen($id)
     {
-        // SET YOUR PDF OPTIONS -- FOR ALL AVAILABLE OPTIONS, VISIT HERE:  http://phptopdf.com/documentation/
-        $pdf_options = array(
-            "source_type" => 'url',
-            "source" => 'https://www.myconnectmind.com/Socios/cheque/'.$id,
-            "action" => 'download',
-            "page_orientation" => 'landscape',
-            "page_size" => 'A5',
-            "file_name" => 'cheque.pdf');
+        // Create a blank image and add some text
+        $im = imagecreatetruecolor(120, 20);
+        $text_color = imagecolorallocate($im, 233, 14, 91);
+        imagestring($im, 1, 5, 5, 'A Simple Text String', $text_color);
 
-        // CALL THE phpToPDF FUNCTION WITH THE OPTIONS SET ABOVE
-        phptopdf($pdf_options);
+        // Save the image as 'simpletext.jpg'
+        imagejpeg($im, 'simpletext.jpg');
+
+        // Free up memory
+        imagedestroy($im);
     }
 }

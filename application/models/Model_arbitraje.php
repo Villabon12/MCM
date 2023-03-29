@@ -35,7 +35,6 @@ class model_arbitraje extends CI_Model
         $idUsuario = $this->session->userdata('ID');
 
         $this->db->select('*');
-        $this->db->where('activo_id',1);
         $this->db->where('usuario_id',$idUsuario);
         $this->db->limit(1);
 

@@ -1,4 +1,20 @@
 <!-- partial -->
+<style>
+.contenedor {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+}
+
+
+.centrado {
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</style>
 <?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
 <div class="main-panel">
     <div class="content-wrapper">
@@ -54,6 +70,24 @@
             <br>
 
             <?php } ?>
+            <div class="contenedor">
+                    <img src="<?=base_url()?>images/primer.png"
+                        srcset="<?=base_url()?>images/primer.png, <?=base_url()?>images/primer.png 840w"
+                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;">
+                        <div class="centrado"><?=$premio[1]->user?>, directos: <?=$premio[1]->contar?> $<?=$premio[1]->total?></div>
+            </div>
+            <div class="contenedor">
+                    <img src="<?=base_url()?>images/segundo.png"
+                        srcset="<?=base_url()?>images/segundo.png, <?=base_url()?>images/segundo.png 840w"
+                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;">
+                        <div class="centrado"><?=$premio[2]->user?>, directos: <?=$premio[2]->contar?> $<?=$premio[2]->total?></div>
+            </div>
+            <div class="contenedor">
+                    <img src="<?=base_url()?>images/tercer.png"
+                        srcset="<?=base_url()?>images/tercer.png, <?=base_url()?>images/tercer.png 840w"
+                        sizes="(max-width: 767px) 200vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;">
+                        <div class="centrado"><?=$premio[3]->user?>, directos: <?=$premio[3]->contar?> $<?=$premio[3]->total?></div>
+            </div>
             <div class="row">
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
@@ -108,6 +142,27 @@
                                 <h5 class="text-muted m-b-0 blan">$<?= number_format($billetera->cuenta_juego, 2) ?>
                                 </h5>
                                 <a href="<?=base_url()?>Puzzle" class="btn btn-dark">Ir al servicio</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="cc-icon align-self-center"><img
+                                    src="https://img.icons8.com/wired/64/000000/average-2.png" /></div>
+                            <div class="m-l-10 align-self-center">
+                                <h4 class="m-b-0 amar">Billetera Arbitraje</h4>
+                                <?php if ($arbitraje == null) { ?>
+                                <h5 class="text-muted m-b-0 blan">$0.00
+
+                                    <?php }else{ ?>
+                                    <h5 class="text-muted m-b-0 blan">$<?= number_format($arbitraje->valor, 2) ?>
+
+                                        <?php } ?>
+                                    </h5>
+                                    <a href="<?=base_url()?>Arbitraje" class="btn btn-dark">Ir al servicio</a>
                             </div>
 
                         </div>

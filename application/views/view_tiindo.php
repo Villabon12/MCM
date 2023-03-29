@@ -33,6 +33,8 @@
         href='<?= base_url() ?>css/blocks-vendors-style.css?ver=8.0.0' media='all' />
     <link rel='stylesheet' id='wc-blocks-style-css' href='<?= base_url() ?>css/wc-blocks-style.css?ver=8.0.0'
         media='all' />
+    <link rel='stylesheet' href='<?= base_url() ?>css//swiper-bundle.min.css' media='all' />
+    <link rel='stylesheet' href='<?= base_url() ?>css/slider.css' media='all' />
     <style id='global-styles-inline-css'>
     body {
         --wp--preset--color--black: #000000;
@@ -7520,6 +7522,89 @@
                                                                             <div class="elementor-widget-container">
                                                                                 <h3
                                                                                     class="elementor-heading-title elementor-size-default">
+                                                                                    Eventos Próximos</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <section
+                                                    class="ob-is-breaking-bad ob-bb-inner elementor-section elementor-inner-section elementor-element elementor-element-30ac5b3 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                                                    data-id="30ac5b3" data-element_type="section"
+                                                    data-settings="{&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
+                                                    <?php if ($eventos == null) { ?>
+                                                        <h3>No hay eventos próximos</h3>
+                                                    <?php } else { ?>
+                                                        <div class="container swiper">
+                                                        <div class="slide-container">
+                                                            <div class="card-wrapper swiper-wrapper">
+                                                                <?php foreach($eventos as $e){ ?>
+                                                                    <div class="card swiper-slide">
+                                                                    <a href="<?=$e->enlace?>">
+                                                                    <div class="image-box">
+                                                                        <img src="<?=base_url()?>document/<?=$e->imagen?>" alt="" />
+                                                                    </div>
+                                                                </a>
+                                                                    <div class="profile-details">
+                                                                        <div class="name-job">
+                                                                            <h3 class="name"><?=$e->evento?></h3>
+                                                                            <h4 class="job"><?=$e->fecha_evento?></h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                        <div class="swiper-button-next swiper-navBtn"></div>
+                                                        <div class="swiper-button-prev swiper-navBtn"></div>
+                                                        <div class="swiper-pagination"></div>
+                                                    </div>
+                                                    <?php } ?>
+                                                     
+                                                    
+                                                </section>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section
+                            class="ob-is-breaking-bad elementor-section elementor-top-section elementor-element elementor-element-9c3b93e explevel elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                            data-id="9c3b93e" data-element_type="section"
+                            data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
+                            <div class="elementor-container elementor-column-gap-default">
+                                <div class="elementor-row">
+                                    <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-c75d2ab"
+                                        data-id="c75d2ab" data-element_type="column"
+                                        data-settings="{&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                        <div class="elementor-column-wrap elementor-element-populated">
+                                            <div class="elementor-widget-wrap">
+                                                <section
+                                                    class="ob-is-breaking-bad ob-bb-inner elementor-section elementor-inner-section elementor-element elementor-element-0d1b6c7 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                                                    data-id="0d1b6c7" data-element_type="section"
+                                                    data-settings="{&quot;_ob_bbad_use_it&quot;:&quot;yes&quot;,&quot;_ob_bbad_sssic_use&quot;:&quot;no&quot;,&quot;_ob_glider_is_slider&quot;:&quot;no&quot;}">
+                                                    <div class="elementor-container elementor-column-gap-default">
+                                                        <div class="elementor-row">
+                                                            <div class="ob-is-hoveranimator elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-39d6607"
+                                                                data-id="39d6607" data-element_type="column"
+                                                                data-settings="{&quot;_ob_column_hoveranimator&quot;:&quot;yes&quot;,&quot;_ob_bbad_is_stalker&quot;:&quot;no&quot;,&quot;_ob_teleporter_use&quot;:false,&quot;_ob_column_has_pseudo&quot;:&quot;no&quot;}">
+                                                                <div
+                                                                    class="elementor-column-wrap elementor-element-populated">
+                                                                    <div class="elementor-widget-wrap">
+                                                                        <div class="elementor-element elementor-element-7214f28 elementor-widget elementor-widget-heading"
+                                                                            data-id="7214f28" data-element_type="widget"
+                                                                            data-settings="{&quot;_ob_allow_hoveranimator&quot;:&quot;no&quot;,&quot;_ob_widget_stalker_use&quot;:&quot;no&quot;}"
+                                                                            data-widget_type="heading.default">
+                                                                            <div class="elementor-widget-container">
+                                                                                <h3
+                                                                                    class="elementor-heading-title elementor-size-default">
                                                                                     Herramientas</h3>
                                                                             </div>
                                                                         </div>
@@ -7755,7 +7840,7 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
                                                                             <div class="elementor-widget-container">
                                                                                 <p
                                                                                     class="elementor-heading-title elementor-size-default">
-                                                                                    Indice Sintéticos</p>
+                                                                                    Robot de Arbitraje</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-a47e121 elementor-widget elementor-widget-text-editor"
@@ -7787,7 +7872,7 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
                                                                             <div class="elementor-widget-container">
                                                                                 <p
                                                                                     class="elementor-heading-title elementor-size-default">
-                                                                                    Robot de Crypto</p>
+                                                                                    Robot de Scalping</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-a47e121 elementor-widget elementor-widget-text-editor"
@@ -7980,6 +8065,8 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
     })();
     </script>
     <script src="<?= base_url() ?>admin_temp/vendors/js/vendor.bundle.base.js"></script>
+    <script src="<?= base_url() ?>js/swiper-bundle.min.js"></script>
+    <script src="<?= base_url() ?>js/slider.js"></script>
 
     <script>
     $(document).ready(function() {
@@ -8451,7 +8538,13 @@ tab=0&from=USD&to=COP&bg=ffffff" marginwidth="0" marginheight="0" scrolling="no"
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/b205d257a54c65afe78184e7b/884e9410cd14efe4218d673ab.js");</script>
+    <script id="mcjs">
+    ! function(c, h, i, m, p) {
+        m = c.createElement(h), p = c.getElementsByTagName(h)[0], m.async = 1, m.src = i, p.parentNode.insertBefore(m,
+            p)
+    }(document, "script",
+        "https://chimpstatic.com/mcjs-connected/js/users/b205d257a54c65afe78184e7b/884e9410cd14efe4218d673ab.js");
+    </script>
 </body>
 
 </html>

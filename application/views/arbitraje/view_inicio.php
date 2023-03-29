@@ -127,7 +127,7 @@
 
             <?php } ?>
 
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="">
 
                 <div class="row">
 
@@ -286,7 +286,7 @@
 
                     <div class="col-md-4 grid-margin stretch-card">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" style="background:#80808075;">
                                 <h4 class="card-title">Inversion</h4>
                                 <div class="table-responsive">
 
@@ -358,21 +358,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8 grid-margin stretch-card">
+                    <div class="col-md-8 grid-margin stretch-card" >
                         <div class="card">
-                            <div class="card-body performane-indicator-card">
+                            <div class="card-body performane-indicator-card" style="background:#80808075; background-image: url(../images/myconnect/toro.png);  background-position: center; /* Center the image */
+  background-repeat: no-repeat;background-size: cover;">
 
                                 <?php if (count($inversion) >= 1) { ?>
                                 <?php foreach ($reportes as $r) { ?>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p style="font-size: 12.9375px;"><?= $r->fecha ?></p>
+                                        <p style="font-size: 12.9375px;background: #ffffff; width:300px"><?= $r->fecha ?></p>
                                     </div>
                                     <div class="col-md-6">
                                         <?php if ($r->tipoxuser == 'ganancia') { ?>
-                                        <p style="color: blue;"><?= $r->gananciaxuser ?></p>
+                                        <p style="color: blue; background: #ffffff; width:300px"><?= $r->gananciaxuser ?></p>
                                         <?php } else { ?>
-                                        <p style="color: red;"><?= $r->gananciaxuser ?></p>
+                                        <p style="color: red; background: #ffffff; width:300px"><?= $r->gananciaxuser ?></p>
                                         <?php } ?>
                                     </div>
                                 </div>

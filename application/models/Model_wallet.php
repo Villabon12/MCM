@@ -204,14 +204,15 @@ DATE(fecha) >= ? AND DATE(fecha) <= ?";;
   {
     $id = $this->session->userdata('ID');
 
-    $this->db->select('SUM(valor) as deposito');
     $this->db->where('robot', $robot);
     $this->db->where('usuario_id', $id);
+    $this->db->select('SUM(valor) as deposito');
 
     $resultado = $this->db->get('deposito');
 
     return $resultado->row();
   }
+  
   public function retiro($robot)
   {
     $id = $this->session->userdata('ID');

@@ -281,4 +281,16 @@ class model_login extends CI_Model
 
     return $query->result();
   }
+
+  public function ganador()
+  {
+    $sql = "SELECT rm1.user, rm2.user AS beneficio, COUNT(rm2.user) AS contar, SUM(d.valor) AS total 
+    FROM r_master_usuarios rm1, r_master_usuarios rm2, deposito d 
+    WHERE rm1.id = rm2.id_papa_pago AND rm2.id = d.usuario_id AND DATE(d.fecha) > '2023-02-03' GROUP BY 1 ORDER BY total DESC LIMIT 4
+    ";
+
+    $query = $this->db->query($sql);
+
+    return $query->result();
+  }
 }

@@ -69,3 +69,4 @@ $route['Configuraciones'] = 'Socios/parametros_general' ;
 $route['Grafico/(:any)'] = 'Equipo/grafico/$1';
 $route['Comisiones/historial'] = 'Equipo/comisiones';
 $route['Rompecabeza/(:any)'] = 'Landing/tienda/$1';
+$route['Marketing/general'] = 'LandingxUser/plantilla';

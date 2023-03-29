@@ -1090,7 +1090,7 @@ class Arbitraje extends CI_Controller
         $usuarios_repartir = $this->model_arbitraje->general();
 
         for ($i=0; $i < count($usuarios_repartir); $i++) { 
-            $ganancia = 0.005;
+            $ganancia = 0.002;
             $data = array(
                 "valor" => ($usuarios_repartir[$i]->valor * $ganancia) + $usuarios_repartir[$i]->valor,
             );
