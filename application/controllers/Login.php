@@ -78,11 +78,6 @@ class login extends CI_Controller
         } else {
             $result = $this->model_login->consultaregistro($user, $cedula, $correo);
 
-            if ($result->contar == 1) { // no se puede registrar
-                $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name" style="color:black;"> Registro invalido, ya existen las credenciales</label></div>');
-
-                redirect(base_url() . "login/registrar/" . $idpapa);
-            } else { // si se puede registrar
                 $token = md5($nombre . "+" . $correo);
                 $arre = array(
                     "token" => $token,
@@ -176,7 +171,6 @@ class login extends CI_Controller
                     redirect(base_url() . "login/registrar/" . $idpapa, "refresh");
                 }
             }
-        }
         // } else {
         // 	$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">No se admiten caracteres especiales</div>');
         // 	redirect(base_url() . "login/registrar/".$idpapa, "refresh");

@@ -175,7 +175,7 @@
                             <h1 style="font-family: 'Righteous', cursive;    color: black;">Paso 4° </h1>
                         </strong>
                         <br>
-                        <h3 style="font-family: 'Righteous', cursive;    color: black;">Obtiene tu link y tu codigo QR 
+                        <h3 style="font-family: 'Righteous', cursive;    color: black;">Obtiene tu link y tu codigo QR
                         </h3>
                     </header>
                     <!-- Button para compra -->
@@ -185,6 +185,10 @@
                 <?php } else {
                 } ?>
 
+                <a type="button" href="<?= base_url() ?>MCMLink" class="btn btn-primary"
+                    style="width: 80%;border-radius: 35px;"> Volver paso
+                    1° </a>
+                <br><br>
                 <?php if ($sett->url == null) {
                 # code...
             } else { ?>
@@ -216,7 +220,8 @@
                     <div class="modal-body">
                         <h1 class="text-dark text-center" style="font-family: 'Righteous', cursive; color:'black';">
                             Conoce nuestros paquetes para empezar a utilizar este producto</h1>
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-2 text-center " style="margin-top:2rem ;">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-2 text-center "
+                            style="margin-top:2rem ;">
                             <?php foreach ($paquetes as $p) { ?>
                                 <div class="col">
                                     <div class="card mb-4  " style="height:450px;">

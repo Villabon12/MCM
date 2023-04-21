@@ -530,47 +530,47 @@ class LinkTree extends CI_Controller
 			$data1 = array(
 				"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink + $precio
 			);
-			$this->model_banco->actualizar_wallet_empresa($empresa->token, $data1);
+			// $this->model_proceso->actualizar_wallet_empresa( $data1 ,$empresa->token);
 		} else {
 			$billeteraPapa = $this->model_banco->billetera($papa->token);
 			$data1 = array(
 				"cuenta_compra" => $billeteraPapa->cuenta_comision + $Gpapa
 			);
-			$this->model_banco->updBilletera($papa->token, $data1) == 1;
+			// $this->model_banco->updBilletera($papa->token, $data1) == 1;
 
 			//Trae data abuelo
 			$abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
 			if ($abuelo == null ) {
 				$data2 = array(
-					"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink - ($precio - $Gpapa)
+					"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink + ($precio - $Gpapa)
 				);
-				$this->model_banco->actualizar_wallet_empresa($empresa->token, $data2);
+				$this->model_proceso->actualizar_wallet_empresa( $data2 ,$empresa->token);
 			} else {
 
 				$billeteraAbuelo = $this->model_banco->billetera($abuelo->token);
 				$data2 = array(
 					"cuenta_compra" => $billeteraAbuelo->cuenta_comision + $Gabue
 				);
-				$this->model_banco->updBilletera($abuelo->token, $data2) == 1;
+				// $this->model_banco->updBilletera($abuelo->token, $data2) == 1;
 
 				//Trae data bisabuelo
 				$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
 				if ($bisabuelo == null ) {
 					$data3 = array(
-						"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink - ($precio - $Gpapa - $Gabue)
+						"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink + ($precio - $Gpapa - $Gabue)
 					);
-					$this->model_banco->actualizar_wallet_empresa($empresa->token, $data3);
+					$this->model_proceso->actualizar_wallet_empresa( $data3 ,$empresa->token);
 				} else {
 					$billeteraBisabuelo = $this->model_banco->billetera($bisabuelo->token);
 					$data3 = array(
 						"cuenta_compra" => $billeteraBisabuelo->cuenta_comision + $Gbisa
 					);
-					$this->model_banco->updBilletera($bisabuelo->token, $data3) == 1;
+					// $this->model_banco->updBilletera($bisabuelo->token, $data3) == 1;
 
 					$data4 = array(
-						"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink - ($precio - $Gpapa - $Gabue - $Gbisa)
+						"cuenta_mcmlink" => $billetera_empresa->cuenta_mcmlink + ($precio - $Gpapa - $Gabue - $Gbisa)
 					);
-					$this->model_banco->actualizar_wallet_empresa($empresa->token, $data4);
+					$this->model_proceso->actualizar_wallet_empresa( $data4 ,$empresa->token);
 
 					return true;
 				}

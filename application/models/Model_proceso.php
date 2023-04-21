@@ -46,7 +46,11 @@ class model_proceso extends CI_Model
         $this->db->where('token', $token);
         $this->db->update('wallet_negocio', $data);
     }
-
+    public function actualizar_wallet_empresa2($data, $token)
+    {
+        $this->db->where('usuario_token', $token);
+        $this->db->update('wallet_negocio', $data);
+    }
     public function traer_parametro($id)
     {
         $this->db->select('*');

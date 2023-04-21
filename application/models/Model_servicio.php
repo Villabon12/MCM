@@ -260,7 +260,7 @@ class model_servicio extends CI_Model
         WHERE hi.fecha = ri.fecha  AND hi.usuario_id = rb.id  AND rb.id_usuario = ? AND ri.senal != 'no' ORDER BY fecha DESC LIMIT 1";
 
         $query = $this->db->query($sql, [$idUsuario]);
-        
+
         if ($query->num_rows() > 0) {
             return $query->row();
         } else {
@@ -341,4 +341,11 @@ class model_servicio extends CI_Model
 
         return $resultados->row();
     }
+    function GetReporte()
+    {
+        $traer = "SELECT * FROM senales_binarias  ORDER BY fecha DESC";
+        $query = $this->db->query($traer);
+        return $query->result();
+    }
+
 }

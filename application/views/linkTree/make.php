@@ -92,14 +92,14 @@
                         <div class="collapse navbar-collapse" id="navbarScroll">
                             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
                                 style="--bs-scroll-height: 100px;">
-                                <li class="nav-item">
+                                <li class="nav-item" style="background-color:white;">
                                     <a class="nav-link active" aria-current="page"
                                         href="<?= base_url() ?>MCMLink/make/<?= $id_plan ?>"
                                         style="border:none;background:none;">
                                         <h4 style="font-size: 30px;font-family: 'Righteous', cursive; ">Links</h4>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="background-color:white;">
                                     <a class="nav-link active" aria-current="page"
                                         href="<?= base_url() ?>MCMLink/apariencia/<?= $id_plan ?>"
                                         style="border:none;background:none;">
@@ -107,7 +107,7 @@
                                     </a>
                                 </li>
                                 <?php if ($sett->id_plan == 2 || $sett->id_plan == 3) { ?>
-                                    <li class="nav-item">
+                                    <li class="nav-item" style="background-color:white;">
                                         <a class="nav-link active" aria-current="page"
                                             href="<?= base_url() ?>LinkTree/estadisticas/<?= $id_plan ?>"
                                             style="border:none;background:none;">

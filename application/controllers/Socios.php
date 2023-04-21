@@ -17,6 +17,8 @@ class Socios extends CI_Controller
         $this->load->model('model_errorpage');
         $this->load->model('model_terminos');
         $this->load->model('model_arbitraje');
+        $this->load->model('Model_landingu');
+        $this->load->model('model_email2');
     }
 
     public function index($ban = null)
@@ -72,6 +74,7 @@ class Socios extends CI_Controller
                     $result['plan_arbitraje'] = $this->model_servicio->plan_arbitraje();
                     $result['plan_scalping'] = $this->model_servicio->plan_scalping();
 
+                    $this->EnvioLanding();
                     $this->load->view('header_socio', $result);
                     $this->load->view('view_socios', $result);
                 } else {
@@ -408,6 +411,37 @@ class Socios extends CI_Controller
         $result['perfil'] = $this->model_login->cargar_datosxuser($id);
 
         $this->load->view('socio/cheque', $result);
+    }
+    public function EnvioLanding()
+    {
+        $datos = $this->Model_landingu->TraerMsj();
+        foreach ($datos as $d) {
+            $list = $this->Model_landingu->ListembudoUsers($d->id_user);
+            $msjem = $this->Model_landingu->Listembudo($d->id_user);
+            foreach ($list as $fecha_obj) {
+                $fecha = new DateTime($fecha_obj->fecha);
+                $hoy = new DateTime();
+                $diferencia = $fecha->diff($hoy)->days;
+                foreach ($msjem as $m) {
+                    $dia = $m->dia;
+                    $msj = $m->msj;
+                    if ($dia == $diferencia) {
+                        $day = $this->Model_landingu->GetDay($diferencia, $fecha_obj->email);
+                        if ($day->contar == 0) {
+                            $this->model_email2->notificacionMsj($fecha_obj->email, $msj);
+                            $this->model_email2->envio_correos_pendientes_bd();
+                            $ari = array(
+                                'idCamp' => $d->id_user,
+                                'correo' => $fecha_obj->email,
+                                'mensaje' => $msj,
+                                'dia' => $diferencia,
+                            );
+                            $this->Model_landingu->SaveRegistro($ari);
+                        }
+                    } 
+                }
+            }
+        }
     }
 
 }

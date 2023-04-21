@@ -34,13 +34,13 @@
 
 
     <script type="text/javascript">
-    $(document).ready(function() {
+        $(document).ready(function () {
 
-        $('body').hide();
+            $('body').hide();
 
-        $('body').fadeIn(2000);
+            $('body').fadeIn(2000);
 
-    });
+        });
     </script>
 
 
@@ -59,13 +59,13 @@
 
     <div class="cont">
 
-        <div class="demo">
+        <div class="demo"style="height:550px;">
 
-            <div class="login">
-                <div class="container" style="padding-top: 65px;">
+            <div class="login" >
+                <div class="container" style="padding-top: 65px; ">
 
                     <center>
-                        <img src="<?=base_url()?>images/myconnect/encabezado.png" width="240" height="120" alt="">
+                        <img src="<?= base_url() ?>images/myconnect/encabezado.png" width="240" height="120" alt="">
 
                     </center>
                 </div>
@@ -74,12 +74,16 @@
 
                     <?php if ($this->session->flashdata("error")) { ?>
 
-                    <p><?php echo $this->session->flashdata("error") ?></p>
+                        <p>
+                            <?php echo $this->session->flashdata("error") ?>
+                        </p>
 
                     <?php } ?>
                     <?php if ($this->session->flashdata("exito")) { ?>
 
-                    <p><?php echo $this->session->flashdata("exito") ?></p>
+                        <p>
+                            <?php echo $this->session->flashdata("exito") ?>
+                        </p>
 
                     <?php } ?>
 
@@ -93,7 +97,8 @@
 
                             </svg>
 
-                            <input type="text" class="login__input name" placeholder="Correo" name="user" id="user" required />
+                            <input type="text" class="login__input name" placeholder="Correo" name="user" id="user"
+                                required />
 
                         </div>
 
@@ -149,24 +154,24 @@
 
     <script>
 
-    $(document).ready(function() {
-        var base_url = "<?= base_url() ?>";
+        $(document).ready(function () {
+            var base_url = "<?= base_url() ?>";
 
-        $("#button").on("click", function() {
-            var id = $('#user').val()
-            $.ajax({
-                url: base_url + "Whatsapp/codigo_seguridad_inicio",
-                type: "POST",
-                data: {
-                    id: id
-                },
-                success: function(resp) {
-                    html = resp;
-                    $('.mensaje').html(html);
-                }
-            })
+            $("#button").on("click", function () {
+                var id = $('#user').val()
+                $.ajax({
+                    url: base_url + "Whatsapp/codigo_seguridad_inicio",
+                    type: "POST",
+                    data: {
+                        id: id
+                    },
+                    success: function (resp) {
+                        html = resp;
+                        $('.mensaje').html(html);
+                    }
+                })
+            });
         });
-    });
     </script>
 
     <!-- partial -->
