@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '162.55.132.179',//'localhost',
-	'username' => 'leonardo_tiindo',
-	'password' => '@5eb2=Bc{DUT', 
-	'database' => 'tiindo_myconnect',
+	'hostname' => 'localhost',//'localhost',
+	'username' => 'root',
+	'password' => '', 
+	'database' => '',
 	//'hostname' => 'localhost',
 	//'username' => 'root',
 	//'password' => '',

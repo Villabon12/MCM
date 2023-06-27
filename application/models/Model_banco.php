@@ -105,7 +105,11 @@ class model_banco extends CI_Model
         $this->db->where('id',$hash);
         $resultado = $this->db->get('consignaciones');
 
-        return $resultado->row();
+        if ($resultado->num_rows() > 0) {
+            return $resultado->row();
+        } else {
+            return false;
+        }
     }
 
     public function billeteraEmpresa()

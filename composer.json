@@ -12,7 +12,10 @@
 	},
 	"require": {
 		"php": ">=7.3.7",
-		"knplabs/knp-snappy": "^1.4"
+		"knplabs/knp-snappy": "^1.4",
+		"aspose-cloud/aspose-words-cloud": "^23.2",
+		"mailchimp/transactional": "^1.0",
+		"spipu/html2pdf": "^4.6"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

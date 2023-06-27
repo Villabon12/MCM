@@ -16573,6 +16573,7 @@ code {
 
 .btn-dark:not(.btn-light) {
   color: #ffffff;
+  background-color: #495057;
 }
 
 .btn-dark:not(.btn-light):hover,
@@ -19817,5 +19818,13 @@ dl li {
 
 .accordion.accordion-multi-colored .card .card-header a[aria-expanded="false"]:before {
   content: "\e095"; }
+
+  .shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
 
 /*# sourceMappingURL=style.css.map */

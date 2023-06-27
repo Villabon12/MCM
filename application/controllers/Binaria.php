@@ -19,6 +19,7 @@ class Binaria extends CI_Controller
         $this->load->model('model_wallet');
         $this->load->model('model_reporte');
         $this->load->model('model_terminos');
+
     }
 
     public function index()
@@ -56,7 +57,7 @@ class Binaria extends CI_Controller
                     $result['servicio'] = $this->model_servicio->costos_robot($robot);
                     $result['inversion'] = $this->model_servicio->cargarCapital();
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
-                    if (count($idxuser) == 1) {
+                    if ($idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser, $robot);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser, $robot);
                         $valor = $this->model_servicio->comisiones();
@@ -69,7 +70,7 @@ class Binaria extends CI_Controller
 
                         $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
                     }
-                    if (count($idxuser) == 1) {
+                    if ($idxuser != false) {
                         $result['reportes'] = $this->model_servicio->reportes();
                         $result['ganancia'] = $this->model_wallet->gananciasHoy($idxuser->idxuser);
                         $result['perdida'] = $this->model_wallet->perdidasHoy($idxuser->idxuser);
@@ -77,16 +78,16 @@ class Binaria extends CI_Controller
                         $result['porcentajehoyG'] = $this->model_wallet->porcentajeHoyG($idxuser->idxuser);
                         $result['porcentajehoyP'] = $this->model_wallet->porcentajeHoyP($idxuser->idxuser);
                         $mesInicial = $this->model_reporte->inicialMes($idxuser->idxuser, $mes->mes, $year->ano);
-                        $result['mesInicial'] =$mesInicial;
+                        $result['mesInicial'] = $mesInicial;
                         $result['gananciaMes'] = $this->model_reporte->gananciaMes($idxuser->idxuser, $mes->mes, $year->ano);
                         $result['perdidaMes'] = $this->model_reporte->perdidaMes($idxuser->idxuser, $mes->mes, $year->ano);
                     } else {
                         $result['ganancia'] = 0;
                         $result['perdida'] = 0;
-                        $result['reportes'] =  0;
+                        $result['reportes'] = 0;
                         $result['porcentaje'] = 0;
                         $result['porcentajehoyG'] = 0;
-                        $result['mesInicial'] =0;
+                        $result['mesInicial'] = 0;
                         $result['gananciaMes'] = 0;
                         $result['perdidaMes'] = 0;
                     }
@@ -96,7 +97,7 @@ class Binaria extends CI_Controller
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $result['total'] = $this->model_servicio->sumInversion();
-                    if (count($activacion) == 1) {
+                    if ($activacion != false) {
                         $result['activo'] = 1;
                         if ($activacion->fecha_termina < date("Y-m-d")) {
                             $data = array(
@@ -105,7 +106,7 @@ class Binaria extends CI_Controller
                             $data2 = array(
                                 "consignado" => 0
                             );
-                            $this->model_proceso->desactivar($data);
+                            $this->model_proceso->desactivar($data, $robot);
                             $this->model_proceso->desactivar_inversion($data2);
                         }
                     } else {
@@ -144,7 +145,7 @@ class Binaria extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['parametro'] = $this->model_socios->parametro();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -195,7 +196,7 @@ class Binaria extends CI_Controller
                 $result['reportes'] = $this->model_socios->reportes();
                 $result['Encender'] = $this->model_socios->traerFuncion();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -241,7 +242,7 @@ class Binaria extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['estado'] = $this->model_socios->estado();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -299,7 +300,7 @@ class Binaria extends CI_Controller
             $activo_papa = $this->model_proceso->revisar_activo($datosPersona->id_papa_pago);
 
             //Consultar si tiene papa y pagar
-            if (count($papa) == 1 && count($activo_papa) == 1) {
+            if ($papa != false && $activo_papa != false) {
                 $nivel1 = $this->model_proceso->traer_parametro(2);
                 $resultado = $servicio->precio * $nivel1->valor;
 
@@ -324,7 +325,7 @@ class Binaria extends CI_Controller
 
 
                 //Consultar si tiene abuelo y pagar
-                if (count($abuelo) == 1 && count($activo_abuelo) == 1) {
+                if ($abuelo != false && $activo_abuelo != false) {
                     $nivel2 = $this->model_proceso->traer_parametro(7);
                     $resultado2 = $servicio->precio * $nivel2->valor;
 
@@ -348,7 +349,7 @@ class Binaria extends CI_Controller
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -411,13 +412,13 @@ class Binaria extends CI_Controller
                         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                         redirect(base_url() . "Binaria", "refresh");
                     }
-                } elseif (count($abuelo) == 1 && count($activo_abuelo) == 0) {
+                } elseif ($abuelo != false && $activo_abuelo == false) {
                     $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                     $activo_bisabuelo = $this->model_proceso->revisar_activo($abuelo->id_papa_pago);
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -502,14 +503,14 @@ class Binaria extends CI_Controller
                     $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                     redirect(base_url() . "Binaria", "refresh");
                 }
-            //No tiene paga directo la empresa
-            } elseif (count($papa) == 1 && count($activo_papa) == 0) {
+                //No tiene paga directo la empresa
+            } elseif ($papa != false && $activo_papa == false) {
                 $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
                 $activo_abuelo = $this->model_proceso->revisar_activo($papa->id_papa_pago);
 
 
                 //Consultar si tiene abuelo y pagar
-                if (count($abuelo) == 1 && count($activo_abuelo) == 1) {
+                if ($abuelo != false && $activo_abuelo != false) {
                     $nivel2 = $this->model_proceso->traer_parametro(7);
                     $resultado2 = $servicio->precio * $nivel2->valor;
 
@@ -533,7 +534,7 @@ class Binaria extends CI_Controller
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -596,13 +597,13 @@ class Binaria extends CI_Controller
                         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                         redirect(base_url() . "Binaria", "refresh");
                     }
-                } elseif (count($abuelo) == 1 && count($activo_abuelo) == 0) {
+                } elseif ($abuelo != false && $activo_abuelo == false) {
                     $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                     $activo_bisabuelo = $this->model_proceso->revisar_activo($abuelo->id_papa_pago);
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro(8);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -687,7 +688,7 @@ class Binaria extends CI_Controller
                     $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                     redirect(base_url() . "Binaria", "refresh");
                 }
-            //No tiene paga directo la empresa
+                //No tiene paga directo la empresa
             } else {
                 $billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
                 $data1 = array(
@@ -731,7 +732,7 @@ class Binaria extends CI_Controller
 
                 if ($this->model_banco->updBilletera($token, $data) == 1) {
                     $datosInversion = $this->model_proceso->cargarCapital();
-                    if (count($datosInversion) == 1) {
+                    if ($datosInversion != false) {
                         $data2 = array(
                             "inversion" => $valor + $datosInversion->inversion,
                         );
@@ -752,7 +753,7 @@ class Binaria extends CI_Controller
                         $this->model_proceso->deposito($historial);
                         //Consultar si tiene papá
                         $papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
-                        if (count($papa) == 1) {
+                        if ($papa != false) {
                             $nivel1 = $this->model_proceso->traer_parametro(1);
                             $resultado = $valor * $nivel1->valor;
 
@@ -772,7 +773,7 @@ class Binaria extends CI_Controller
 
                             $this->model_proceso->actualizar_wallet($data1, $billetera_papa->token);
                             $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
-                            if (count($abuelo) == 1) {
+                            if ($abuelo != false) {
                                 $nivel2 = $this->model_proceso->traer_parametro(11);
                                 $resultado2 = $valor * $nivel2->valor;
 
@@ -793,7 +794,7 @@ class Binaria extends CI_Controller
                                 $this->model_proceso->actualizar_wallet($data2, $billetera_abuelo->token);
                                 $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                                 //Verificar pago bisabuelo
-                                if (count($bisabuelo) == 1) {
+                                if ($bisabuelo != false) {
                                     $nivel3 = $this->model_proceso->traer_parametro(12);
                                     $resultado3 = $valor * $nivel3->valor;
 
@@ -869,7 +870,7 @@ class Binaria extends CI_Controller
 
                         //Consultar si tiene papá
                         $papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
-                        if (count($papa) == 1) {
+                        if ($papa != false) {
                             $nivel1 = $this->model_proceso->traer_parametro(1);
                             $resultado = $valor * $nivel1->valor;
 
@@ -889,7 +890,7 @@ class Binaria extends CI_Controller
 
                             $this->model_proceso->actualizar_wallet($data1, $billetera_papa->token);
                             $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
-                            if (count($abuelo) == 1) {
+                            if ($abuelo != false) {
                                 $nivel2 = $this->model_proceso->traer_parametro(11);
                                 $resultado2 = $valor * $nivel2->valor;
 
@@ -910,7 +911,7 @@ class Binaria extends CI_Controller
                                 $this->model_proceso->actualizar_wallet($data2, $billetera_abuelo->token);
                                 $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                                 //Verificar pago bisabuelo
-                                if (count($bisabuelo) == 1) {
+                                if ($bisabuelo != false) {
                                     $nivel3 = $this->model_proceso->traer_parametro(12);
                                     $resultado3 = $valor * $nivel3->valor;
 
@@ -1002,7 +1003,7 @@ class Binaria extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['consigna'] = $this->model_banco->cargar_inversion();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -1081,6 +1082,7 @@ class Binaria extends CI_Controller
 
         $this->model_socios->updateFuncion($data);
 
-        redirect(base_url()."Binaria/reportesRobot");
+        redirect(base_url() . "Binaria/reportesRobot");
     }
+
 }

@@ -69,3 +69,19 @@ $route['Configuraciones'] = 'Socios/parametros_general' ;
 $route['Grafico/(:any)'] = 'Equipo/grafico/$1';
 $route['Comisiones/historial'] = 'Equipo/comisiones';
 $route['Rompecabeza/(:any)'] = 'Landing/tienda/$1';
+$route['Marketing/general'] = 'LandingxUser/plantilla';
+$route['Binarias_resumen'] = 'reportes2/resumen';
+$route['Binarias_historial'] = 'reportes2/historial';
+$route['Binarias_iq'] = 'reportes2/iq';
+$route['En_vivo_binarias'] = 'reportes2/envivo_binarias';
+$route['En_vivo_forex'] = 'reportes2/envivo_forex';
+
+/* LinkTree*/
+$route['MCMLink/(:any)'] = 'LinkTree/view/$1' ; 
+$route['MCMLink/make/(:any)'] = 'LinkTree/making/$1' ; 
+$route['MCMLink/apariencia/(:any)'] = 'LinkTree/apariencia/$1' ; 
+$route['MCMLink'] = 'LinkTree/choose' ; 
+
+
+/* LinkTree*/
+$route['Binarias'] = 'Reportes2/home' ; 

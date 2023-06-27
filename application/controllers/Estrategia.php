@@ -39,7 +39,7 @@ class Estrategia extends CI_Controller
 				$result['quotex'] = $this->model_socios->quotex();
 				$result['iq'] = $this->model_socios->iq();
 				$idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+				if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -126,7 +126,7 @@ class Estrategia extends CI_Controller
 				$result['parametro'] = $this->model_socios->parametroEstrategia();
 				$result['dia'] = $this->model_socios->dia();
 				$idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+				if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();

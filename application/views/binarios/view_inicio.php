@@ -71,7 +71,12 @@
                                         id="robot" name="robot" required>
                                         <option selected>Selecciona Valor</option>
                                         <?php foreach ($servicio as $s) { ?>
-                                        <option value="<?= $s->id ?>"><?= $s->descripcion ?> $<?= $s->precio ?></option>
+                                            <?php if ($s->id == 1) { ?>
+                                                
+                                            <?php }else{ ?>
+
+                                                <option value="<?= $s->id ?>"><?= $s->descripcion ?> $<?= $s->precio ?></option>
+                                            <?php } ?>
                                         <?php } ?>
                                     </select>
                                     <?php if (date('d') <= 10) { ?>

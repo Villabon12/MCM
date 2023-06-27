@@ -9138,7 +9138,7 @@ function Dd() {
 								"animate-gradient-y",
 								"bg-clip-text text-transparent"
 							),
-							children: "¿Quieres salir conmigo Laura?",
+							children: "¿Quieres salir conmigo Isa B?",
 						}),
 						Q.jsx("div", {
 							className: Be(

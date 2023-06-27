@@ -17,6 +17,16 @@ class model_arbitraje extends CI_Model
 
         return $resultados->result();
     }
+
+    public function general_conteo()
+    {
+        $this->db->where('activo',1);
+        $this->db->select('count(*) as contar');
+        $resultados = $this->db->get('arbitraje_fondeo');
+
+        return $resultados->row();
+    }
+
     public function cargarCapital()
     {
         $idUsuario = $this->session->userdata('ID');
@@ -35,7 +45,6 @@ class model_arbitraje extends CI_Model
         $idUsuario = $this->session->userdata('ID');
 
         $this->db->select('*');
-        $this->db->where('activo_id',1);
         $this->db->where('usuario_id',$idUsuario);
         $this->db->limit(1);
 

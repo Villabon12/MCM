@@ -2,7 +2,7 @@
 <!-- partial -->
 <div class="main-panel">
     <div class="content-wrapper">
-<?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
+        <?php if ($perfil->img_selfie == (null) || $perfil->img_cedula_back == (null) || $perfil->img_cedula_front == (null) || $perfil->fecha_nacimiento == (null)) { ?>
 
         <div class="col-lg-12">
 
@@ -36,85 +36,148 @@
 
         </div>
     </div>
-                </div>
+</div>
 
-                <?php } else { ?>
-                <?php if ($this->session->flashdata("error")) { ?>
+<?php } else { ?>
+<?php if ($this->session->flashdata("error")) { ?>
 
-                <p><?php echo $this->session->flashdata("error") ?></p>
+<p><?php echo $this->session->flashdata("error") ?></p>
 
-                <?php } ?>
-                <?php if ($this->session->flashdata("exito")) { ?>
+<?php } ?>
+<?php if ($this->session->flashdata("exito")) { ?>
 
-                <p><?php echo $this->session->flashdata("exito") ?></p>
+<p><?php echo $this->session->flashdata("exito") ?></p>
 
-                <?php } ?>
-                <div class="row">
+<?php } ?>
+<center>
+    <h1>Historial Consignacion</h1>
+</center>
 
-                    <div class="col-12">
+<div class="row">
 
-                        <div class="card">
+    <div class="col-12">
 
-                            <div class="card-body">
-                                <div class="col-md-12">
-                                    <form action="<?= base_url() ?>Banco/consignar/<?= $perfil->token ?>" method="post"
-                                        enctype="multipart/form-data">
+        <div class="card">
+            <div class="row">
+                <!-- Column -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
 
-                                        <h1 class="text-center">Recarga de banco Wallet</h1>
-                                        <center>
-                                            <p>Recarga tu wallet principal</p>
-                                            <label for="">Billetera (USDT TRC 20) Binance</label>
-                                            <div class="card card-inverse-secondary">
-                                                <div class="card-body">
-                                                    <p id="clipboardExample3">
-                                                        TYfaVgc9CixZHSjFT45wPdMfL3LRXsjJ6V
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3">
-                                                <button type="button" class="btn btn-info btn-clipboard"
-                                                    data-clipboard-action="copy"
-                                                    data-clipboard-target="#clipboardExample3">Copiar billetera</button>
-                                            </div>
-                                            <div class="container mt-3">
-                                                <img src="<?=base_url()?>assets/img/qrLeo.jpg" width="50%">
+                                <table class="table" id="order-listing">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Apellido</th>
+                                            <th scope="col">Valor</th>
+                                            <th scope="col">Hash</th>
+                                            <th scope="col">Comprobante</th>
+                                            <th scope="col">Activacion</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($consigna as $B) { ?>
 
-                                            </div>
-                                            <div class="form-group row mb-3">
-                                                <label>Comprobante (Pantallazo): </label>
-                                                <input type="file" name="img" accept="image/png,image/jpeg,image/jpg"
-                                                    class="file-upload-default">
-                                                <div class="input-group col-xs-12">
-                                                    <input type="text" class="form-control file-upload-info" disabled
-                                                        placeholder="Upload Image">
-                                                    <span class="input-group-append">
-                                                        <button class="file-upload-browse btn btn-primary"
-                                                            type="button">Upload</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row mb-3">
-                                                <label for=>Hash</label><br><br>
-                                                <input type="text" class="form-control" name="hash" placeholder="Hash"
-                                                    require><br>
-                                            </div>
-                                            <div class="form-group row mb-3">
-                                                <label for=>Valor Recargado</label><br><br>
-                                                <input type="number" class="form-control" name="recarga"
-                                                    placeholder="Valor a Recargar" require><br>
-                                            </div>
+                                        <tr>
+                                            <td><?= $B->fecha ?></td>
+                                            <td><?= $B->nombre ?></td>
+                                            <td><?= $B->apellido1 ?></td>
+                                            <td>$ <?= number_format($B->valor_inversion, 2) ?></td>
+                                            <td><?= $B->hash ?></td>
+                                            <td><a href="<?= base_url() ?>/assets/img/fotosPerfil/<?= $B->imagen ?>"
+                                                    target="_blank"><?= $B->imagen ?></a></td>
+                                            <td>
+                                                <?php if ($B->validar == 0) { ?>
+                                                Espera Aprobacion
+                                                <?php } else { ?>
+                                                Consignado
+                                                <?php } ?>
+                                            </td>
+                                            <td>
+                                                <?= $B->motivo ?>
+                                            </td>
+                                        </tr>
 
-                                            <button type="submit" class="btn btn-success"
-                                                name="servicio">Recargar</button>
-                                        </center>
-                                    </form>
-                                </div>
+                                        <?php
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <?php } ?>
-
             </div>
 
-            <!-- FIN PARTIAL -->
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-12">
+
+        <div class="card">
+
+            <div class="card-body">
+                <div class="col-md-12">
+                    <form action="<?= base_url() ?>Banco/consignar/<?= $perfil->token ?>" method="post"
+                        enctype="multipart/form-data">
+
+                        <h1 class="text-center">Recarga de banco Wallet</h1>
+                        <center>
+                            <p>Recarga tu wallet principal</p>
+                            <label for="">Billetera (USDT TRC 20) Binance</label>
+                            <div class="card card-inverse-secondary">
+                                <div class="card-body">
+                                    <p id="clipboardExample3">
+                                        TYfaVgc9CixZHSjFT45wPdMfL3LRXsjJ6V
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
+                                    data-clipboard-target="#clipboardExample3">Copiar billetera</button>
+                            </div>
+                            <div class="container mt-3">
+                                <img src="<?=base_url()?>assets/img/qrLeo.jpg" width="30%">
+
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label>Comprobante (Pantallazo): </label>
+                                <input type="file" name="img" accept="image/png,image/jpeg,image/jpg"
+                                    class="file-upload-default">
+                                <div class="input-group col-xs-12">
+                                    <input type="text" class="form-control file-upload-info" disabled
+                                        placeholder="Upload Image">
+                                    <span class="input-group-append">
+                                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for=>Hash</label><br><br>
+                                <input type="text" class="form-control" name="hash" placeholder="Hash" require><br>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for=>Valor Recargado</label><br><br>
+                                <input type="number" class="form-control" name="recarga" placeholder="Valor a Recargar"
+                                    require><br>
+                            </div>
+
+                            <button type="submit" class="btn btn-success" name="servicio">Recargar</button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+</div>
+
+<!-- FIN PARTIAL -->

@@ -76,12 +76,8 @@
                                             </option>
                                             <?php } ?>
                                         </select>
-                                        <?php if($requisito->contar <= 3){ ?>
-                                            <p style="color:red;"> No cumple los requisitos para el bot</p>
-                                        <?php }else{ ?>
-                                            <button type="submit" class="btn btn-success" name="servicio">comprar</button>
 
-                                        <?php } ?>
+                                        <button type="submit" class="btn btn-success" name="servicio">comprar</button>
 
                                         <p style="color: red;">Saldo disponible en tu billetera:
                                             <?= $billetera->cuenta_compra ?></p>
@@ -132,7 +128,32 @@
                             <div class="card-body">
                                 <div class="col-md-12">
                                     <center>
-                                        <h4>Paso N1</h4> <br>
+                                        <h4>Paso N1</h4>
+                                        <p>Ingresa al siguiente enlace y sigue el paso a paso del video. --> <a
+                                                href="https://one.exness-track.com/a/6yh5nc9y4h" target="_blank"
+                                                rel="noopener noreferrer">PASO N1</a></p>
+                                        <div
+                                            style="position:relative;padding-bottom:56.25%;padding-top:30px;height:0;overflow:hidden;">
+                                            <video style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                                                controls>
+                                                <source src="<?=base_url()?>videos/PASO1.mp4" type="video/mp4">
+                                                Tu navegador no soporta la etiqueta de video.
+                                            </video>
+                                        </div>
+                                        <br><br>
+                                        <h4>Paso N2</h4>
+                                        <p>Ingresa al siguiente enlace y sigue el paso a paso del video. --> <a
+                                                href="https://social-trading.exness.com/strategy/11864697" target="_blank"
+                                                rel="noopener noreferrer">PASO N2</a></p>
+                                        <div
+                                            style="position:relative;padding-bottom:56.25%;padding-top:30px;height:0;overflow:hidden;">
+                                            <video style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                                                controls>
+                                                <source src="<?=base_url()?>videos/PASO2.mp4" type="video/mp4">
+                                                Tu navegador no soporta la etiqueta de video.
+                                            </video>
+                                        </div>
+
                                     </center>
 
                                 </div>
@@ -141,7 +162,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <?php } ?>
             <?php } ?>
 

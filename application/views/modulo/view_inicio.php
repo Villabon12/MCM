@@ -56,7 +56,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title"><?=$m->titulo?></h4>
                                     <p class="card-text"> <?=$m->descripcion?> </p>
-                                    <img src="<?=base_url()?>modulo/imagen/<?=$m->image_portada?>"srcset="<?= base_url() ?>modulo/imagen/<?=$m->image_portada?> 500w, modulo/imagen/<?=$m->image_portada?> 840w" sizes="(max-width: 767px) 80vw, (max-width: 933px) 90vw, 840px" style="max-width: 100%;" alt="Imagen post">
+                                    <img src="<?=base_url()?>modulo/imagen/<?=$m->image_portada?>"srcset="<?= base_url() ?>modulo/imagen/<?=$m->image_portada?> 500w, modulo/imagen/<?=$m->image_portada?> 840w" sizes="(max-width: 767px) 80vw, (max-width: 933px) 90vw, 840px" style="max-width: 50%;" alt="Imagen post">
                                 </div>
                             </div>
                         </a>

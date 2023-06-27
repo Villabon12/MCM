@@ -17,7 +17,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add">Crear Ticket</button>
+                    <a class="btn btn-success" href="<?=base_url()?>Ticket/nuevo">Crear Ticket</a>
 
                     <div class="table-responsive">
 
@@ -25,8 +25,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Fecha</th>
+                                    <th scope="col">Prioridad</th>
+                                    <th scope="col">Asunto</th>
                                     <th scope="col">Estado</th>
-                                    <th scope="col">Pregunta</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -34,11 +35,12 @@
                                 <?php foreach ($ticket as $t) { ?>
                                     <tr>
                                         <td><?= $t->fecha ?></td>
-                                        <td><?= $t->estado ?></td>
+                                        <td><?= $t->prioridad ?></td>
                                         <td><?= $t->pregunta ?></td>
-                                        <td><?php if ($t->estado == 'en proceso') { ?>
-                                                <button class="btn btn-info" id="valor<?= $t->id ?>" data-bs-toggle="modal" data-bs-target="#view<?= $t->id ?>" value="<?= $t->id ?>"><i class="icon-magnifier"></i></button>
-                                                <script>
+                                        <td><?= $t->estado ?></td>
+                                        <td>
+                                            <a class="btn btn-info" href="<?=base_url()?>Ticket/detalle/<?= $t->id ?>"><i class="icon-magnifier"></i></a>
+                                                <!-- <script>
                                                     $(document).ready(function() {
 
                                                         var base_url = "<?= base_url() ?>";
@@ -83,11 +85,7 @@
                                                             });
                                                         });
                                                     });
-                                                </script>
-                                            <?php } else { ?>
-
-
-                                            <?php } ?>
+                                                </script> -->
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -141,7 +139,7 @@
 
     </div>
 
-    <?php foreach ($ticket as $t) { ?>
+    <!-- <?php foreach ($ticket as $t) { ?>
         <div class="modal fade" id="view<?= $t->id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -180,7 +178,7 @@
                 </div>
             </div>
         </div>
-    <?php } ?>
+    <?php } ?> -->
 
     <footer class="footer">
         <div class="d-sm-flex justify-content-center justify-content-sm-between">

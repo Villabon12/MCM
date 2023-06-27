@@ -39,7 +39,7 @@ class Landing extends CI_Controller
 		$result['perfil'] = $this->model_login->cargar_datosReferencia($id);
 		$result['logueado'] = $this->model_login->cargar_datos();
 		$result['dolar'] = $this->model_puzzle1->traer_parametro(9);
-		if (count($result['perfil']) == 1) {
+		if ($result['perfil']->contar == 1) {
 			if ($result['logueado'] == false) {
 				$result['billetera'] = 0;
 				$result['domicilio'] = $this->model_puzzle1->domicilio();
@@ -77,7 +77,7 @@ class Landing extends CI_Controller
 		$result['logueado'] = $this->model_login->cargar_datos();
 		$result['pais'] = $this->model_login->traerPais();
 
-		if (count($result['perfil']) == 1) {
+		if ($result['perfil']->contar == 1) {
 
 			$result['domicilio'] = $this->model_puzzle1->domicilio();
 			$result['tipo'] = $this->model_puzzle1->cargar_tipo();
@@ -166,7 +166,7 @@ class Landing extends CI_Controller
 							$this->model_login->ModificarDerecha($data2, $id);
 							$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Registro exitoso</div>');
 							redirect(base_url() . "ingreso", "refresh");
-						} else if (count($izquierda) > 1) {
+						} else if ($izquierda->contar > 1) {
 							do {
 								if ($izquierda->id_izquierda == 0) {
 									$data = array(
@@ -392,11 +392,10 @@ class Landing extends CI_Controller
 					$this->model_proceso->actualizar_wallet($data, $billetera_user->token);
 					if ($tipo == 1) {
 						$papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
-						print_r($papa);
 						$pagarPapa = $this->model_puzzle1->confirmarPago($datosPersona->id_papa_pago);
 
 						//Consultar si tiene papa y pagar
-						if (count($papa) == 1 && $pagarPapa != false) {
+						if ($papa != false && $pagarPapa != false) {
 
 							$nivel1 = $this->model_puzzle1->traer_parametro(2);
 							$resultado = $repartir1 * $nivel1->valor;
@@ -421,7 +420,7 @@ class Landing extends CI_Controller
 							$pagarAbuelo = $this->model_puzzle1->confirmarPago($papa->id_papa_pago);
 
 							//Consultar si tiene abuelo y pagar
-							if (count($abuelo) == 1 && $pagarAbuelo != false) {
+							if ($abuelo != false && $pagarAbuelo != false) {
 
 								$nivel2 = $this->model_puzzle1->traer_parametro(3);
 								$resultado2 = $repartir2 * $nivel2->valor;
@@ -446,7 +445,7 @@ class Landing extends CI_Controller
 
 
 								// Consultar si tiene bisabuelo y pagar
-								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+								if ($bisabuelo != false && $pagarBisabuelo != false) {
 
 									$nivel3 = $this->model_puzzle1->traer_parametro(4);
 									$resultado3 = $repartir2 * $nivel3->valor;
@@ -501,7 +500,7 @@ class Landing extends CI_Controller
 									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
 									redirect(base_url() . "Landing/compraRealizada");
-								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+								} else if ($bisabuelo != false && $pagarBisabuelo == false) {
 									//pago empresa
 									//AQUI EMPIEZA EL ERRORRRRRS
 									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
@@ -570,14 +569,14 @@ class Landing extends CI_Controller
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
 									redirect(base_url() . "Landing/compraRealizada");
 								}
-							} else if (count($abuelo) == 1 && $pagarAbuelo == false) {
+							} else if ($abuelo != false && $pagarAbuelo == false) {
 
 								$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
 								$pagarBisabuelo = $this->model_puzzle1->confirmarPago($abuelo->id_papa_pago);
 
 
 								// Consultar si tiene bisabuelo y pagar
-								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+								if ($bisabuelo != false && $pagarBisabuelo != false) {
 
 									$nivel3 = $this->model_puzzle1->traer_parametro(4);
 									$resultado3 = $repartir2 * $nivel3->valor;
@@ -632,7 +631,7 @@ class Landing extends CI_Controller
 									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
 									redirect(base_url() . "Landing/compraRealizada");
-								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+								} else if ($bisabuelo != false && $pagarBisabuelo == false) {
 									//pago empresa
 									//AQUI EMPIEZA EL ERRORRRRRS
 									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
@@ -736,12 +735,12 @@ class Landing extends CI_Controller
 							}
 							//No tiene paga directo la empresa
 
-						} else if (count($papa) == 1 && $pagarPapa == false) {
+						} else if ($papa != false && $pagarPapa == false) {
 							$abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
 							$pagarAbuelo = $this->model_puzzle1->confirmarPago($papa->id_papa_pago);
 
 							//Consultar si tiene abuelo y pagar
-							if (count($abuelo) == 1 && $pagarAbuelo != false) {
+							if ($abuelo != false && $pagarAbuelo != false) {
 
 								$nivel2 = $this->model_puzzle1->traer_parametro(3);
 								$resultado2 = $repartir2 * $nivel2->valor;
@@ -766,7 +765,7 @@ class Landing extends CI_Controller
 
 
 								// Consultar si tiene bisabuelo y pagar
-								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+								if ($bisabuelo != false && $pagarBisabuelo != false) {
 
 									$nivel3 = $this->model_puzzle1->traer_parametro(4);
 									$resultado3 = $repartir2 * $nivel3->valor;
@@ -821,7 +820,7 @@ class Landing extends CI_Controller
 									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
 									redirect(base_url() . "Landing/compraRealizada");
-								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+								} else if ($bisabuelo != false && $pagarBisabuelo == false) {
 									//pago empresa
 									//AQUI EMPIEZA EL ERRORRRRRS
 									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);
@@ -890,14 +889,14 @@ class Landing extends CI_Controller
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
 									redirect(base_url() . "Landing/compraRealizada");
 								}
-							} else if (count($abuelo) == 1 && $pagarAbuelo == false) {
+							} else if ($abuelo != false && $pagarAbuelo == false) {
 
 								$bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
 								$pagarBisabuelo = $this->model_puzzle1->confirmarPago($abuelo->id_papa_pago);
 
 
 								// Consultar si tiene bisabuelo y pagar
-								if (count($bisabuelo) == 1 && $pagarBisabuelo != false) {
+								if ($bisabuelo != false && $pagarBisabuelo != false) {
 
 									$nivel3 = $this->model_puzzle1->traer_parametro(4);
 									$resultado3 = $repartir2 * $nivel3->valor;
@@ -952,7 +951,7 @@ class Landing extends CI_Controller
 									$this->model_puzzle1->updateCreacion($asignacion[0]->id, $asiganr);
 									$this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
 									redirect(base_url() . "Landing/compraRealizada");
-								} else if (count($bisabuelo) == 1 && $pagarBisabuelo == false) {
+								} else if ($bisabuelo != false && $pagarBisabuelo == false) {
 									//pago empresa
 									//AQUI EMPIEZA EL ERRORRRRRS
 									$billetera_empresa = $this->model_proceso->cargar_billetera_global($empresa->token);

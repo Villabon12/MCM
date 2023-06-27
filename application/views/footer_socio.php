@@ -42,6 +42,9 @@
 <!-- End custom js for this page -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
 
 <script>
     function cambiar() {
@@ -52,6 +55,7 @@
 
 <script>
     $(document).ready(function() {
+
         var base_url = "<?= base_url() ?>";
 
         $(".btn-view1").on("click", function() {

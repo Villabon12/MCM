@@ -24,9 +24,10 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Fecha</th>
-                                    <th scope="col">Estado</th>
+                                    <th scope="col">Prioridad</th>
                                     <th scope="col">Usuario</th>
                                     <th scope="col">Pregunta</th>
+                                    <th scope="col">Estado</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -34,13 +35,14 @@
                                 <?php foreach ($ticket as $t) { ?>
                                     <tr>
                                         <td><?= $t->fecha ?></td>
+                                        <td><?= $t->prioridad ?></td>
                                         <td><?= $t->estado ?></td>
                                         <td><?=$t->user?></td>
                                         <td><?= $t->pregunta ?></td>
                                         <td><?php if ($t->estado == 'en proceso') { ?>
-                                                <button class="btn btn-info" id="valor<?= $t->id ?>" data-bs-toggle="modal" data-bs-target="#view<?= $t->id ?>" value="<?= $t->id ?>"><i class="icon-magnifier"></i></button>
+                                                <a class="btn btn-info" href="<?=base_url()?>Ticket/detalle/<?=$t->id?>"><i class="icon-magnifier"></i></a>
                                                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#terminar<?= $t->id ?>">Terminar</button>
-                                                <script>
+                                                <!-- <script>
                                                     $(document).ready(function() {
 
                                                         var base_url = "<?= base_url() ?>";
@@ -85,9 +87,9 @@
                                                             });
                                                         });
                                                     });
-                                                </script>
+                                                </script> -->
                                             <?php } else { ?>
-
+                                                <a class="btn btn-info" href="<?=base_url()?>Ticket/detalle/<?=$t->id?>"><i class="icon-magnifier"></i></a>
 
                                             <?php } ?>
                                         </td>

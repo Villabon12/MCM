@@ -181,7 +181,7 @@ END;
 
     public function cargar()
     {
-        $this->db->select('c.*, r.nombre, r.apellido1, r.user');
+        $this->db->select('c.*, r.nombre, r.apellido1, r.user,r.wallet_binance AS walletperfil');
         $this->db->from('retiros c');
         $this->db->join('r_master_usuarios r', 'r.id = c.usuario_id');
         $resultado = $this->db->get();

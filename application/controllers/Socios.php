@@ -2,8 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once APPPATH.'/libraries/phpToPDF.php';
-
 
 class Socios extends CI_Controller
 {
@@ -18,6 +16,9 @@ class Socios extends CI_Controller
         $this->load->model('model_servicio');
         $this->load->model('model_errorpage');
         $this->load->model('model_terminos');
+        $this->load->model('model_arbitraje');
+        $this->load->model('Model_landingu');
+        $this->load->model('model_email2');
     }
 
     public function index($ban = null)
@@ -46,7 +47,7 @@ class Socios extends CI_Controller
                     $token = $this->session->userdata('token');
                     $id = $this->session->userdata('ID');
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -67,7 +68,13 @@ class Socios extends CI_Controller
                     $result['total'] = $this->model_servicio->sumInversion();
                     $result['total1'] = $this->model_servicio->sumInversionBilletera();
                     $result['terminos'] = $this->model_terminos->comprobar_registro($id);
+                    $result['arbitraje'] = $this->model_arbitraje->cargarCapitalxid();
+                    $result['premio'] = $this->model_login->ganador();
+                    $result['plan_binaria'] = $this->model_servicio->plan_binaria();
+                    $result['plan_arbitraje'] = $this->model_servicio->plan_arbitraje();
+                    $result['plan_scalping'] = $this->model_servicio->plan_scalping();
 
+                
                     $this->load->view('header_socio', $result);
                     $this->load->view('view_socios', $result);
                 } else {
@@ -89,6 +96,11 @@ class Socios extends CI_Controller
         } else {
             redirect("" . base_url() . "login/");
         }
+    }
+
+    public function prueba()
+    {
+      $this->load->view('prueba/prueba');
     }
 
     public function aceptar_terminos()
@@ -163,7 +175,7 @@ class Socios extends CI_Controller
                 $result['parametro'] = $this->model_socios->parametroGeneral();
                 $result['servicios'] = $this->model_socios->costosServicios();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -234,7 +246,7 @@ class Socios extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['retiros'] = $this->model_socios->cargar();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -341,7 +353,7 @@ class Socios extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['retiros'] = $this->model_socios->cargarBinaria();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -383,7 +395,7 @@ class Socios extends CI_Controller
     public function cheque($id)
     {
         $idxuser = $this->model_servicio->reportesxuser2($id);
-        if (count($idxuser) == 1) {
+        if ( $idxuser != false) {
             $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
             $perdida = $this->model_servicio->perdida($idxuser->idxuser);
             $valor = $this->model_servicio->comisiones2($id);
@@ -400,19 +412,36 @@ class Socios extends CI_Controller
 
         $this->load->view('socio/cheque', $result);
     }
+    // public function EnvioLanding()
+    // {
+    //     $datos = $this->Model_landingu->TraerMsj();
+    //     foreach ($datos as $d) {
+    //         $list = $this->Model_landingu->ListembudoUsers($d->id_user);
+    //         $msjem = $this->Model_landingu->Listembudo($d->id_user);
+    //         foreach ($list as $fecha_obj) {
+    //             $fecha = new DateTime($fecha_obj->fecha);
+    //             $hoy = new DateTime();
+    //             $diferencia = $fecha->diff($hoy)->days;
+    //             foreach ($msjem as $m) {
+    //                 $dia = $m->dia;
+    //                 $msj = $m->msj;
+    //                 if ($dia == $diferencia) {
+    //                     $day = $this->Model_landingu->GetDay($diferencia, $fecha_obj->email);
+    //                     if ($day->contar == 0) {
+    //                         $this->model_email2->notificacionMsj($fecha_obj->email, $msj);
+    //                         $this->model_email2->envio_correos_pendientes_bd();
+    //                         $ari = array(
+    //                             'idCamp' => $d->id_user,
+    //                             'correo' => $fecha_obj->email,
+    //                             'mensaje' => $msj,
+    //                             'dia' => $diferencia,
+    //                         );
+    //                         $this->Model_landingu->SaveRegistro($ari);
+    //                     }
+    //                 } 
+    //             }
+    //         }
+    //     }
+    // }
 
-    public function generar_imagen($id)
-    {
-        // SET YOUR PDF OPTIONS -- FOR ALL AVAILABLE OPTIONS, VISIT HERE:  http://phptopdf.com/documentation/
-        $pdf_options = array(
-            "source_type" => 'url',
-            "source" => 'https://www.myconnectmind.com/Socios/cheque/'.$id,
-            "action" => 'download',
-            "page_orientation" => 'landscape',
-            "page_size" => 'A5',
-            "file_name" => 'cheque.pdf');
-
-        // CALL THE phpToPDF FUNCTION WITH THE OPTIONS SET ABOVE
-        phptopdf($pdf_options);
-    }
 }

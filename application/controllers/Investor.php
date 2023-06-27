@@ -19,6 +19,7 @@ class Investor extends CI_Controller
         $this->load->model('model_wallet');
         $this->load->model('model_reporte');
         $this->load->model('model_terminos');
+        $this->load->model('model_email2');
     }
 
     public function index()
@@ -42,7 +43,7 @@ class Investor extends CI_Controller
                     $result['servicio'] = $this->model_servicio->costos_robot($robot);
                     $result['inversion'] = $this->model_servicio->cargarCapital();
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $result['reportes'] = $this->model_servicio->reportes();
                         $result['ganancia'] = $this->model_wallet->gananciasHoy($idxuser->idxuser);
                         $result['perdida'] = $this->model_wallet->perdidasHoy($idxuser->idxuser);
@@ -68,7 +69,7 @@ class Investor extends CI_Controller
                     $result['deposito'] = $this->model_wallet->deposito();
 
                     $result['total'] = $this->model_servicio->sumInversion();
-                    if (count($activacion) == 1) {
+                    if ($activacion != false) {
                         $result['activo'] = 1;
                         if ($activacion->fecha_termina < date("Y-m-d")) {
                             $data = array(
@@ -220,5 +221,10 @@ class Investor extends CI_Controller
     public function generateRandomString($length)
     {
         return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+    }
+
+    public function prueba_campaña()
+    {
+        
     }
 }

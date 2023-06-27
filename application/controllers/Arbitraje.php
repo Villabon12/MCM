@@ -58,7 +58,7 @@ class Arbitraje extends CI_Controller
                     $result['servicio'] = $this->model_servicio->costos_robot($robot);
                     $result['inversion'] = $this->model_servicio->cargarCapital_arbitraje();
                     $result['billetera'] = $this->model_proceso->cargar_billetera($token);
-                    if (count($idxuser) == 1) {
+                    if ( $idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -71,7 +71,7 @@ class Arbitraje extends CI_Controller
 
                         $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
                     }
-                    if (count($inversion) == 1) {
+                    if ($inversion != false) {
                          $result['reporteshoy'] = $this->model_servicio->reportesArbitraje();
                          $result['ganancia'] = $this->model_wallet->gananciasHoyArbitraje($inversion->usuario_id);
                          $result['perdida'] = $this->model_wallet->perdidasHoyArbitraje($inversion->usuario_id);
@@ -98,7 +98,7 @@ class Arbitraje extends CI_Controller
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
                     $result['requisito'] = $this->model_scalping->requisito();
                     $result['total'] = $this->model_servicio->sumInversionArbitraje();
-                    if (count($activacion) == 1) {
+                    if ($activacion != false) {
                         $result['activo'] = 1;
                         if ($activacion->fecha_termina < date("Y-m-d")) {
                             $data = array(
@@ -146,7 +146,7 @@ class Arbitraje extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['parametro'] = $this->model_socios->parametro();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -197,7 +197,7 @@ class Arbitraje extends CI_Controller
                 $result['reportes'] = $this->model_socios->reportes();
                 $result['Encender'] = $this->model_socios->traerFuncion();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -243,7 +243,7 @@ class Arbitraje extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['estado'] = $this->model_socios->estado();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -301,7 +301,7 @@ class Arbitraje extends CI_Controller
             $activo_papa = $this->model_proceso->revisar_activo($datosPersona->id_papa_pago);
 
             //Consultar si tiene papa y pagar
-            if (count($papa) == 1 && count($activo_papa) == 1) {
+            if ($papa != false && $activo_papa != false) {
                 $nivel1 = $this->model_proceso->traer_parametro_arbitraje(1);
                 $resultado = $servicio->precio * $nivel1->valor;
 
@@ -326,7 +326,7 @@ class Arbitraje extends CI_Controller
 
 
                 //Consultar si tiene abuelo y pagar
-                if (count($abuelo) == 1 && count($activo_abuelo) == 1) {
+                if ($abuelo != false && $activo_abuelo != false) {
                     $nivel2 = $this->model_proceso->traer_parametro_arbitraje(2);
                     $resultado2 = $servicio->precio * $nivel2->valor;
 
@@ -350,7 +350,7 @@ class Arbitraje extends CI_Controller
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro_arbitraje(3);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -413,13 +413,13 @@ class Arbitraje extends CI_Controller
                         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                         redirect(base_url() . "Arbitraje", "refresh");
                     }
-                } elseif (count($abuelo) == 1 && count($activo_abuelo) == 0) {
+                } elseif ($abuelo != false && $activo_abuelo == false) {
                     $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                     $activo_bisabuelo = $this->model_proceso->revisar_activo($abuelo->id_papa_pago);
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro_arbitraje(3);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -505,13 +505,13 @@ class Arbitraje extends CI_Controller
                     redirect(base_url() . "Arbitraje", "refresh");
                 }
             //No tiene paga directo la empresa
-            } elseif (count($papa) == 1 && count($activo_papa) == 0) {
+            } elseif ($papa != false && $activo_papa == false) {
                 $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
                 $activo_abuelo = $this->model_proceso->revisar_activo($papa->id_papa_pago);
 
 
                 //Consultar si tiene abuelo y pagar
-                if (count($abuelo) == 1 && count($activo_abuelo) == 1) {
+                if ($abuelo != false && $activo_abuelo != false) {
                     $nivel2 = $this->model_proceso->traer_parametro_arbitraje(2);
                     $resultado2 = $servicio->precio * $nivel2->valor;
 
@@ -535,7 +535,7 @@ class Arbitraje extends CI_Controller
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro_arbitraje(3);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -598,13 +598,13 @@ class Arbitraje extends CI_Controller
                         $this->session->set_flashdata('exito', '<div class="alert alert-success text-center">Compra exitosa</div>');
                         redirect(base_url() . "Arbitraje", "refresh");
                     }
-                } elseif (count($abuelo) == 1 && count($activo_abuelo) == 0) {
+                } elseif ($abuelo != false && $activo_abuelo == false) {
                     $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                     $activo_bisabuelo = $this->model_proceso->revisar_activo($abuelo->id_papa_pago);
 
 
                     // Consultar si tiene bisabuelo y pagar
-                    if (count($bisabuelo) == 1  && count($activo_bisabuelo) == 1) {
+                    if ($bisabuelo != false  && $activo_bisabuelo != false) {
                         $nivel3 = $this->model_proceso->traer_parametro_arbitraje(3);
                         $resultado3 = $servicio->precio * $nivel3->valor;
 
@@ -733,7 +733,7 @@ class Arbitraje extends CI_Controller
 
                 if ($this->model_banco->updBilletera($token, $data) == 1) {
                     $datosInversion = $this->model_proceso->cargarCapital_arbitraje();
-                    if (count($datosInversion) == 1) {
+                    if ($datosInversion != false) {
                         $data2 = array(
                             "valor" => $valor + $datosInversion->inversion,
                         );
@@ -754,7 +754,7 @@ class Arbitraje extends CI_Controller
                         $this->model_proceso->deposito($historial);
                         //Consultar si tiene papá
                         $papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
-                        if (count($papa) == 1) {
+                        if ($papa != false) {
                             $nivel1 = $this->model_proceso->traer_parametro_arbitraje(4);
                             $resultado = $valor * $nivel1->valor;
 
@@ -774,7 +774,7 @@ class Arbitraje extends CI_Controller
 
                             $this->model_proceso->actualizar_wallet($data1, $billetera_papa->token);
                             $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
-                            if (count($abuelo) == 1) {
+                            if ($abuelo != false) {
                                 $nivel2 = $this->model_proceso->traer_parametro_arbitraje(5);
                                 $resultado2 = $valor * $nivel2->valor;
 
@@ -795,7 +795,7 @@ class Arbitraje extends CI_Controller
                                 $this->model_proceso->actualizar_wallet($data2, $billetera_abuelo->token);
                                 $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                                 //Verificar pago bisabuelo
-                                if (count($bisabuelo) == 1) {
+                                if ($bisabuelo != false) {
                                     $nivel3 = $this->model_proceso->traer_parametro_arbitraje(6);
                                     $resultado3 = $valor * $nivel3->valor;
 
@@ -871,7 +871,7 @@ class Arbitraje extends CI_Controller
 
                         //Consultar si tiene papá
                         $papa = $this->model_proceso->consultar_referido_niveles($datosPersona->id_papa_pago);
-                        if (count($papa) == 1) {
+                        if ($papa != false) {
                             $nivel1 = $this->model_proceso->traer_parametro_arbitraje(4);
                             $resultado = $valor * $nivel1->valor;
 
@@ -891,7 +891,7 @@ class Arbitraje extends CI_Controller
 
                             $this->model_proceso->actualizar_wallet($data1, $billetera_papa->token);
                             $abuelo = $this->model_proceso->consultar_referido_niveles($papa->id_papa_pago);
-                            if (count($abuelo) == 1) {
+                            if ($abuelo != false) {
                                 $nivel2 = $this->model_proceso->traer_parametro_arbitraje(5);
                                 $resultado2 = $valor * $nivel2->valor;
 
@@ -912,7 +912,7 @@ class Arbitraje extends CI_Controller
                                 $this->model_proceso->actualizar_wallet($data2, $billetera_abuelo->token);
                                 $bisabuelo = $this->model_proceso->consultar_referido_niveles($abuelo->id_papa_pago);
                                 //Verificar pago bisabuelo
-                                if (count($bisabuelo) == 1) {
+                                if ($bisabuelo != false) {
                                     $nivel3 = $this->model_proceso->traer_parametro_arbitraje(6);
                                     $resultado3 = $valor * $nivel3->valor;
 
@@ -1004,7 +1004,7 @@ class Arbitraje extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['consigna'] = $this->model_banco->cargar_inversion();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if (count($idxuser) == 1) {
+                if ( $idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -1088,9 +1088,10 @@ class Arbitraje extends CI_Controller
     public function repartirArbitraje()
     {
         $usuarios_repartir = $this->model_arbitraje->general();
+        $conteo = $this->model_arbitraje->general_conteo();
 
-        for ($i=0; $i < count($usuarios_repartir); $i++) { 
-            $ganancia = 0.005;
+        for ($i=0; $i < $conteo; $i++) { 
+            $ganancia = 0.002;
             $data = array(
                 "valor" => ($usuarios_repartir[$i]->valor * $ganancia) + $usuarios_repartir[$i]->valor,
             );

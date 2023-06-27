@@ -103,9 +103,14 @@ class model_scalping extends CI_Model
     {
         $this->db->insert('deposito_scalping',$data);
     }
+    public function insertarDepositoW($data)
+    {
+        $this->db->insert('wsport_fondeo',$data);
+    }
 
     public function usuarios()
     {
+        $this->db->order_by('nombre','ASC');
         $resultado = $this->db->get('r_master_usuarios');
 
         return $resultado->result();

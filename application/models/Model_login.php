@@ -18,7 +18,7 @@ class model_login extends CI_Model
   public function cargar_datos()
   {
     $idUsuario = $this->session->userdata('ID');
-    $sql = "SELECT * FROM r_master_usuarios WHERE id= ?";
+    $sql = "SELECT r.*, p.paisnombre, p.id as paisid FROM r_master_usuarios r, pais p WHERE r.pais_id = p.id AND r.id= ?";
 
     $query = $this->db->query($sql, [$idUsuario]);
 
@@ -48,7 +48,7 @@ class model_login extends CI_Model
 
   public function cargar_datosReferencia($id)
   {
-    $this->db->select("*");
+    $this->db->select("*, count(id) as contar");
     $this->db->from("r_master_usuarios");
     $this->db->where("id", $id);
     $resultados = $this->db->get();
@@ -97,6 +97,16 @@ class model_login extends CI_Model
   WHERE (user=? || correo = ?) AND contrasena= ?;";
 
     $query = $this->db->query($sql, array($user, $user, $pass));
+
+    return $query->row();
+  }
+  public function trae_user_codigo($user = null)
+  {
+
+    $sql = "SELECT * FROM r_master_usuarios
+  WHERE (user=? || correo = ?);";
+
+    $query = $this->db->query($sql, array($user, $user));
 
     return $query->row();
   }
@@ -276,6 +286,18 @@ class model_login extends CI_Model
   public function cuentasGanancia()
   {
     $sql = "SELECT hi.fecha, hi.ganancia, u.user, p.icono FROM historial_inversion hi, r_inversion_robot r, r_master_usuarios u, pais p WHERE hi.usuario_id = r.id AND r.id_usuario = u.id AND u.pais_id = p.id AND hi.tipo = 'ganancia' AND hi.fecha > '2023-01-17' ORDER BY hi.fecha DESC LIMIT 100";
+
+    $query = $this->db->query($sql);
+
+    return $query->result();
+  }
+
+  public function ganador()
+  {
+    $sql = "SELECT rm1.user, rm2.user AS beneficio, COUNT(rm2.user) AS contar, SUM(d.valor) AS total 
+    FROM r_master_usuarios rm1, r_master_usuarios rm2, deposito d 
+    WHERE rm1.id = rm2.id_papa_pago AND rm2.id = d.usuario_id AND DATE(d.fecha) > '2023-02-03' GROUP BY 1 ORDER BY total DESC LIMIT 4
+    ";
 
     $query = $this->db->query($sql);
 

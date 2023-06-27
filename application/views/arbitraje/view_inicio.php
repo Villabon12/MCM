@@ -76,18 +76,9 @@
                                             </option>
                                             <?php } ?>
                                         </select>
-                                        <?php if (date('d') <= 10) { ?>
+
                                         <button type="submit" class="btn btn-success" name="servicio">comprar</button>
 
-                                        <?php } else { ?>
-                                        <?php if($requisito->contar <= 3){ ?>
-                                            <p style="color:red;"> No cumple los requisitos para el bot</p>
-                                        <?php }else{ ?>
-                                            <button type="submit" class="btn btn-success" name="servicio">comprar</button>
-
-                                        <?php } ?>
-
-                                        <?php } ?>
 
                                         <p style="color: red;">Saldo disponible en tu billetera:
                                             <?= $billetera->cuenta_compra ?></p>
@@ -127,7 +118,7 @@
 
             <?php } ?>
 
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="">
 
                 <div class="row">
 
@@ -149,31 +140,6 @@
                                             <p style="color: red;">Saldo disponible en tu billetera:
                                                 <?= $billetera->cuenta_compra ?></p>
                                         </center>
-                                        <?php if ($perfil->userinvestor == null) { ?>
-                                        <button type="button" class="btn btn-dark" data-bs-toggle="modal"
-                                            data-bs-target="#generar">Generar Usuario Investor</button>
-                                        <?php }else{ ?>
-                                        <div class="row">
-                                            <div class="col-md-6 grid-margin">
-                                                <div class="card">
-                                                    <div class="card card-inverse-info">
-                                                        <div class="card-body">
-                                                            <center>
-                                                                <Strong>Cuenta Investor</Strong>
-                                                                <p>Usuario:
-                                                                    <?=$perfil->userinvestor?> <br> Contraseña:
-                                                                    <?=$perfil->passInvestor2?></p>
-
-                                                            </center>
-                                                        </div>
-
-                                                        <button type="button" class="btn btn-info btn-clipboard"
-                                                            id="copy-button">Copiar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php } ?>
 
 
                                         <div class="modal fade" id="fondeoAceptar" tabindex="-1" role="dialog"
@@ -241,29 +207,19 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-
-                        <div class="col-md-12">
-                            <center>
-                                <h1>PORCENTAJE GANADO MENSUAL DE LA INVERSION</h1>
-                                <?php if ($mesInicial == null) {  ?>
-                                <h3><strong><?= number_format(0) ?> %</strong></h3>
-
-                                <?php } else { ?>
-                                <h3><strong><?= number_format((($gananciaMes->ganancia - $perdidaMes->perdida) / $mesInicial->valor_antiguo) * 100, 2) ?>
-                                        %</strong></h3>
-                                <!-- <p>(<?=$gananciaMes->ganancia ?> - <?=$perdidaMes->perdida ?>)/ <?=$mesInicial->valor_antiguo?></p> -->
-
-                                <?php } ?>
-                            </center>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-wrapper">
-                <div class="row holii">
+            <div class="content-wrapper holii">
+                <center>
+                    <?php if ($mesInicial == null) {  ?>
+                    <h3>Porcentaje mensual: <strong><?= number_format(0) ?> %</strong></h3>
+    
+                    <?php } else { ?>
+                    <h3>Porcentaje mensual: <strong><?= number_format((($gananciaMes->ganancia - $perdidaMes->perdida) / $mesInicial->valor_antiguo) * 100, 2) ?>
+                            %</strong></h3>
+                    <!-- <p>(<?=$gananciaMes->ganancia ?> - <?=$perdidaMes->perdida ?>)/ <?=$mesInicial->valor_antiguo?></p> -->
+    
+                    <?php } ?>
+                </center>
+                <div class="row ">
                     <div class="container">
                         <form id="form-graficar" action="<?= base_url() ?>Arbitraje/jsonConsulta" method="post">
                             <div class="row" style="padding-bottom: 27px;">
@@ -283,127 +239,108 @@
                         </form>
 
                     </div>
+                </div>
 
-                    <div class="col-md-4 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Inversion</h4>
-                                <div class="table-responsive">
+                <div class="row">
 
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Fecha</th>
-                                                <th scope="col">Inversion</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($inversion as $B) { ?>
+                    <div class="table-responsive">
+                        <table class="table table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Inversion</th>
+                                    <th>Balance del dia</th>
+                                    <th>Beneficio</th>
+                                    <th>Perdida hoy</th>
+                                    <th>Porcentaje hoy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($inversion as $B) { ?>
 
-                                            <tr>
-                                                <td><?= $B->fecha_creacion ?></td>
-                                                <td><?= $B->valor ?></td>
+                                <tr>
+                                    <td><?= $B->fecha_creacion ?></td>
+                                    <td><?= $B->valor ?></td>
 
-                                            </tr>
 
-                                            <?php
+                                    <?php
                                                 }
                                                 ?>
-                                            <tr>
-                                                <td>Balance día: </td>
-                                                <?php if ($ganancia == null) { ?>
-                                                <td>0</td>
-                                                <?php } else { ?>
-                                                <td><?= number_format($ganancia->ganancia - $perdida->perdida, 2) ?>
-                                                </td>
-                                                <?php } ?>
+                                    <?php if ($ganancia == null) { ?>
+                                    <td>0</td>
+                                    <?php } else { ?>
+                                    <td><?= number_format($ganancia->ganancia - $perdida->perdida, 2) ?>
+                                    </td>
+                                    <?php } ?>
 
-                                            </tr>
-                                            <tr>
-                                                <td>Beneficio hoy: </td>
-                                                <?php if ($ganancia == null) { ?>
-                                                <td>0</td>
-                                                <?php } else { ?>
-                                                <td><?= number_format($ganancia->ganancia, 2) ?></td>
-                                                <?php } ?>
-                                            </tr>
-                                            <tr>
-                                                <td>Perdida hoy: </td>
-                                                <?php if ($perdida == null) { ?>
-                                                <td>0</td>
-                                                <?php } else { ?>
-                                                <td><?= number_format($perdida->perdida, 2) ?></td>
-                                                <?php } ?>
-                                            </tr>
-                                            <tr>
-                                                <td>Porcentaje hoy: </td>
-                                                <?php if ($porcentajehoyG == null) { ?>
-                                                <td>0</td>
-                                                <?php } else { ?>
-                                                <td><?= number_format(($porcentajehoyG->ganancia - $porcentajehoyP->perdida) * 100, 3) ?>
-                                                    %</td>
-                                                <?php } ?>
-                                            </tr>
-                                            <tr>
-                                                <td>Deposito: </td>
-                                                <td><?= number_format($deposito->deposito, 2) ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Retiro: </td>
-                                                <td><?= number_format($retiro->retiro, 2) ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                    <?php if ($ganancia == null) { ?>
+                                    <td>0</td>
+                                    <?php } else { ?>
+                                    <td><?= number_format($ganancia->ganancia, 2) ?></td>
+                                    <?php } ?>
+                                    <?php if ($perdida == null) { ?>
+                                    <td>0</td>
+                                    <?php } else { ?>
+                                    <td><?= number_format($perdida->perdida, 2) ?></td>
+                                    <?php } ?>
+                                    <?php if ($porcentajehoyG == null) { ?>
+                                    <td>0</td>
+                                    <?php } else { ?>
+                                    <td><?= number_format(($porcentajehoyG->ganancia - $porcentajehoyP->perdida) * 100, 3) ?>
+                                        %</td>
+                                    <?php } ?>
+                                    <!-- <td><?= number_format($deposito->deposito, 2) ?></td>
+
+                                <td><?= number_format($retiro->retiro, 2) ?></td> -->
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-md-8 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body performane-indicator-card">
 
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Inversion Total</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                
                                 <?php if (count($inversion) >= 1) { ?>
                                 <?php foreach ($reportes as $r) { ?>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p style="font-size: 12.9375px;"><?= $r->fecha ?></p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <?php if ($r->tipoxuser == 'ganancia') { ?>
-                                        <p style="color: blue;"><?= $r->gananciaxuser ?></p>
-                                        <?php } else { ?>
-                                        <p style="color: red;"><?= $r->gananciaxuser ?></p>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                                <br>
-
+                                <td><?= $r->fecha ?></td>
+                                <?php if ($r->tipoxuser == 'ganancia') { ?>
+                                <td style="color:blue;"><?= $r->gananciaxuser ?></td>
+                                <?php } else { ?>
+                                <td style="color: red;"><?= $r->gananciaxuser ?></td>
+                                <?php } ?>
                                 <?php } ?>
 
                                 <?php } else { ?>
 
                                 <?php } ?>
-                            </div>
-                        </div>
                     </div>
                 </div>
+
             </div>
-
-            <?php } ?>
-            <?php } ?>
-
-            <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © My Connect
-                        Mind
-                        2022</span>
-                </div>
-            </footer>
-            <!-- partial -->
         </div>
-        <!-- main-panel ends -->
+
+<br><br>
+        <?php } ?>
+        <?php } ?>
+
+
+        <!-- partial -->
     </div>
-    <!-- page-body-wrapper ends -->
+    <!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->

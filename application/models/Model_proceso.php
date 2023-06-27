@@ -46,7 +46,11 @@ class model_proceso extends CI_Model
         $this->db->where('token', $token);
         $this->db->update('wallet_negocio', $data);
     }
-
+    public function actualizar_wallet_empresa2($data, $token)
+    {
+        $this->db->where('usuario_token', $token);
+        $this->db->update('wallet_negocio', $data);
+    }
     public function traer_parametro($id)
     {
         $this->db->select('*');
@@ -80,7 +84,11 @@ class model_proceso extends CI_Model
         $this->db->where('id', $id);
         $resultados = $this->db->get('r_master_usuarios');
 
-        return $resultados->row();
+        if ($resultados->num_rows() > 0) {
+            return $resultados->row();
+        } else {
+            return false;
+        }
     }
 
     public function activar_servicio($data)
@@ -166,7 +174,7 @@ class model_proceso extends CI_Model
     {
         $idUsuario = $this->session->userdata('ID');
 
-        $this->db->select('*');
+        $this->db->select('* , count(id) as contar');
         $this->db->where('activo_id', 1);
         $this->db->where('id_usuario', $idUsuario);
 
@@ -185,7 +193,11 @@ class model_proceso extends CI_Model
 
         $resultados = $this->db->get('arbitraje_fondeo');
 
-        return $resultados->row();
+        if ($resultados->num_rows() > 0) {
+            return $resultados->row();
+        } else {
+            return false;
+        }
     }
 
     public function actualizarInversion($id, $data)
@@ -220,10 +232,14 @@ class model_proceso extends CI_Model
     {
         $this->db->where('activo',1);
         $this->db->where('usuario_id',$id);
-        $this->db->select('*');
+        $this->db->select('*, count(id) as contar');
         $resultado = $this->db->get('activo_servicio');
 
-        return $resultado->row();
+        if ($resultado->num_rows() > 0) {
+            return $resultado->row();
+        } else {
+            return false;
+        }
     }
     
     public function cargarHistorialPremios()

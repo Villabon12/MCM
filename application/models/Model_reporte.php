@@ -140,11 +140,20 @@ GROUP BY 1 ;";
 
     public function detalle($id)
     {
-        $this->db->select('*');
+        $this->db->select('t.estado, r.user, r2.user as user2, dt.mensaje, dt.fecha, dt.tipo, dt.adjunto');
+        $this->db->from('detalle_ticket dt');
+        $this->db->join('ticket t', 't.id = dt.ticket_id');
+        $this->db->join('r_master_usuarios r', 'r.id = dt.persona_id');
+        $this->db->join('r_master_usuarios r2', 'r2.id = dt.empresa_id');
         $this->db->where('ticket_id',$id);
-        $resultados = $this->db->get('detalle_ticket');
+        $this->db->order_by('dt.fecha','DESC');
+        $resultados = $this->db->get();
 
-        return $resultados->result();
+        if ($resultados->num_rows() > 0) {
+            return $resultados->result();
+        } else {
+            return false;
+        }
     }
 
     public function anoHoy()
@@ -263,5 +272,12 @@ GROUP BY 1 ;";
     public function insertPrueba($data)
     {
         $this->db->insert('prueba_juego',$data);
+    }
+
+    public function traer_servicios()
+    {
+        $this->db->order_by('nombre','ASC');
+        $resultado = $this->db->get('ticket_servicios');
+        return $resultado->result();
     }
 }
