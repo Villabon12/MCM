@@ -26,7 +26,7 @@ class Model_landingu extends CI_Model
 	public function GetCampaña()
 	{
 		$id = $this->session->userdata('ID');
-		$traer = "SELECT * FROM landingUser WHERE idUser=?";
+		$traer = "SELECT * FROM landingUser WHERE idUser=? order by fechaCreacion desc";
 		$query = $this->db->query($traer, [$id]);
 		return $query->result();
 	}
@@ -117,6 +117,12 @@ class Model_landingu extends CI_Model
 	function Getpaquetes()
 	{
 		$traer = "SELECT *  FROM landingpaquetes ";
+		$query = $this->db->query($traer);
+		return $query->result();
+	}
+	function GetpaquetesNofree()
+	{
+		$traer = "SELECT *  FROM landingpaquetes where id!=1";
 		$query = $this->db->query($traer);
 		return $query->result();
 	}

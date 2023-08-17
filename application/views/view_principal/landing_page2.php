@@ -4,13 +4,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Landing Page 2</title>
+
+    <?php if ($edicion == true) { ?>
+        <title>Make</title>
+    <?php } else { ?>
+        <title>
+            <?= $DaCamp->campana ?>
+        </title>
+    <?php } ?>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Viaoda+Libre&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="<?= base_url() ?>images/myconnect/toro.png" />
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -20,10 +27,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <!-- cdn icon bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
-        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <style>
         @import url(//fonts.googleapis.com/css?family=Lato:300:400);
 
@@ -61,8 +66,10 @@
 
         .form div {
             display: flex;
+            flex-wrap: wrap;
             column-gap: 0.5rem;
-            width: 355px;
+            width: 100%;
+            justify-content: center;
         }
 
         .form div input {
@@ -75,6 +82,7 @@
             border-radius: 0.375rem;
             background-color: #44b3fb;
             flex: 1 1 auto;
+            margin-bottom: 0.5rem;
         }
 
         .form div input::placeholder {
@@ -95,29 +103,53 @@
             border-radius: 0.375rem;
             border: none;
             outline: none;
+            height: 42px;
+        }
+
+        @media only screen and (min-width: 480px) {
+            .form div {
+                width: 400px;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .form {
+                max-width: 500px;
+            }
+
+            .form div {
+                width: 450px;
+            }
+        }
+
+        @media only screen and (min-width: 1024px) {
+            .form div {
+                width: 500px;
+            }
         }
 
         .p1 {
-            font-size: 2.5rem;
-            width: 550px;
+            font-size: 2.3rem;
+            text-align: justify;
+            line-height: 1;
+            font-family: Poppins, sans-serif;
+            ;
         }
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 800px) {
             .p1 {
-                font-size: 1.6rem;
-                width: 385px;
+                font-size: 2rem;
             }
         }
 
         .p2 {
             font-size: 1.2rem;
-            width: 550px;
+            line-height: 1;
         }
 
         @media screen and (max-width: 600px) {
             .p2 {
-                font-size: 1rem;
-                width: 355px;
+                font-size: 1.2rem;
             }
         }
 
@@ -166,7 +198,7 @@
             background-repeat: no-repeat;
         }
 
-        .card-background2 {
+        .background2 {
             background-image: url('http://www.myconnectmind.com/images/view2.jpg');
             background-position: center;
             background-size: cover;
@@ -249,41 +281,11 @@
             width: max-content;
         }
 
-        .card2>.rating:before {
-            content: "☆☆☆☆☆";
-        }
-
-        .card2>.rating:after {
-            content: "★★★★★";
-            position: absolute;
-            left: 0;
-            z-index: 0;
-            width: calc(var(--rating) * 1%);
-            overflow: hidden;
-        }
-
         .card2>.link {
             margin-bottom: 1rem;
             color: var(--linkColor);
             font-size: .8em;
             font-weight: 600;
-        }
-
-        /* Optional ~ Link the whole card */
-        .card2>.link::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .card2>.link:after {
-            content: "↗";
-            display: inline-block;
-            margin-left: .3em;
-            transition: transform .3s ease-in-out;
         }
 
         .card2:hover>.link:after {
@@ -405,7 +407,6 @@
         }
 
         .cont3 {
-            width: 90%;
             justify-content: center;
             align-items: center;
             background: rgba(93, 109, 126, 0.3);
@@ -413,7 +414,7 @@
             -webkit-backdrop-filter: blur(20px);
             border-radius: 12px;
             padding: 40px;
-            margin-bottom: 40px;
+            margin: 0;
         }
 
         .cont4 {
@@ -452,7 +453,6 @@
         }
 
         .cont6 {
-            width: 90%;
             justify-content: center;
             align-items: center;
             background: rgba(255, 255, 255, 0.4);
@@ -460,7 +460,8 @@
             -webkit-backdrop-filter: blur(20px);
             border-radius: 12px;
             padding: 40px;
-
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .center {
@@ -480,19 +481,40 @@
                 font-size: 19px;
             }
         }
+
+        .btn-p {
+            margin: 0;
+            width: 60px;
+            height: 50px;
+            background-color: transparent;
+            border-color: transparent;
+        }
+
+        @media only screen and (max-width: 800px) {
+            .btn-p {
+                color: black;
+            }
+        }
+
+        .col-sm-6 .col-md-6 .col-lg-6 {
+            margin-top: 30px;
+        }
+
+        .container1 {
+            margin-top: 150px;
+        }
     </style>
 </head>
 
 <body>
     <div class="card bg-transparent border-0">
-        <div class="card-body card-background" style="height: 100vh;">
-            <button class="btn btn-primary" type="button" style="border-radius:20px; margin:3rem;"
-                data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-                <i class="bi bi-list" style="font-size:30px;"></i>
-            </button>
-
-            <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
-                aria-labelledby="staticBackdropLabel">
+        <div class="card-body card-background" style="height: 100vh; padding: 0;">
+            <?php if ($edicion == true) { ?>
+                <button class="btn btn-primary btn-p" type="button" style="padding: 0; margin: 0; width: 60px; height: 50px; background-color: transparent; border-color: transparent;" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                    <i class="bi bi-list" style="font-size:30px;"></i>
+                </button>
+            <?php } ?>
+            <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -500,159 +522,141 @@
                 <div class="offcanvas-body">
                     <div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"> <a href="<?= base_url() ?>LandingUser/sett/<?= $id_plant ?>">
-                                    Diseñar</a></li>
-                            <li class="list-group-item">Analisis</li>
+                            <li class="list-group-item"> <a href="<?= base_url() ?>LandingUser/sett/<?= $id_plant ?>">Plantilla Principal</a>
+                            </li>
+                            <?php if ($DaCamp->idPaquete > 1) { ?>
+                                <li class="list-group-item"> <a href="<?= base_url() ?>LandingUser/analisis/<?= $DaCamp->id ?>">Analisis</a></li>
+                            <?php } ?>
+                            <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/Settag/<?= $DaCamp->id ?>">Plantilla
+                                    Agradecimiento</a></li>
                             <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/setemb">Embudo</a></li>
-                            <li class="list-group-item">Atras</li>
+                            <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/home">Atras</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row row-cols-1 row-cols-md-2 mb-2 text-center">
-                    <div class="col-sm-6">
+            <section class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+
                     </div>
-                    <div class="col-sm-6">
-                        <br><br><br><br><br>
-                        <?php if ($tools->logo != null) { ?>
-                            <img src="<?= base_url() ?>/assets/img/landing/Pics/<?= $tools->logo ?>"
-                                style="float: left; width: 163px; height: 43px; line-height: 1;">
-                        <?php } else { ?>
-                            <img src="https://www.myconnectmind.com/images/myconnect/encabezado2.png"
-                                style="float: left; width: 163px; height: 43px; line-height: 1;">
-                        <?php } ?>
-                        <button type="button" class="btn btn-primary" style="border:none;background:none;"
-                            data-bs-toggle="modal" data-bs-target="#Setpic" value="pic1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
-                                class="bi bi-pencil-square" viewBox="0 0 16 16">
-
-                                <path
-                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-
-                                <path fill-rule="evenodd"
-                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-
-                            </svg>
-                        </button>
-                        <br><br>
-                        <p class="p1" style="text-align: justify; line-height: 1; font-family: Poppins, sans-serif;">
-                            <?php if ($tools->t1 != null) { ?>
-                                <?= $tools->t1 ?>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="container1">
+                            <?php if ($tools->logo != null) { ?>
+                                <img src="<?= base_url() ?>/assets/img/landing/Pics/<?= $tools->logo ?>" style="float: left; width: 163px; height: 43px; line-height: 1;">
                             <?php } else { ?>
-                                CÓMO FIRMAR +15 SOCIOS
-                                A LA SEMANA HACIENDO
-                                UNA SOLA LLAMADA
+                                <img src="https://www.myconnectmind.com/images/myconnect/encabezado2.png" style="float: left; width: 163px; height: 43px; line-height: 1;">
                             <?php } ?>
-                            <!-- Button t1 -->
-                            <button type="button" class="btn btn-primary" style="border:none;background:none;"
-                                data-bs-toggle="modal" data-bs-target="#miModal" value="t1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
-                                    class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd"
-                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg>
-                            </button>
-                        </p>
-                        <p class="p2" style="text-align: justify; font-family: Roboto, sans-serif;">
-                            <?php if ($tools->d1 != null) { ?>
-                                <?= $tools->d1 ?>
-                            <?php } else { ?>
-                                En este evento de 4 clases gratuitas te enseñaré el paso a paso para firmar +15
-                                socios a la semana haciendo una sola llamada, incluso si aún no tienes
-                                resultados y crees que has intentado de todo.
+                            <?php if ($edicion == true) { ?>
+                                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#Setpic" value="pic1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-square" viewBox="0 0 16 16">
+
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+
+                                    </svg>
+                                </button>
                             <?php } ?>
-                            <!-- Button d1 -->
-                            <button type="button" class="btn btn-primary" style="border:none;background:none;"
-                                data-bs-toggle="modal" data-bs-target="#miModal" value="d1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
-                                    class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd"
-                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg>
-                            </button>
-                        </p>
-                        <form class="form" action="<?= base_url() ?>LandingUser/embudo/<?= $id_plant ?>" method="post">
-                            <div>
-                                <input placeholder="Escriba su correo electronico" type="email"  style="color:black;" name="email" id="email"
-                                    required>
-                                <button id="_form_3_submit" class="_submit" type="submit">Registrarme</button>
-                            </div>
-                        </form>
-                        <br>
+                            <br><br>
+                            <p class="p1">
+                                <?php if ($tools->t1 != null) { ?>
+                                    <?= $tools->t1 ?>
+                                <?php } else { ?>
+                                    CÓMO FIRMAR +15 SOCIOS
+                                    A LA SEMANA HACIENDO
+                                    UNA SOLA LLAMADA
+                                <?php } ?>
+                                <?php if ($edicion == true) { ?>
+                                    <!-- Button t1 -->
+                                    <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="t1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                        </svg>
+                                    </button>
+                                <?php } ?>
+                            </p>
+                            <p class="p2" style="text-align: justify; font-family: Roboto, sans-serif;">
+                                <?php if ($tools->d1 != null) { ?>
+                                    <?= $tools->d1 ?>
+                                <?php } else { ?>
+                                    En este evento de 4 clases gratuitas te enseñaré el paso a paso para firmar +15
+                                    socios a la semana haciendo una sola llamada, incluso si aún no tienes
+                                    resultados y crees que has intentado de todo.
+                                <?php } ?>
+                                <?php if ($edicion == true) { ?>
+                                    <!-- Button d1 -->
+                                    <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="d1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                        </svg>
+                                    </button>
+                                <?php } ?>
+                            </p>
+                            <form class="form" <?php if ($edicion == true) { ?> action="<?= base_url() ?>LandingUser/embudo/<?= $DaCamp->id ?>" <?php } else { ?> action="<?= base_url() ?>LandingUser/SendEmail/<?= $DaCamp->ulrname ?>" <?php } ?> method="post">
+                                <div>
+                                    <input placeholder="Escriba su correo electronico" type="email" name="email" id="email" required>
+                                    <button id="_form_3_submit" class="_submit" type="submit">Registrarme</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
-    <br>
-    <div class="card rounded-0 border-0">
-        <div class="card-body" style="padding: 0;">
-            <div class="card rounded-0 border-0" style="background-color: #f3f4f5;">
-                <div class="card-body">
-                    <div class="container" style="width: 70%;">
-                        <h1 clas="h-t" style="font-family: Poppins, sans-serif; text-align: justify;">
-                            <?php if ($tools->t2 != null) { ?>
-                                <?= $tools->t2 ?>&nbsp;
-                            <?php } else { ?>
-                                LA REBELIÓN DEL NETWORK MARKETING&nbsp;
-                            <?php } ?>
-                            <!-- Button t2 -->
-                            <button type="button" class="btn btn-primary"
-                                style="border:none;background:none; color: black;" data-bs-toggle="modal"
-                                data-bs-target="#miModal" value="t2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd"
-                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg>
-                            </button>
-                        </h1>
-                        <p class="p3" style="text-align: center; line-height: 1.1em">
-                            <?php if ($tools->d2 != null) { ?>
-                                <?= $tools->d2 ?>
-                            <?php } else { ?>
-                                Llega para revelar cómo +132 networkeres han aplicado el método PVIP y han logrado firmar
-                                +15 socios a la semana... ¿Te gustaría tener los mismos resultados?&nbsp;
-                            <?php } ?>
-                            <!-- Button d2 -->
-                            <button type="button" class="btn btn-primary"
-                                style="border:none;background:none; color: black;" data-bs-toggle="modal"
-                                data-bs-target="#miModal" value="d2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd"
-                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                </svg>
-                            </button>
-                        </p>
-                    </div>
-                </div>
+    <section class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 40px;">
+                <h1 clas="h-t" style="font-family: Poppins, sans-serif; text-align: justify;">
+                    <?php if ($tools->t2 != null) { ?>
+                        <?= $tools->t2 ?>&nbsp;
+                    <?php } else { ?>
+                        LA REBELIÓN DEL NETWORK MARKETING&nbsp;
+                    <?php } ?>
+                    <?php if ($edicion == true) { ?>
+                        <!-- Button t2 -->
+                        <button type="button" class="btn btn-primary" style="border:none;background:none; color: black;" data-bs-toggle="modal" data-bs-target="#miModal" value="t2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </button>
+                    <?php } ?>
+                </h1>
+                <p class="p3" style="text-align: center; line-height: 1.1em">
+                    <?php if ($tools->d2 != null) { ?>
+                        <?= $tools->d2 ?>
+                    <?php } else { ?>
+                        Llega para revelar cómo +132 networkeres han aplicado el método PVIP y han logrado firmar
+                        +15 socios a la semana... ¿Te gustaría tener los mismos resultados?&nbsp;
+                    <?php } ?>
+                    <?php if ($edicion == true) { ?>
+                        <!-- Button d2 -->
+                        <button type="button" class="btn btn-primary" style="border:none;background:none; color: black;" data-bs-toggle="modal" data-bs-target="#miModal" value="d2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </button>
+                    <?php } ?>
+                </p>
                 <div class="container">
                     <center>
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                        <div class="row" style="margin-top: 40px;">
                             <?php foreach ($cards as $c) { ?>
-
-                                <div class="col">
-                                    <div class="card2">
+                                <div class="col-sm-4">
+                                    <div class="card2 shadow">
                                         <div class="img">
-                                            <img src="<?= base_url() ?>/assets/img/landing/Cards/<?= $c->img ?>"
-                                                alt="imagen" class="img-fluid">
+                                            <img src="<?= base_url() ?>/assets/img/landing/Cards/<?= $c->img ?>" alt="imagen" class="img-fluid">
                                         </div>
                                         <div class="card-body">
                                             <p class="description" style="margin-top: 30px;">
                                                 <?= $c->descripcion ?>&nbsp;
                                             </p>
-                                            <center> <a href="<?= $c->link ?>" class="btn btn-primary btn-sm" type="button"
-                                                    style="width:60%;"> Mas Info </a></center>
+                                            <center> <a href="<?= $c->link ?>" class="btn btn-primary btn-sm" type="button" style="width:60%;"> Mas Info </a></center>
                                             <p style="margin-top: 10px;">
                                                 <?= $c->fecha ?>
                                             </p>
@@ -662,331 +666,408 @@
                                 </div>
                             <?php } ?>
                         </div>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary"
-                            style="width:40%; margin-top: 10px; margin-bottom: 20px;" data-bs-toggle="modal"
-                            data-bs-target="#aggcard">
-                            Agrega card
-                        </button>
+                        <?php if ($edicion == true) { ?>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" style="width:40%; margin-top: 10px; margin-bottom: 20px;" data-bs-toggle="modal" data-bs-target="#aggcard">
+                                Agrega card
+                            </button>
+                        <?php } ?>
                         <center>
                 </div>
-                <div class="card rounded-0 border-0">
-                    <div class="card-body card-background2">
-                        <div class="container cont6">
-                            <h1 class="h-t2" style="font-family: Poppins, sans-serif; text-align: justify;">
-                                <?php if ($tools->t3 != null) { ?>
-                                    <?= $tools->t3 ?>
-                                <?php } else { ?>
-                                    EL NETWORK MARKETING NO SERÁ EL MISMO DESPUÉS DEL EVENTO DE LA REBELIÓN DIGITAL
-                                <?php } ?>
-                                <!-- Button t3 -->
-                                <button type="button" class="btn btn-primary" style="border:none;background:none;"
-                                    data-bs-toggle="modal" data-bs-target="#miModal" value="t3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
-                                        class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path
-                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                        <path fill-rule="evenodd"
-                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                    </svg>
-                                </button>
-                            </h1>
-                            <p class="p3" style="text-align: justify; line-height: 1.1em;">
-                                <?php if ($tools->d3 != null) { ?>
-                                    <?= $tools->d3 ?>
-                                <?php } else { ?>
-                                    A veces miramos a
-                                    otros líderes
-                                    tener resultados y pensamos, ¿qué están haciendo ellos, que yo no estoy haciendo? -
-                                    Ahora,
-                                    tú serás el próximo caso de éxito de tu negocio gracias a el método que aprenderás que
-                                    ha
-                                    permitido que más de 1232 personas firmen 15 socios a la semana haciendo una sola
-                                    llamada
-                                <?php } ?>
-                                <!-- Button d3 -->
-                                <button type="button" class="btn btn-primary" style="border:none;background:none;"
-                                    data-bs-toggle="modal" data-bs-target="#miModal" value="d3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
-                                        class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path
-                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                        <path fill-rule="evenodd"
-                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                    </svg>
-                                </button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card rounded-0 border-0" style="background-color: #f3f4f5;">
-                    <div class="card-body">
-                        <h1 class="h-t2"
-                            style="font-family: Poppins, sans-serif; text-align: center; margin-bottom: 50px;">
-                            <?php if ($tools->t4 != null) { ?>
-                                <?= $tools->t4 ?>
-                            <?php } else { ?>
-                                ¿QUIÉN SOY Y POR QUÉ PUEDO AYUDARTE?
-                            <?php } ?>
-                            <!-- Button t4 -->
-                            <button type="button" class="btn btn-primary"
-                                style="border:none;background:none; color:black;" data-bs-toggle="modal"
-                                data-bs-target="#miModal" value="t4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                    <path fill-rule="evenodd"
-                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+            </div>
+        </div>
+    </section>
+    <section class="card background2 rounded-0 border-0" style="margin: 0;">
+        <div class="container">
+            <div class="cont6">
+                <h1 class="h-t2" style="font-family: Poppins, sans-serif; text-align: justify;">
+                    <?php if ($tools->t3 != null) { ?>
+                        <?= $tools->t3 ?>
+                    <?php } else { ?>
+                        EL NETWORK MARKETING NO SERÁ EL MISMO DESPUÉS DEL EVENTO DE LA REBELIÓN DIGITAL
+                    <?php } ?>
+                    <?php if ($edicion == true) { ?>
+                        <!-- Button t3 -->
+                        <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="t3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </button>
+                    <?php } ?>
+                </h1>
+                <p class="p3" style="text-align: justify; line-height: 1.1em;">
+                    <?php if ($tools->d3 != null) { ?>
+                        <?= $tools->d3 ?>
+                    <?php } else { ?>
+                        A veces miramos a
+                        otros líderes
+                        tener resultados y pensamos, ¿qué están haciendo ellos, que yo no estoy haciendo? -
+                        Ahora,
+                        tú serás el próximo caso de éxito de tu negocio gracias a el método que aprenderás que
+                        ha
+                        permitido que más de 1232 personas firmen 15 socios a la semana haciendo una sola
+                        llamada
+                    <?php } ?>
+                    <?php if ($edicion == true) { ?>
+                        <!-- Button d3 -->
+                        <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="d3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg>
+                        </button>
+                    <?php } ?>
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <h1 class="h-t2" style="font-family: Poppins, sans-serif; text-align: center; margin-bottom: 50px; margin-top: 40px;">
+            <?php if ($tools->t4 != null) { ?>
+                <?= $tools->t4 ?>
+            <?php } else { ?>
+                ¿QUIÉN SOY Y POR QUÉ PUEDO AYUDARTE?
+            <?php } ?>
+            <?php if ($edicion == true) { ?>
+                <!-- Button t4 -->
+                <button type="button" class="btn btn-primary" style="border:none;background:none; color:black;" data-bs-toggle="modal" data-bs-target="#miModal" value="t4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                    </svg>
+                </button>
+            <?php } ?>
+        </h1>
+    </section>
+    <section class="container w-100">
+        <div class="cont3">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6 text">
+                    <br>
+                    <p>
+                        <?php if ($tools->descripcion != null) { ?>
+                            <?= $tools->descripcion ?>
+                        <?php } else { ?>
+                            Mi nombre es Gigi Toneatti <br> <br>He ayudado a +832 networkers sin
+                            resultados
+                            firmar
+                            +15 socios a la semana y tener un negocio rentable. <br><br> Ello, aplicando
+                            el
+                            mismo
+                            método que me ha permitido facturar +$150.000 USD dólares. <br><br> Mi
+                            misión es
+                            que tú
+                            aprendas el paso a paso del método PVIP completamente GRATIS y seas el
+                            próximo
+                            caso de
+                            éxito. <br><br> Regístrate al entrenamiento y recibe GRATIS mi guía para
+                            aplicar
+                            efectivos secretos de Internet para tener en tu negocio de red de marcadeo.
+                        <?php } ?>
+                        <?php if ($edicion == true) { ?>
+                            <!-- Button desc -->
+                            <button type="button" class="btn btn-primary" style="border:none;background:none; color:black;" data-bs-toggle="modal" data-bs-target="#miModal" value="desc">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                 </svg>
                             </button>
-                        </h1>
-                        <div class="container cont3">
-                            <div class="row">
-                                <div class="col-md-6 text">
-                                    <br>
-                                    <p>
-                                        <?php if ($tools->descripcion != null) { ?>
-                                            <?= $tools->descripcion ?>
-                                        <?php } else { ?>
-                                            Mi nombre es Gigi Toneatti <br> <br>He ayudado a +832 networkers sin
-                                            resultados
-                                            firmar
-                                            +15 socios a la semana y tener un negocio rentable. <br><br> Ello, aplicando
-                                            el
-                                            mismo
-                                            método que me ha permitido facturar +$150.000 USD dólares. <br><br> Mi
-                                            misión es
-                                            que tú
-                                            aprendas el paso a paso del método PVIP completamente GRATIS y seas el
-                                            próximo
-                                            caso de
-                                            éxito. <br><br> Regístrate al entrenamiento y recibe GRATIS mi guía para
-                                            aplicar
-                                            efectivos secretos de Internet para tener en tu negocio de red de marcadeo.
-                                        <?php } ?>
-                                        <!-- Button desc -->
-                                        <button type="button" class="btn btn-primary"
-                                            style="border:none;background:none; color:black;" data-bs-toggle="modal"
-                                            data-bs-target="#miModal" value="desc">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-pencil-square align-middle"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                <path fill-rule="evenodd"
-                                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                            </svg>
-                                        </button>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <center>
-                                        <?php if ($tools->img3 != null) { ?>
-                                            <img src="<?= base_url() ?>/assets/img/landing/Pics/<?= $tools->img3 ?>"
-                                                width="272" height="420">
-                                        <?php } else { ?>
-                                            <img style="margin-top: 50px;"
-                                                src="https://vilmanunez.com/wp-content/uploads/2020/10/VN-Co%CC%81mo-hacer-una-buena-presentacio%CC%81n-de-resultados-de-auditori%CC%81a-u%CC%81ltimas-horas.png"
-                                                width="272" height="420">
-                                        <?php } ?>
-                                        <button type="button" class="btn btn-primary"
-                                            style="border:none;background:none;color:black;" data-bs-toggle="modal"
-                                            data-bs-target="#Setpic3" value="pic3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-pencil-square align-middle"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                <path fill-rule="evenodd"
-                                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                            </svg>
-                                        </button>
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
+                    </p>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <center>
+                        <?php if ($tools->img3 != null) { ?>
+                            <img style="margin-top: 50px;" src="<?= base_url() ?>/assets/img/landing/Pics/<?= $tools->img3 ?>" width="272" height="420">
+                        <?php } else { ?>
+                            <img style="margin-top: 50px;" src="https://vilmanunez.com/wp-content/uploads/2020/10/VN-Co%CC%81mo-hacer-una-buena-presentacio%CC%81n-de-resultados-de-auditori%CC%81a-u%CC%81ltimas-horas.png" width="272" height="420">
+                        <?php } ?>
+                        <?php if ($edicion == true) { ?>
+                            <button type="button" class="btn btn-primary" style="border:none;background:none;color:black;" data-bs-toggle="modal" data-bs-target="#Setpic3" value="pic3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square align-middle" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                            </button>
+                        <?php } ?>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <center>
+            <h1 class="h-t2" style="font-family: Poppins, sans-serif; text-align: center; margin-top: 40px;">
+                ÍNDICANOS TU CORREO PARA MAYOR INFORMACION
+            </h1>
+            <br>
+            <form class="form" <?php if ($edicion == true) { ?> action="<?= base_url() ?>LandingUser/embudo/<?= $DaCamp->id ?>" <?php } else { ?> action="<?= base_url() ?>LandingUser/SendEmail/<?= $DaCamp->ulrname ?>" <?php } ?> method="post">
+                <div>
+                    <input placeholder="Escriba su correo electronico" type="email" name="email" id="email" required>
+                    <button id="_form_5_submit" class="button" class="_submit" type="submit">Registrarme</button>
+                </div>
+            </form>
+        </center>
+    </section>
+    <?php if ($edicion == true) { ?>
+        <a href="<?= base_url() ?>LandingUser/Settag/<?= $DaCamp->id ?>" class="btn btn-primary" style="width: 100%; border-radius: 0px; margin-top: 40px;">Personalizar Plantilla Agradecimiento</a>
+        <br>
+    <?php } ?>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="aggcard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="<?= base_url() ?>LandingUser/saveCard/<?= $id_plant ?>" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="container" style="margin-bottom: 50px; margin-top: 30px;">
-                        <h1 class="h-t2" style="font-family: Poppins, sans-serif; text-align: center;">
-                            ÍNDICANOS TU CORREO PARA RESERVAR TU LUGAR PARA LAS <b style="color: #44b3fb;">CLASES
-                                GRATIS DEL 13 AL 16 DE
-                                FEBRERO</b></h1>
-                        <br>
-                        <center>
-                            <form class="form" action="<?= base_url() ?>LandingUser/embudo/<?= $id_plant ?>"
-                                method="post">
-                                <div>
-                                    <input placeholder="Escriba su correo electronico" style="color:black;" type="email" name="email"
-                                        id="email" required>
-                                    <button id="_form_5_submit" class="button" class="_submit"
-                                        type="submit">Registrarme</button>
+                    <div class="modal-body">
+                        <label for="">Imagen :</label>
+                        <input type="file" name="img" class="form-control" required>
+                        <label for="">Descripcion :</label>
+                        <input type="text" name="descri" class="form-control" required>
+                        <label for="">Link para informacion :</label>
+                        <input type="text" name="link" class="form-control" required>
+                        <label for="">Fecha :</label>
+                        <input type="date" name="fecha" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal  Modificar Campos-->
+    <div class="modal" tabindex="-1" role="dialog" id="miModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="<?= base_url() ?>LandingUser/saveData/<?= $id_plant ?>" method="post" required>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Campo°</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal  Modificar logo-->
+    <div class="modal" tabindex="-1" role="dialog" id="Setpic">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="<?= base_url() ?>LandingUser/Setimg/<?= $id_plant ?>" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="">Modifica el Logo</label>
+                        <input type="file" class="form-control" name="img" required>
+                        <input type="hidden" value="1" name="op">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal  Modificar imagen 2-->
+    <div class="modal" tabindex="-1" role="dialog" id="Setpic2">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="<?= base_url() ?>LandingUser/Setimg/<?= $id_plant ?>" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="">Modifica la imagen</label>
+                        <input type="file" class="form-control" name="img" required>
+                        <input type="hidden" value="2" name="op">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal  Modificar imagen 3-->
+    <div class="modal" tabindex="-1" role="dialog" id="Setpic3">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="<?= base_url() ?>LandingUser/Setimg/<?= $id_plant ?>" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="">Modifica la imagen</label>
+                        <input type="file" class="form-control" name="img" required>
+                        <input type="hidden" value="3" name="op">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal  Comprar-->
+    <div class="modal fade" id="get" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h1 class="text-dark text-center" style="font-family: 'Righteous', cursive; color:'black';">
+                        Conoce nuestros paquetes para empezar a utilizar este producto</h1>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-2 text-center " style="margin-top:2rem ;">
+                        <?php foreach ($paquetes as $p) { ?>
+                            <form action="<?= base_url() ?>LandingUser/PayLanding/ <?= $p->id ?>">
+                                <div class="col">
+                                    <div class="card mb-4  " style="height:450px;">
+
+                                        <div class="card-header">
+                                            <h4 class=" text-dark">
+                                                <?= $p->nombre ?>
+                                            </h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <h1 class="card-title pricing-card-title">$
+                                                <?= $p->precio ?>
+                                                <small class="text-muted fw-light">/mo</small>
+                                            </h1>
+                                            <ul class="list-unstyled mt-3 mb-4 text-dark" style="height:232px;">
+                                                <li>
+                                                    <?= $p->descripcion ?>
+                                                </li>
+                                            </ul>
+                                            <input type="hidden" name="paquete" value="<?= $p->id ?>" class="form-control">
+                                            <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Obtener</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
-                        </center>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
-            <!-- Modal -->
-            <div class="modal fade" id="aggcard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="<?= base_url() ?>LandingUser/saveCard/<?= $id_plant ?>" method="POST"
-                            enctype="multipart/form-data">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <label for="">Imagen :</label>
-                                <input type="file" name="img" class="form-control" required>
-                                <label for="">Descripcion :</label>
-                                <input type="text" name="descri" class="form-control" required>
-                                <label for="">Link para informacion :</label>
-                                <input type="text" name="link" class="form-control" required>
-                                <label for="">Fecha :</label>
-                                <input type="date" name="fecha" class="form-control" required>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal  Modificar Campos-->
-            <div class="modal" tabindex="-1" role="dialog" id="miModal">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="<?= base_url() ?>LandingUser/saveData/<?= $id_plant ?>" method="post" required>
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modificar Campo°</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal  Modificar logo-->
-            <div class="modal" tabindex="-1" role="dialog" id="Setpic">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="<?= base_url() ?>LandingUser/Setimg/<?= $id_plant ?>" method="post"
-                            enctype="multipart/form-data">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <label for="">Modifica el Logo</label>
-                                <input type="file" class="form-control" name="img" required>
-                                <input type="hidden" value="1" name="op">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Guardar </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal  Modificar imagen 2-->
-            <div class="modal" tabindex="-1" role="dialog" id="Setpic2">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="<?= base_url() ?>LandingUser/Setimg/<?= $id_plant ?>" method="post"
-                            enctype="multipart/form-data">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <label for="">Modifica la imagen</label>
-                                <input type="file" class="form-control" name="img" required>
-                                <input type="hidden" value="2" name="op">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Guardar </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal  Modificar imagen 3-->
-            <div class="modal" tabindex="-1" role="dialog" id="Setpic3">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="<?= base_url() ?>LandingUser/Setimg/<?= $id_plant ?>" method="post"
-                            enctype="multipart/form-data">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <label for="">Modifica la imagen</label>
-                                <input type="file" class="form-control" name="img" required>
-                                <input type="hidden" value="3" name="op">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Guardar </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <script>
-                $(document).ready(function () {
-                    $("#miModal").on("show.bs.modal", function (event) {
-                        console.log("hola");
-                        var boton = $(event.relatedTarget);
-                        var opcion = boton.val();
-
-                        if (opcion == "t1") {
-                            var input = $('<input>').attr({ type: 'text', name: 't1', class: 'form-control', placeholder: 'Modifique el titulo 1º', required: true });
-                        } if (opcion == "d1") {
-                            var input = $('<input>').attr({ type: 'text', name: 'd1', class: 'form-control', placeholder: 'Modifique la descripcion 1º', required: true });
-                        } if (opcion == "t2") {
-                            var input = $('<input>').attr({ type: 'text', name: 't2', class: 'form-control', placeholder: 'Modifique el titulo 2º', required: true });
-                        } if (opcion == "d2") {
-                            var input = $('<input>').attr({ type: 'text', name: 'd2', class: 'form-control', placeholder: 'Modifique la descripcion 2º', required: true });
-                        } if (opcion == "t3") {
-                            var input = $('<input>').attr({ type: 'text', name: 't3', class: 'form-control', placeholder: 'Modifique el titulo 3º', required: true });
-                        } if (opcion == "d3") {
-                            var input = $('<input>').attr({ type: 'text', name: 'd3', class: 'form-control', placeholder: 'Modifique la descripcion 3º', required: true });
-                        } if (opcion == "t4") {
-                            var input = $('<input>').attr({ type: 'text', name: 't4', class: 'form-control', placeholder: 'Modifique el titulo 4º', required: true });
-                        } if (opcion == "t5") {
-                            var input = $('<input>').attr({ type: 'text', name: 't5', class: 'form-control', placeholder: 'Modifique el titulo 5º', required: true });
-                        } if (opcion == "desc") {
-                            var input = $('<input>').attr({ type: 'text', name: 'descripcion', class: 'form-control', placeholder: 'Modifique la descripcion', required: true });
-                        }
-                        // Actualiza el contenido del cuerpo del modal
-                        var modal = $(this);
-                        modal.find('.modal-body').html(input);
-                    })
-                });
-            </script>
         </div>
+    </div>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $("#miModal").on("show.bs.modal", function(event) {
+                console.log("hola");
+                var boton = $(event.relatedTarget);
+                var opcion = boton.val();
+
+                if (opcion == "t1") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 't1',
+                        class: 'form-control',
+                        placeholder: 'Modifique el titulo 1º',
+                        required: true
+                    });
+                }
+                if (opcion == "d1") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 'd1',
+                        class: 'form-control',
+                        placeholder: 'Modifique la descripcion 1º',
+                        required: true
+                    });
+                }
+                if (opcion == "t2") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 't2',
+                        class: 'form-control',
+                        placeholder: 'Modifique el titulo 2º',
+                        required: true
+                    });
+                }
+                if (opcion == "d2") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 'd2',
+                        class: 'form-control',
+                        placeholder: 'Modifique la descripcion 2º',
+                        required: true
+                    });
+                }
+                if (opcion == "t3") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 't3',
+                        class: 'form-control',
+                        placeholder: 'Modifique el titulo 3º',
+                        required: true
+                    });
+                }
+                if (opcion == "d3") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 'd3',
+                        class: 'form-control',
+                        placeholder: 'Modifique la descripcion 3º',
+                        required: true
+                    });
+                }
+                if (opcion == "t4") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 't4',
+                        class: 'form-control',
+                        placeholder: 'Modifique el titulo 4º',
+                        required: true
+                    });
+                }
+                if (opcion == "t5") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 't5',
+                        class: 'form-control',
+                        placeholder: 'Modifique el titulo 5º',
+                        required: true
+                    });
+                }
+                if (opcion == "desc") {
+                    var input = $('<input>').attr({
+                        type: 'text',
+                        name: 'descripcion',
+                        class: 'form-control',
+                        placeholder: 'Modifique la descripcion',
+                        required: true
+                    });
+                }
+                // Actualiza el contenido del cuerpo del modal
+                var modal = $(this);
+                modal.find('.modal-body').html(input);
+            })
+        });
+    </script>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </body>
 
 </html>

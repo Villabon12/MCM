@@ -42,12 +42,13 @@
                             <h1>Haz tu Propia LandingPage para tu envento o emprendimiento en 6 simples pasos!</h1> <br>
                         </div>
                         <h5>
-                            1) Crea una Campaña con su respetivo Nombre .<br> <!-- 1) Crea una Campaña con su respetivo Nombre .<br> -->
+                            1) Crea una Campaña con su respetivo Nombre .<br>
+                            <!-- 1) Crea una Campaña con su respetivo Nombre .<br> -->
                             2) Escoge la plantilla que mas se relacione a tu estilo.<br>
                             3) Personaliza tu plantilla ,agrega titulos,subtitulos y descripciones. <br>
                             4) Agrega Multimedia,agrega fotos,cartas informativas y descripciones. <br>
                             5) Conoce nuestros planes y escoges el que mejor se te acomode.<br>
-                            6) Obtienes tu link personalizado  para que puedas compartirlo con todo el
+                            6) Obtienes tu link personalizado para que puedas compartirlo con todo el
                             mundo<br>
                         </h5> <br>
                         <br>
@@ -69,70 +70,197 @@
                             </div>
                         </center><br><br><br>
                         <h2>Campañas Creadas</h2>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Fecha Creaciòn</th>
-                                    <th scope="col">Campaña</th>
-                                    <th scope="col">url</th>
-                                    <th scope="col">fecha Vence</th>
-                                    <th scope="col">Organizar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($campana as $c) { ?>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <?= $c->fechaCreacion ?>
-                                        </td>
-                                        <td>
-                                            <a href="<?= base_url() ?>LandingUser/sett/<?= $c->idPlant ?>/<?= $c->id ?>">
-                                                <?= $c->campana ?></a>
-                                        </td>
-                                        <td>
-                                            <?= $c->url ?>
-                                        </td>
-                                        <td>
-                                            <?= $c->fechaVence ?>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#modi<?= $c->id ?>">
-                                                <i class="bi bi-gear"></i>
-                                            </button>
-                                        </td>
+                                        <th scope="col">Fecha Creaciòn</th>
+                                        <th scope="col">Campaña</th>
+                                        <th scope="col">url</th>
+                                        <th scope="col">fecha Vence</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Organizar</th>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($campana as $c) { ?>
+                                        <tr>
+                                            <td>
+                                                <?= $c->fechaCreacion ?>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    href="<?= base_url() ?>LandingUser/sett/<?= $c->idPlant ?>/<?= $c->id ?>">
+                                                    <?= $c->campana ?></a>
+                                            </td>
+                                            <td>
+                                                <?= $c->url ?>
+                                            </td>
+                                            <td>
+                                                <?= $c->fechaVence ?>
+                                            </td>
+                                            <?php if ($c->fechaVence == null) { ?>
+                                                <td>
+                                                    <button class="btn btn-warning">En proceso</button>
+                                                </td>
+                                            <?php } else if ($c->idPaquete != null) { ?>
+                                                <?php if ($fechaActual > $c->fechaVence) { ?>
+                                                        <td>
+                                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                data-bs-target="#compra<?= $c->id ?>">Vencido</button>
+                                                        </td>
+                                                <?php } else if ($fechaActual <= $c->fechaVence) { ?>
+                                                            <td>
+                                                                <button class=" btn btn-success">Activo</button>
+                                                            </td>
+                                                <?php } ?>
+                                            <?php } ?>
 
-                                    <!-- Modal set -->
-                                    <div class="modal fade" id="modi<?= $c->id ?>" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <form action="<?= base_url() ?>LandingUser/Upnmae/<?=$c->id?>" method="post">
-                                                
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica Campaña
-                                                    </h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"><i class="bi bi-x-lg"></i></button>
+
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#modi<?= $c->id ?>">
+                                                    <i class="bi bi-gear"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Modal set -->
+                                        <div class="modal fade" id="modi<?= $c->id ?>" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="<?= base_url() ?>LandingUser/Upnmae/<?= $c->id ?>"
+                                                        method="post">
+
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modifica
+                                                                Campaña
+                                                            </h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label for="">Nombre Campaña</label>
+                                                            <input type="text" class="form-control" name="campana"
+                                                                value="<?= $c->campana ?>" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-primary">Guardar Cambios
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <label for="">Nombre Campaña</label>
-                                                    <input type="text" class="form-control" name="campana"
-                                                        value="<?= $c->campana ?>" required>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Cerrar</button>
-                                                    <button type="submit" class="btn btn-primary">Guardar Cambios </button>
-                                                </div>
-                                                </form>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="compra<?= $c->id ?>" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Comprar</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <center>
+                                                            <h1 class="text-dark text-center"
+                                                                style="font-family: 'Righteous', cursive; color:'black';">
+                                                                Conoce nuestros paquetes para empezar a utilizar este
+                                                                producto</h1>
+                                                            <div
+                                                                class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-2 text-center ">
+                                                                <?php foreach ($paquetes as $p) { ?>
+
+                                                                    <div class="card mb-4" style="height:450px; margin: 30px;">
+                                                                        <form
+                                                                            action="<?= base_url() ?>LandingUser/PayLandingNofree/<?= $p->id ?>/<?= $c->id ?>">
+                                                                            <div class="card-header">
+                                                                                <h4 class=" text-dark">
+                                                                                    <?= $p->nombre ?>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <h1 class="card-title pricing-card-title">$
+                                                                                    <?= $p->precio ?>
+                                                                                    <small
+                                                                                        class="text-muted fw-light">/mo</small>
+                                                                                </h1>
+                                                                                <ul class="list-unstyled mt-3 mb-4 text-dark"
+                                                                                    style="height:232px;">
+                                                                                    <li>
+                                                                                        <?= $p->descripcion ?>
+                                                                                    </li>
+                                                                                </ul>
+                                                                                <button type="submit"
+                                                                                    class="w-100 btn btn-lg btn-outline-primary">Obtener</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal  Comprar-->
+                                        <div class="modal fade" id="compra<?= $c->id ?>" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h1 class="text-dark text-center"
+                                                            style="font-family: 'Righteous', cursive; color:'black';">
+                                                            Conoce nuestros paquetes para empezar a utilizar este producto
+                                                        </h1>
+                                                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-2 text-center "
+                                                            style="margin-top:2rem ;">
+                                                            <?php foreach ($paquetes as $p) { ?>
+                                                                <div class="col">
+                                                                    <div class="card mb-4  " style="height:450px;">
+                                                                        <form
+                                                                            action="<?= base_url() ?>LandingUser/PayLanding/<?= $p->id ?>">
+                                                                            <div class="card-header">
+                                                                                <h4 class=" text-dark">
+                                                                                    <?= $p->nombre ?>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <h1 class="card-title pricing-card-title">$
+                                                                                    <?= $p->precio ?>
+                                                                                    <small
+                                                                                        class="text-muted fw-light">/mo</small>
+                                                                                </h1>
+                                                                                <ul class="list-unstyled mt-3 mb-4 text-dark"
+                                                                                    style="height:232px;">
+                                                                                    <li>
+                                                                                        <?= $p->descripcion ?>
+                                                                                    </li>
+                                                                                </ul>
+                                                                                <button type="submit"
+                                                                                    class="w-100 btn btn-lg btn-outline-primary">Obtener</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

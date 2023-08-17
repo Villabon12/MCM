@@ -52,11 +52,9 @@
                         <div class="row row-cols-1 row-cols-md-3 mb-4 text-center" style="margin-top:2rem ;">
                             <?php foreach ($plantillas as $p) { ?>
                                 <div class="col">
-                                    <div class="card" style="width: 18rem; margin-top:25px;">
-                                        <a target="_blank" href="<?= base_url() ?>LinkTree/viewPlantilla/">
+                                    <div class="card" style="width: 18rem; margin-top:25px;">   
                                             <img src="<?= base_url() ?>assets/img/landing/Caps/<?= $p->img ?>" class="card-img-top"
                                                 style="height:250px;" alt="...">
-                                        </a>
                                         <div class="card-body">
                                             <h5 class="card-title">
                                                <?= $p->nombre ?>
@@ -96,34 +94,64 @@
 <!-- plugins:js -->
 
 <script src="<?= base_url() ?>admin_temp/vendors/js/vendor.bundle.base.js"></script>
+
 <!-- endinject -->
+
 <!-- Plugin js for this page -->
+
 <script src="<?= base_url() ?>admin_temp/vendors/moment/moment.min.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/vendors/daterangepicker/daterangepicker.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/vendors/chartist/chartist.min.js"></script>
+
 <!-- End plugin js for this page -->
+
 <!-- inject:js -->
+
 <script src="<?= base_url() ?>admin_temp/js/off-canvas.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/js/misc.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/js/file-upload.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/js/settings.js"></script>
+
 <!-- endinject -->
+
 <!-- Custom js for this page -->
+
 <script src="<?= base_url() ?>admin_temp/vendors/clipboard/clipboard.min.js"></script>
 
+
+
 <script src="<?= base_url() ?>admin_temp/js/dashboard.js"></script>
+
 <!-- End custom js for this page -->
 
+
+
 <script src="<?= base_url() ?>admin_temp/vendors/datatables.net/jquery.dataTables.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+
 
 <!-- End plugin js for this page -->
 
+
+
 <!-- Custom js for this page -->
+
 <script src="<?= base_url() ?>admin_temp/js/data-table.js"></script>
+
 <script src="<?= base_url() ?>admin_temp/js/popover.js"></script>
+
 <!-- End custom js for this page -->
+
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 

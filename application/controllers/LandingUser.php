@@ -1,4 +1,5 @@
 <?php
+
 use LDAP\Result;
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -25,6 +26,7 @@ class LandingUser extends CI_Controller
     {
         $result['perfil'] = $this->Model_login->cargar_datos();
         $result['campana'] = $this->Model_landingu->GetCampaña();
+        $result['paquetes'] = $this->Model_landingu->GetpaquetesNofree();
         $idxuser = $this->model_servicio->reportesxuser();
         if ($idxuser != false) {
             $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
@@ -39,10 +41,11 @@ class LandingUser extends CI_Controller
 
             $result['valor'] = number_format($valor->valor + ($ganancia - $perdida), 2);
         }
+        $fechaActual = date('Y-m-d');
+        $result['fechaActual'] = $fechaActual;
         $this->load->view('header_socio', $result);
         $this->load->view('landingxuser/home', $result);
         $this->load->view('footer_socio', $result);
-
     }
     public function setemb()
     {
@@ -89,10 +92,8 @@ class LandingUser extends CI_Controller
                         $this->Model_landingu->SaveRegistro($ari);
                     }
                 } else {
-
                 }
             }
-
         }
         $result['ListUsers'] = $resultados;
         $result['ListEmbu'] = $msjem;
@@ -220,6 +221,9 @@ class LandingUser extends CI_Controller
         if ($ole == 4) {
             $this->load->view('view_principal/landing_page4', $result);
         }
+        if ($ole == 5) {
+            $this->load->view('view_principal/landing_page_prin', $result);
+        }
         //uso de cookies
 
         $this->load->helper('cookie');
@@ -235,8 +239,6 @@ class LandingUser extends CI_Controller
         );
         set_cookie($cookie_1);
         set_cookie($cookie_2);
-
-
     }
     public function MakeView()
     {
@@ -253,30 +255,36 @@ class LandingUser extends CI_Controller
         $result['cards'] = $this->Model_landingu->cards($infoCampa->id);
         $result['DaCamp'] = $this->Model_landingu->infoUser($infoCampa->id);
 
-        $edicion = false;
-        $this->visita($infoCampa->id);
-        $ari = array(
-            "contador" => $infoCampa->contador + 1,
-        );
-        $this->Model_landingu->UpdatePlanti($ari, $infoCampa->id);
-        $result['edicion'] = $edicion;
+        $fechaActual = date('Y-m-d');
+        if ($fechaActual <= $infoCampa->fechaVence) {
+            $edicion = false;
+            $this->visita($infoCampa->id);
+            $ari = array(
+                "contador" => $infoCampa->contador + 1,
+            );
+            $this->Model_landingu->UpdatePlanti($ari, $infoCampa->id);
+            $result['edicion'] = $edicion;
 
-        $result['paquetes'] = $this->Model_landingu->Getpaquetes();
-        $ole = $infoCampa->idPlant;
+            $result['paquetes'] = $this->Model_landingu->Getpaquetes();
+            $ole = $infoCampa->idPlant;
 
-
-
-        if ($ole == 1) {
-            $this->load->view('view_principal/landing_page', $result);
-        }
-        if ($ole == 2) {
-            $this->load->view('view_principal/landing_page2', $result);
-        }
-        if ($ole == 3) {
-            $this->load->view('view_principal/landing_page3', $result);
-        }
-        if ($ole == 4) {
-            $this->load->view('view_principal/landing_page4', $result);
+            if ($ole == 1) {
+                $this->load->view('view_principal/landing_page', $result);
+            }
+            if ($ole == 2) {
+                $this->load->view('view_principal/landing_page2', $result);
+            }
+            if ($ole == 3) {
+                $this->load->view('view_principal/landing_page3', $result);
+            }
+            if ($ole == 4) {
+                $this->load->view('view_principal/landing_page4', $result);
+            }
+            if ($ole == 5) {
+                $this->load->view('view_principal/landing_page_prin', $result);
+            }
+        } else {
+            echo ("Pagina no disponible");
         }
 
     }
@@ -295,18 +303,22 @@ class LandingUser extends CI_Controller
         $result['paquetes'] = $this->Model_landingu->Getpaquetes();
         $ole = $infoCampa->idPlant;
 
+
         if ($infoCampa->estado == 1) {
             if ($ole == 1) {
                 $this->load->view('view_principal/agradecimiento2', $result);
             }
             if ($ole == 2) {
-                // $this->load->view('view_principal/landing_page2', $result);
+                $this->load->view('view_principal/agradecimiento3', $result);
             }
             if ($ole == 3) {
-                // $this->load->view('view_principal/landing_page3', $result);
+                $this->load->view('view_principal/agradecimiento4', $result);
             }
             if ($ole == 4) {
-                // $this->load->view('view_principal/landing_page4', $result);
+                $this->load->view('view_principal/agradecimiento5', $result);
+            }
+            if ($ole == 5) {
+                $this->load->view('view_principal/agradecimiento', $result);
             }
         } else {
             echo "Campaña no disponible";
@@ -340,6 +352,9 @@ class LandingUser extends CI_Controller
         if ($ole == 4) {
             $this->load->view('view_principal/agradecimiento5', $result);
         }
+        if ($ole == 5) {
+            $this->load->view('view_principal/agradecimiento', $result);
+        }
         //uso de cookies
     }
 
@@ -371,7 +386,6 @@ class LandingUser extends CI_Controller
         );
         $this->Model_landingu->insertEmail($are);
         redirect(base_url() . 'LandingUser/Agra/' . $nombreCampa, 'refresh');
-
     }
     public function visita($id)
     {
@@ -433,6 +447,8 @@ class LandingUser extends CI_Controller
         $d1 = $this->input->post('d1');
         $d2 = $this->input->post('d2');
         $d3 = $this->input->post('d3');
+        $branding = $this->input->post('branding');
+        $loops = $this->input->post('loops');
         $descripcion = $this->input->post('descripcion');
 
         if ($t1 != null) {
@@ -478,6 +494,16 @@ class LandingUser extends CI_Controller
         if ($t5 != null) {
             $arr = array(
                 't5' => $t5,
+            );
+        }
+        if ($branding != null) {
+            $arr = array(
+                'branding' => $branding,
+            );
+        }
+        if ($loops != null) {
+            $arr = array(
+                'loops' => $loops,
             );
         }
 
@@ -581,49 +607,92 @@ class LandingUser extends CI_Controller
         $info = $this->Model_landingu->infoUser($valor_cookie1);
 
         $op = $this->input->post('op');
-        $mi_archivo = 'img';
-        $config['upload_path'] = './assets/img/landing/Pics/';
-        $config['allowed_types'] = "jpg|png|jpeg|pdf|jfif|svg|webp";
-        $config['maintain_ratio'] = TRUE;
-        $config['create_thumb'] = FALSE;
-        $config['width'] = 800;
-        $config['height'] = 800;
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload($mi_archivo)) {
-            // redirect(base_url() . "LandingUser/viewUser", "refresh");
-            echo $this->upload->display_errors();
-            $this->session->set_flashdata('error', ' <center><div class="alert alert-danger align-items-center d-flex" style="width: 1000px;"> Error al subir La imagen </div></center> ');
-        } else {
-            $data = array("upload_data" => $this->upload->data());
-            $imagen = $data['upload_data']['file_name'];
-            if ($op == 1) {
-                $arre = array(
-                    'logo' => $imagen,
-                );
-            }
-            if ($op == 2) {
-                $arre = array(
-                    'img2' => $imagen,
-                );
-            }
-            if ($op == 3) {
-                $arre = array(
-                    'img3' => $imagen,
-                );
-            }
-            if ($op == 4) {
-                $arre = array(
-                    'imgag' => $imagen,
-                );
-            }
-            $this->Model_landingu->UpdateTools($arre, $info->id);
-            if ($op != 4) {
-                redirect(base_url() . 'LandingUser/Sett/' . $info->idPlant . '/' . $valor_cookie1, 'refresh');
+
+
+        // Obtener información del archivo
+        $archivo = $_FILES['img'];
+        $nombre = $archivo['name'];
+        $tipo = $archivo['type'];
+
+        // Verificar si es una imagen
+        $es_imagen = strpos($tipo, 'image') !== false;
+        // Verificar si es un video
+        $es_video = strpos($tipo, 'video') !== false;
+
+        if ($es_imagen) {
+            $mi_archivo = 'img';
+            $config['upload_path'] = './assets/img/landing/Pics/';
+            $config['allowed_types'] = "jpg|png|jpeg|pdf|jfif|svg|webp";
+            $config['maintain_ratio'] = TRUE;
+            $config['create_thumb'] = FALSE;
+            $config['width'] = 800;
+            $config['height'] = 800;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload($mi_archivo)) {
+                // redirect(base_url() . "LandingUser/viewUser", "refresh");
+                echo $this->upload->display_errors();
+                $this->session->set_flashdata('error', ' <center><div class="alert alert-danger align-items-center d-flex" style="width: 1000px;"> Error al subir La imagen </div></center> ');
             } else {
+                $data = array("upload_data" => $this->upload->data());
+                $imagen = $data['upload_data']['file_name'];
+                if ($op == 1) {
+                    $arre = array(
+                        'logo' => $imagen,
+                    );
+                }
+                if ($op == 2) {
+                    $arre = array(
+                        'img2' => $imagen,
+                    );
+                }
+                if ($op == 3) {
+                    $arre = array(
+                        'img3' => $imagen,
+                    );
+                }
+                if ($op == 4) {
+                    $arre = array(
+                        'imgag' => $imagen,
+                        'stateid' => 1,
+                    );
+                }
+                $this->Model_landingu->UpdateTools($arre, $info->id);
+                if ($op != 4) {
+                    redirect(base_url() . 'LandingUser/Sett/' . $info->idPlant . '/' . $valor_cookie1, 'refresh');
+                } else {
+                    redirect(base_url() . 'LandingUser/Settag/' . $idCamp, 'refresh');
+                }
+            }
+        } elseif ($es_video) {
+            // video
+            // Configuración de carga de archivos
+            $config['upload_path'] = './assets/img/landing/Pics/'; // Ruta a la carpeta de destino
+            $config['allowed_types'] = 'mp4|avi|mov'; // Tipos de archivo permitidos
+            $config['max_size'] = 10240; // Tamaño máximo del archivo en kilobytes (10MB)
+
+            // Cargar la librería de carga
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('img')) {
+                // Error al subir el archivo
+                $error = $this->upload->display_errors();
+                echo $error;
+            } else {
+                // Archivo subido correctamente
+                $datos_archivo = $this->upload->data();
+                $nombre_archivo = $datos_archivo['file_name'];
+
+                $arre = array(
+                    'imgag' => $nombre_archivo,
+                    'stateid' => 2,
+                );
+                $this->Model_landingu->UpdateTools($arre, $info->id);
+                echo 'Es un video';
                 redirect(base_url() . 'LandingUser/Settag/' . $idCamp, 'refresh');
             }
-
-
+        } else {
+            // Archivo no es ni imagen ni video
+            // ...
         }
     }
     function generateRandomString($length)
@@ -694,7 +763,6 @@ class LandingUser extends CI_Controller
                     'msj' => $msj,
                 );
                 $this->Model_landingu->insertSettEmbu($are);
-
             } else {
                 $this->session->set_flashdata('error', '  <center><div class="alert alert-danger text-center d-flex  " style="width: 50%;"> Maximo de Notificacion Superado</div></center>');
             }
@@ -729,7 +797,6 @@ class LandingUser extends CI_Controller
             $this->Model_landingu->insertSettEmbu($are);
         }
         redirect(base_url() . 'LandingUser/setemb/', 'refresh');
-
     }
     public function PayLanding($idPaquete)
     {
@@ -823,9 +890,71 @@ class LandingUser extends CI_Controller
                 redirect(base_url() . 'LandingUser/Settag/' . $info->id, 'refresh');
             }
         }
+    }
+    public function PayLandingNofree($idPaquete, $idCamp)
+    {
+        $perfil = $this->Model_login->cargar_datos();
+        $billetera = $this->model_banco->billetera($perfil->token);
+        $paquete = $this->Model_landingu->infoPaquete($idPaquete);
+        $info = $this->Model_landingu->infoUser($idCamp);
+        $name = $info->campana;
+
+        // Obtiene la fecha actual
+        $fechaActual = new DateTime();
+
+        // Clona el objeto para mantener la fecha actual intacta
+        $fechaMasUnMes = clone $fechaActual;
+        $fechaMas15Dias = clone $fechaActual;
+        // Suma un mes a la fecha actual
+        $fechaMasUnMes->modify('+1 month');
+
+        // Suma 15 días a la fecha actual
+        $fechaMas15Dias->modify('+15 days');
+        $fechaMasUnMesStr = $fechaMasUnMes->format('Y-m-d');
+        $fechaMas15DiasStr = $fechaMas15Dias->format('Y-m-d');
 
 
+        if ($billetera->cuenta_compra >= $paquete->precio) {
 
+            $restar = $billetera->cuenta_compra - $paquete->precio;
+            $data = array(
+                "cuenta_compra" => $restar
+            );
+            $this->model_banco->updBilletera($perfil->token, $data) == 1;
+
+            $proceso = $this->ProcesoDistribucion($paquete->precio);
+
+            if ($proceso == true) {
+                // Reemplazar espacios en blanco con guiones bajos en el campo de texto
+                $name2 = $this->replace_spaces($name);
+
+                $url2 = "www.myconnectmind.com/LandingUser/view/" . $name2;
+
+                $are = array(
+                    'idPaquete' => $idPaquete,
+                    'idCamp' => $idCamp,
+                );
+                $this->Model_landingu->insertPay($are);
+
+                $ari = array(
+                    'url' => $url2,
+                    'ulrname' => $name2,
+                    'estado' => 1,
+                    'idPaquete' => $idPaquete,
+                    'fechaVence' => $fechaMasUnMesStr,
+                );
+                $this->Model_landingu->UpdatePlanti($ari, $info->id);
+
+                $this->session->set_flashdata('error', '  <center><div class="alert alert-success text-center d-flex  " style="width: 50%;"> Compra exitosa</div></center>');
+                redirect(base_url() . 'LandingUser/home', 'refresh');
+            } else {
+                echo "error";
+            }
+        } else {
+            $this->session->set_flashdata('error', '  <center><div class="alert alert-danger text-center d-flex  " style="width: 50%;"> Fondos insuficientes</div></center>');
+            redirect(base_url() . 'LandingUser/home', 'refresh');
+
+        }
     }
     //// proceso de pago
     public function ProcesoDistribucion($precio)
@@ -935,7 +1064,7 @@ class LandingUser extends CI_Controller
                             );
                             $this->Model_landingu->SaveRegistro($ari);
                         }
-                    } 
+                    }
                 }
             }
         }

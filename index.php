@@ -313,4 +313,7 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+// Carga las dependencias de Composer
+
+//..
 require_once BASEPATH.'core/CodeIgniter.php';

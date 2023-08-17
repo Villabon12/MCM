@@ -31,10 +31,10 @@
                                                         <tr>
                                                             <th scope="col">Fecha</th>
                                                             <th scope="col">Nombre</th>
-                                                            <th scope="col">Apellido</th>
                                                             <th scope="col">Usuario</th>
                                                             <th scope="col">Valor</th>
                                                             <th scope="col">Wallet a consignar</th>
+                                                            <th scope="col">Wallet Perfil</th>
                                                             <th scope="col"></th>
                                                         </tr>
                                                     </thead>
@@ -43,11 +43,11 @@
 
                                                             <tr>
                                                                 <td><?= $B->fecha ?></td>
-                                                                <td><?= $B->nombre ?></td>
-                                                                <td><?= $B->apellido1 ?></td>
+                                                                <td><?= $B->nombre ." " . $B->apellido1 ?></td>
                                                                 <td><?= $B->user ?></td>
-                                                                <td>$ <?= number_format($B->valor, 2) ?></td>
+                                                                <td><?= $B->valor ?></td>
                                                                 <td><?= $B->wallet_binance ?></td>
+                                                                <td style="background-color:#C2FEB6;"><?= $B->walletperfil ?></td>
                                                                 <td>
                                                                     <?php if ($B->aprobar == 0) { ?>
                                                                         <button data-bs-toggle="modal" data-bs-target="#pagar<?= $B->id ?>" class="btn btn-primary">Pago realizado</button>

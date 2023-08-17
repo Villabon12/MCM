@@ -16,6 +16,7 @@ class Banco extends CI_Controller
         $this->load->model('model_proceso');
         $this->load->model('model_banco');
         $this->load->model('model_email2');
+        $this->load->model('model_binarias');
     }
 
     public function index()
@@ -43,7 +44,7 @@ class Banco extends CI_Controller
                 if ($this->session->userdata('ROL') == 'Ultra' || $this->session->userdata('ROL') == 'SocioAdmin' || $this->session->userdata('ROL') == 'Socio') {
                     $result['perfil'] = $this->model_login->cargar_datos();
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if ( $idxuser != false) {
+                    if ($idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -133,7 +134,7 @@ class Banco extends CI_Controller
                 $result['consigna'] = $this->model_banco->cargar();
 
                 $idxuser = $this->model_servicio->reportesxuser();
-                if ( $idxuser != false) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -182,7 +183,7 @@ class Banco extends CI_Controller
                 $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                 $idxuser = $this->model_servicio->reportesxuser();
-                if ( $idxuser != false) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();
@@ -300,7 +301,7 @@ class Banco extends CI_Controller
                     $result['disponibilidad'] = $this->model_servicio->consultarCampos();
 
                     $idxuser = $this->model_servicio->reportesxuser();
-                    if ( $idxuser != false) {
+                    if ($idxuser != false) {
                         $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                         $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                         $valor = $this->model_servicio->comisiones();
@@ -411,10 +412,14 @@ class Banco extends CI_Controller
 
         $tipo_billetera = $this->input->post('billetera');
 
+        $walletBinance = $this->input->post('wallet');
+
+
+
         if ($tipo_billetera == 1) {
             $codigo = $this->input->post('codigo');
             $date = new DateTime();
-
+            $NombreBilletera = "Binarias";
             if ($perfil->fecha_caduca_cod >= $date->format('Y-m-d H:i:s')) {
                 if ($codigo == $perfil->codigo_seguridad) {
                     $datos = $this->model_proceso->cargarInversion($perfil->id);
@@ -437,6 +442,9 @@ class Banco extends CI_Controller
                             $porc = $this->model_proceso->traer_parametro(18);
                             $restar = $retiro * $porc->valor;
 
+                            $valor = $retiro - $restar;
+
+
                             //pago persona
 
                             $arre2 = array(
@@ -448,6 +456,8 @@ class Banco extends CI_Controller
                             $papa = $this->model_proceso->consultar_referido_niveles($perfil->id_papa_pago);
                             $activo_papa = $this->model_proceso->revisar_activo($perfil->id_papa_pago);
 
+                            //empieza proceso de pago
+                            $this->realizarRetiroWallet($codigo, $valor, $walletBinance, $NombreBilletera);
 
                             //Consultar si tiene papa y compró el servicio del robot y pagar
                             if ($papa != false && $activo_papa != false) {
@@ -773,7 +783,8 @@ class Banco extends CI_Controller
                         } else {
                             $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Valor insuficiente en la inversion</label></div>');
                             redirect(base_url() . "Retiros", "refresh");
-                        };
+                        }
+                        ;
                     }
                 } else {
                     $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Codigo de seguridad no son iguales</label></div>');
@@ -786,6 +797,7 @@ class Banco extends CI_Controller
         } elseif ($tipo_billetera == 2) {
             $codigo = $this->input->post('codigo');
             $date = new DateTime();
+            $NombreBilletera = "Comision";
             if ($perfil->fecha_caduca_cod >= $date->format('Y-m-d H:i:s')) {
                 if ($codigo == $perfil->codigo_seguridad) {
                     if ($retiro <= $billeteraPersonal->cuenta_comision) {
@@ -793,16 +805,20 @@ class Banco extends CI_Controller
                             "cuenta_comision" => $billeteraPersonal->cuenta_comision - $retiro
                         );
                         $this->model_proceso->actualizar_wallet($arre, $billeteraPersonal->token);
+
                         $porc = $this->model_proceso->traer_parametro(19);
                         $restar = $retiro * $porc->valor;
 
-                        //pago persona
+                        $valor = $retiro - $restar;
 
-                        $arre2 = array(
-                            "cuenta_compra" => $billeteraPersonal->cuenta_compra + $retiro - $restar
+                        $arrePrin = array(
+                            "cuenta_compra" => $billeteraPersonal->cuenta_compra + $valor
                         );
+                        $this->model_proceso->actualizar_wallet($arrePrin, $billeteraPersonal->token);
+                        //empieza proceso de pago
+                        $this->realizarRetiroWallet($codigo, $valor, $walletBinance, $NombreBilletera);
 
-                        $this->model_proceso->actualizar_wallet($arre2, $billeteraPersonal->token);
+
 
                         $papa = $this->model_proceso->consultar_referido_niveles($perfil->id_papa_pago);
                         $activo_papa = $this->model_proceso->revisar_activo($perfil->id_papa_pago);
@@ -820,7 +836,7 @@ class Banco extends CI_Controller
                                 "usuario_id" => $perfil->id,
                                 "beneficio_id" => $papa->id,
                                 "valor" => $resultado,
-                                "servicio" => "binaria",
+                                "servicio" => "billetera comision",
                                 "detalle" => "retiro equipo comision"
                             );
                             $this->model_proceso->historialComisiones($pagar);
@@ -845,7 +861,7 @@ class Banco extends CI_Controller
                                     "usuario_id" => $perfil->id,
                                     "beneficio_id" => $abuelo->id,
                                     "valor" => $resultado2,
-                                    "servicio" => "binaria",
+                                    "servicio" => "billetera comision",
                                     "detalle" => "retiro equipo comision"
                                 );
                                 $this->model_proceso->historialComisiones($pagar2);
@@ -870,7 +886,7 @@ class Banco extends CI_Controller
                                         "usuario_id" => $perfil->id,
                                         "beneficio_id" => $bisabuelo->id,
                                         "valor" => $resultado3,
-                                        "servicio" => "binaria",
+                                        "servicio" => "billetera comision",
                                         "detalle" => "retiro equipo comision"
                                     );
                                     $this->model_proceso->historialComisiones($pagar3);
@@ -1150,6 +1166,7 @@ class Banco extends CI_Controller
         } else {
             $codigo = $this->input->post('codigo');
             $date = new DateTime();
+            $NombreBilletera = "Juego";
             if ($perfil->fecha_caduca_cod >= $date->format('Y-m-d H:i:s')) {
                 if ($codigo == $perfil->codigo_seguridad) {
                     if ($retiro <= $billeteraPersonal->cuenta_juego) {
@@ -1160,13 +1177,9 @@ class Banco extends CI_Controller
                         $porc = $this->model_proceso->traer_parametro(23);
                         $restar = $retiro * $porc->valor;
 
-                        //pago persona
-
-                        $arre2 = array(
-                            "cuenta_compra" => $billeteraPersonal->cuenta_compra + $retiro - $restar
-                        );
-
-                        $this->model_proceso->actualizar_wallet($arre2, $billeteraPersonal->token);
+                        $valor = $retiro - $restar;
+                        //empieza proceso de pago
+                        $this->realizarRetiroWallet($codigo, $valor, $walletBinance, $NombreBilletera);
 
                         $papa = $this->model_proceso->consultar_referido_niveles($perfil->id_papa_pago);
                         $activo_papa = $this->model_proceso->revisar_activo($perfil->id_papa_pago);
@@ -1537,13 +1550,13 @@ class Banco extends CI_Controller
         }
     }
 
-    public function realizarRetiroWallet()
+
+    public function realizarRetiroWallet($codigo, $retiro, $wallet, $NombreBilletera)
     {
-        $codigo = $this->input->post('codigo');
+
         $perfil = $this->model_login->cargar_datos();
+
         $billeteraPersonal = $this->model_proceso->cargar_billetera($perfil->token);
-        $retiro = $this->input->post('retiro');
-        $wallet = $this->input->post('wallet');
         $date = new DateTime();
 
         if ($perfil->fecha_caduca_cod >= $date->format('Y-m-d H:i:s')) {
@@ -1564,13 +1577,12 @@ class Banco extends CI_Controller
                         $historial2 = array(
                             "usuario_id" => $perfil->id,
                             "valor" => $retiro,
-                            "detalle" => "retiro billetera principal"
+                            "detalle" => $NombreBilletera
                         );
 
                         $this->model_banco->insertRetiro($arre2);
                         $this->model_proceso->historialRetiro($historial2);
-                        $this->session->set_flashdata('exito', '<div class="alert alert-success text-center"><label class="login__input name">Retiro exitoso, esperar entre 5 dias a 45 dias</label></div>');
-                        redirect(base_url() . "Retiros", "refresh");
+
                     } else {
                         $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name">Valor insuficiente en la inversion</label></div>');
                         redirect(base_url() . "Retiros", "refresh");
@@ -1588,7 +1600,6 @@ class Banco extends CI_Controller
             redirect(base_url() . "Retiros", "refresh");
         }
     }
-
     public function generateRandomString($length)
     {
         return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
@@ -1601,7 +1612,7 @@ class Banco extends CI_Controller
                 $result['perfil'] = $this->model_login->cargar_datos();
                 $result['historial'] = $this->model_banco->cargarHistorialTransferencia();
                 $idxuser = $this->model_servicio->reportesxuser();
-                if ( $idxuser != false) {
+                if ($idxuser != false) {
                     $ganancia = $this->model_servicio->ganancia($idxuser->idxuser);
                     $perdida = $this->model_servicio->perdida($idxuser->idxuser);
                     $valor = $this->model_servicio->comisiones();

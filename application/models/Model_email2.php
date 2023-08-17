@@ -15,16 +15,12 @@ class model_email2 extends CI_Model
 		'protocol' => 'smtp',
 		'smtp_host' => 'mail.myconnectmind.com',
 		'smtp_port' => '25',
-		'smtp_user' => 'noresponder@myconnectmind.com', //'no-responder@tiindo.com',
-		'smtp_pass' => 'Snv2${QupK=+', //'jBM4,stW%8Bs', ##'LIpo12@$',//'@7EC-6AeB4?X',
+		'smtp_user' => 'norespondreti@myconnectmind.com', //'no-responder@tiindo.com',
+		'smtp_pass' => '^rjf~tc,Vv$o', //'jBM4,stW%8Bs', ##'LIpo12@$',//'@7EC-6AeB4?X',
 		'mailtype' => 'html',
 		'charset' => 'iso-8859-1',
-		'codigo' => 'noresponder@myconnectmind.com',
+		'codigo' => 'norespondreti@myconnectmind.com',
 	);
-
-
-
-
 	public function codigo_seguridad($correo, $codigo)
 	{
 
@@ -1427,7 +1423,10 @@ class model_email2 extends CI_Model
 			#################################
 			#################################
 			if ($this->email->send()) {
+
 			} else {
+				show_error($this->email->print_debugger());
+
 			} /*if*/
 			#Eliminamos el registro del envio
 			$this->db->where(array("int" => $email->int))->delete("dge_envio_email");

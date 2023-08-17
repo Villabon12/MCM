@@ -59,9 +59,9 @@
 
     <div class="cont">
 
-        <div class="demo"style="height:550px;">
+        <div class="demo" style="height:550px;">
 
-            <div class="login" >
+            <div class="login">
                 <div class="container" style="padding-top: 65px; ">
 
                     <center>
@@ -158,16 +158,23 @@
             var base_url = "<?= base_url() ?>";
 
             $("#button").on("click", function () {
-                var id = $('#user').val()
+                var id = $('#user').val();
+                console.log(id);
                 $.ajax({
-                    url: base_url + "Whatsapp/codigo_seguridad_inicio",
+                    url: base_url + "Whatsapp/Alternativa",
                     type: "POST",
                     data: {
                         id: id
                     },
                     success: function (resp) {
-                        html = resp;
-                        $('.mensaje').html(html);
+                        if (resp == null || resp.trim() == "") {
+                            html = "<p>No se encontraron resultados.</p>";
+                        } else {
+                            html = resp;
+                            $('.mensaje').html(html);
+                            console.log(resp);
+                        }
+                        console.log(resp);
                     }
                 })
             });
@@ -175,8 +182,6 @@
     </script>
 
     <!-- partial -->
-
-
 </body>
 
 

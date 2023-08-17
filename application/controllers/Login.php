@@ -23,6 +23,15 @@ class login extends CI_Controller
         $this->load->view('view_tiindo', $result);
     }
 
+    public function nuestros_servicios()
+    {
+        $result['usuario'] = $this->model_login->agrupar();
+        $result['ganancia'] = $this->model_login->cuentasGanancia();
+        $result['eventos'] = $this->model_modulo->cargar_eventos();
+
+        $this->load->view('nuestros_servicios', $result);
+    }
+
     public function ingreso($ban = null)
     {
         $this->load->view('view_login', $ban);
@@ -78,6 +87,11 @@ class login extends CI_Controller
         } else {
             $result = $this->model_login->consultaregistro($user, $cedula, $correo);
 
+            if ($result->contar == 1) { // no se puede registrar
+                $this->session->set_flashdata('error', '<div class="alert alert-danger text-center"><label class="login__input name" style="color:black;"> Registro invalido, ya existen las credenciales</label></div>');
+
+                redirect(base_url() . "login/registrar/" . $idpapa);
+            } else { // si se puede registrar
                 $token = md5($nombre . "+" . $correo);
                 $arre = array(
                     "token" => $token,
@@ -171,6 +185,7 @@ class login extends CI_Controller
                     redirect(base_url() . "login/registrar/" . $idpapa, "refresh");
                 }
             }
+        }
         // } else {
         // 	$this->session->set_flashdata('error', '<div class="alert alert-danger text-center">No se admiten caracteres especiales</div>');
         // 	redirect(base_url() . "login/registrar/".$idpapa, "refresh");
@@ -192,7 +207,7 @@ class login extends CI_Controller
             if (($this->model_errorpage->update($data, $cedula) == 1)) {
                 $datos = $this->model_errorpage->traerDatos($cedula);
                 $pais = $this->model_ultra->traer_pais($datos->pais_id);
-                $enlace = 'Login/procesoCambio/'.$datos->token;
+                $enlace = 'Login/procesoCambio/' . $datos->token;
 
                 $this->sendMensage($pais->celular, $datos->celular, $codigo, $datos->nombre, $enlace);
             } else {
@@ -211,54 +226,54 @@ class login extends CI_Controller
 
         $url = "https://graph.facebook.com/v15.0/109906238696085/messages";
         $access_token = "EAAIXHbrbkkUBAF8GUGG2Uy3ax2eK7YrMg6BIEJEOLZBDff8TJYM8FtcbqXPHTNSJemkcFL4aL38tNyuPcqmO4YUzwnMYzh1cBB9MiwMrttkk3mIxP8o5hiVDEoqASSezVNYhGKj5ssJTf8lsZAmc1xVh0VQ8EXMgA7TN52pydjpUN00mcA";
-        $celularenvio = "".$pais."".$celular;
+        $celularenvio = "" . $pais . "" . $celular;
         $data = array(
-          'messaging_product' => 'whatsapp',
-          'to' => $celularenvio,
-          'type' => 'template',
-          'template' => array(
-            'name' => 'codigo_seguridad',
-            'language' => array(
-              'code' => 'es_MX'
-            ),
-            'components' => array(
-              array(
-                'type' => 'body',
-                'parameters' => array(
-                  array(
-                    'type' => 'text',
-                    'text' => $nombre
-                  ),
-                  array(
-                    'type' => 'text',
-                    'text' => $codigo
-                  )
+            'messaging_product' => 'whatsapp',
+            'to' => $celularenvio,
+            'type' => 'template',
+            'template' => array(
+                'name' => 'codigo_seguridad',
+                'language' => array(
+                    'code' => 'es_MX'
+                ),
+                'components' => array(
+                    array(
+                        'type' => 'body',
+                        'parameters' => array(
+                            array(
+                                'type' => 'text',
+                                'text' => $nombre
+                            ),
+                            array(
+                                'type' => 'text',
+                                'text' => $codigo
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'button',
+                        'sub_type' => 'url',
+                        'index' => 0,
+                        'parameters' => array(
+                            array(
+                                'type' => 'text',
+                                'text' => $enlace
+                            )
+                        )
+                    )
                 )
-              ),
-              array(
-                'type' => 'button',
-                'sub_type' => 'url',
-                'index' => 0,
-                'parameters' => array(
-                  array(
-                    'type' => 'text',
-                    'text' => $enlace
-                   )
-                 )
-              )
             )
-          )
         );
 
         $options = array(
-          CURLOPT_URL => $url,
-          CURLOPT_POST => true,
-          CURLOPT_POSTFIELDS => json_encode($data),
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.$access_token,
-            'Content-Type: application/json'
-          )
+            CURLOPT_URL => $url,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $access_token,
+                'Content-Type: application/json'
+            )
         );
 
         $curl = curl_init();
@@ -339,7 +354,7 @@ class login extends CI_Controller
                     }
 
 
-            //
+                    //
                 } elseif ($result2->contar == 1) {
                     $cookie_4 = array(
                         'name'   => 'mi_cookie_4',
@@ -366,7 +381,7 @@ class login extends CI_Controller
 
 
                     if ($datos_user->rol_investor == 'investor') {
-                        redirect(base_url()."Investor");
+                        redirect(base_url() . "Investor");
                     }
                 } else {
                     //en caso contrario mostramos el error de usuario o contraseña invalido
@@ -430,26 +445,26 @@ class login extends CI_Controller
         $curl = curl_init();
         $api = "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";
         curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://api.openai.com/v1/completions",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => "POST",
-          CURLOPT_POSTFIELDS => json_encode(array(
-              'prompt' => $texto,
-              'model' => 'text-davinci-002',
-              'temperature' => 0.5,
-              'max_tokens' => 100,
-              'top_p' => 1,
-              'frequency_penalty' => 0,
-              'presence_penalty' => 0
-          )),
-          CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json",
-            "Authorization: Bearer ".$api
-          ),
+            CURLOPT_URL => "https://api.openai.com/v1/completions",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode(array(
+                'prompt' => $texto,
+                'model' => 'text-davinci-002',
+                'temperature' => 0.5,
+                'max_tokens' => 100,
+                'top_p' => 1,
+                'frequency_penalty' => 0,
+                'presence_penalty' => 0
+            )),
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Authorization: Bearer " . $api
+            ),
         ));
 
         $response = curl_exec($curl);
@@ -493,7 +508,7 @@ class login extends CI_Controller
             array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($data_string),
-                'Authorization: Bearer '.$api
+                'Authorization: Bearer ' . $api
             )
         );
 
@@ -525,7 +540,7 @@ class login extends CI_Controller
 
         curl_setopt($ch, CURLOPT_URL, 'https://api.hubapi.com/crm/v3/objects/contacts?limit=10&archived=false');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json","Authorization: Bearer ".$api));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $api));
 
         $result = curl_exec($ch);
         curl_close($ch);
@@ -537,18 +552,18 @@ class login extends CI_Controller
     {
         $principal = $this->input->post('balance');
         $tiempo = $this->input->post('periodo');
-        $tasa_interes = ($this->input->post('ganancia')/100);
+        $tasa_interes = ($this->input->post('ganancia') / 100);
         $principio = $principal;
 
 
-        for ($i=1; $i <= $tiempo; $i++) {
+        for ($i = 1; $i <= $tiempo; $i++) {
             $principal = $principal * (1 + $tasa_interes);
             echo '<tr>';
-            echo '<th scope="row">'.$i.'</th>';
-            echo '<td>'.$principio.'</td>';
-            echo '<td>'.number_format($principal, 2).'</td>';
-            echo '<td>'.number_format(($principal-$principio), 2).'</td>';
-            echo '<td>'.number_format((($principal-$principio)*100)/($principio), 2).'%</td> ';
+            echo '<th scope="row">' . $i . '</th>';
+            echo '<td>' . $principio . '</td>';
+            echo '<td>' . number_format($principal, 2) . '</td>';
+            echo '<td>' . number_format(($principal - $principio), 2) . '</td>';
+            echo '<td>' . number_format((($principal - $principio) * 100) / ($principio), 2) . '%</td> ';
             echo '</tr>';
         }
     }

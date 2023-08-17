@@ -22,8 +22,7 @@
 
     <link rel="icon" href="<?= base_url() ?>images/myconnect/toro.png" />
     <!-- cdn icon bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
-        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <style>
         .container {
 
@@ -59,11 +58,9 @@
 
         h2 {
 
-            font-size: 58px;
+            font-size: 50px;
 
             font-family: 'Bebas Neue', cursive;
-
-            margin-top: -2px;
 
             margin-bottom: 0;
 
@@ -71,6 +68,15 @@
 
         }
 
+        @media (max-width: 768px) {
+
+            h2 {
+
+                font-size: 40px;
+
+            }
+
+        }
 
 
         .h2 {
@@ -115,7 +121,15 @@
 
         }
 
+        @media (max-width: 768px) {
 
+            p {
+
+                font-size: 24px;
+
+            }
+
+        }
 
         .p {
 
@@ -135,7 +149,7 @@
 
             .p {
 
-                font-size: 1em;
+                font-size: 18;
 
             }
 
@@ -259,8 +273,6 @@
 
         }
 
-
-
         .button-p:hover {
 
             text-decoration: none;
@@ -276,53 +288,85 @@
             }
         }
 
+        .svg1 {
+            stroke: none;
+            border: 0;
+            margin-top: -100px;
+        }
+
+        @media (max-width: 768px) {
+            .svg1 {
+                margin-top: 1px;
+            }
+        }
+
         body {
             background: linear-gradient(60deg, rgba(84, 58, 183) 0%, rgba(0, 172, 193) 100%);
-            height: 110vh;
+        }
+
+        @media (max-width: 800px) {
+            .card1 {
+                height: 105vh;
+            }
+        }
+
+        .card-p {
+            width: 70%;
+        }
+
+        @media (max-width: 768px) {
+            .card-p {
+                width: 90%;
+            }
+        }
+
+        .btn-p {
+            width: 70%;
+        }
+
+        @media (max-width: 768px) {
+            .btn-p {
+                width: 90%;
+            }
         }
     </style>
 </head>
 
 <body>
     <?php if ($edicion == true) { ?>
-        <button class="btn btn-primary" type="button" style="border-radius:20px; margin:3rem;" data-bs-toggle="offcanvas"
-            data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+        <button class="btn btn-primary" type="button" style="margin: 1px; width: 60px; height: 50px; background-color: transparent; border-color: transparent;" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
             <i class="bi bi-list" style="font-size:30px;"></i>
         </button>
     <?php } ?>
-    <div class="container">
-        <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
-            aria-labelledby="staticBackdropLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"> <a
-                                href="<?= base_url() ?>LandingUser/sett/<?= $DaCamp->idPlant ?>/<?= $DaCamp->id ?>">Plantilla
-                                Principal</a></li>
-                        <?php if ($DaCamp->idPaquete > 1) { ?>
-                            <li class="list-group-item"> <a
-                                    href="<?= base_url() ?>LandingUser/analisis/<?= $DaCamp->id ?>">Analisis</a></li>
-                        <?php } ?>
+    <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"> <a href="<?= base_url() ?>LandingUser/sett/<?= $DaCamp->idPlant ?>/<?= $DaCamp->id ?>">Plantilla
+                            Principal</a></li>
+                    <?php if ($DaCamp->idPaquete > 1) { ?>
+                        <li class="list-group-item"> <a href="<?= base_url() ?>LandingUser/analisis/<?= $DaCamp->id ?>">Analisis</a></li>
+                    <?php } ?>
 
-                        <li class="list-group-item"><a
-                                href="<?= base_url() ?>LandingUser/Settag/<?= $DaCamp->id ?>">Plantilla
-                                Agradecimiento</a></li>
-                        <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/setemb">Embudo</a></li>
-                        <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/home">Home</a></li>
-                    </ul>
-                </div>
+                    <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/Settag/<?= $DaCamp->id ?>">Plantilla
+                            Agradecimiento</a></li>
+                    <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/setemb">Embudo</a></li>
+                    <li class="list-group-item"><a href="<?= base_url() ?>LandingUser/home">Home</a></li>
+                </ul>
             </div>
         </div>
-        <?php if ($this->session->flashdata("error")) { ?>
-            <p>
-                <?php echo $this->session->flashdata("error") ?>
-            </p>
-        <?php } ?>
-        <h2 style=margin-top:2rem;>
+    </div>
+    <?php if ($this->session->flashdata("error")) { ?>
+        <p>
+            <?php echo $this->session->flashdata("error") ?>
+        </p>
+    <?php } ?>
+    <div class="container">
+        <h2>
             <?php if ($tools->t1a != null) { ?>
                 <?= $tools->t1a ?>
             <?php } else { ?>
@@ -330,14 +374,10 @@
             <?php } ?>
             <?php if ($edicion == true) { ?>
                 <!-- Button t1a -->
-                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal"
-                    data-bs-target="#miModal" value="t1a">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path fill-rule="evenodd"
-                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="t1a">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                     </svg>
                 </button>
             <?php } ?>
@@ -350,19 +390,14 @@
             <?php } ?>
             <?php if ($edicion == true) { ?>
                 <!-- Button d1a -->
-                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal"
-                    data-bs-target="#miModal" value="d1a">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path fill-rule="evenodd"
-                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="d1a">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                     </svg>
                 </button>
             <?php } ?>
         </p>
-
         <?php if ($tools->imgag != null) { ?>
             <img src="<?= base_url() ?>/assets/img/landing/Pics/<?= $tools->imgag ?>" width="640" height="360" alt="">
         <?php } else { ?>
@@ -371,14 +406,10 @@
 
         <?php if ($edicion == true) { ?>
             <!-- Button imagen -->
-            <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal"
-                data-bs-target="#Setpic3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                    <path fill-rule="evenodd"
-                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+            <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#Setpic3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg>
             </button>
         <?php } ?>
@@ -391,14 +422,10 @@
             <?php } ?>
             <?php if ($edicion == true) { ?>
                 <!-- Button t2a -->
-                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal"
-                    data-bs-target="#miModal" value="t2a">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path fill-rule="evenodd"
-                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="t2a">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                     </svg>
                 </button>
             <?php } ?>
@@ -413,14 +440,10 @@
                 <?php } ?>
                 <?php if ($edicion == true) { ?>
                     <!-- Button d2a -->
-                    <button type="button" class="btn btn-primary" style="border:none;background:none;"
-                        data-bs-toggle="modal" data-bs-target="#miModal" value="d2a">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
-                            class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path
-                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path fill-rule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                    <button type="button" class="btn btn-primary" style="border:none;background:none;" data-bs-toggle="modal" data-bs-target="#miModal" value="d2a">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                         </svg>
                     </button>
                 <?php } ?>
@@ -435,44 +458,26 @@
             <?php } ?>
             <?php if ($DaCamp->url != null) { ?>
                 <center>
-                    <div class="card" style="width: 70%; border-radius:25px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Ahora comparte tu url con todo el mundo</h5>
-                            <div class="card" style="width: 18rem; border-radius:25px; background-color:#C7E9F9;">
-                                <div class="card-body">
-                                    <p class="card-title text-dark" id="url">
-                                        <?= $DaCamp->url ?>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <br>
-                    <button class="btn btn-warning" style="width: 70%; " onclick="copyUrl()">Copiar
-                        URL</button><br><br><br>
+                    <div class="card card-p">
+                        <h5 style="font-size: 28px;">Ahora comparte tu URL con todo el mundo</h5>
+                        <br>
+                        <p id="url" style="color: blue;"><?= $DaCamp->url ?></p>
+                    </div>
+                    <br>
+                    <button class="btn btn-warning btn-p" onclick="copyUrl()">Copiar URL</button>
                 </center>
             <?php } ?>
         <?php } ?>
-      
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- <center>
+                    <a href="https://devzapp.com.br/api-engennier/campanha/api/redirect/63cb4b1485c1340001e31239"
+                        class="button-p">UNIRME AL GRUPO VIP</a>
+                </center> -->
     </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="svg1">
+        <path fill="#f3f4f5" fill-opacity="1" style="height: 200px;" d="M0,192L80,176C160,160,320,128,480,138.7C640,149,800,203,960,208C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+        </path>
+    </svg>
+
 
     <!-- Modal  Modificar Campos-->
     <div class="modal" tabindex="-1" role="dialog" id="miModal">
@@ -496,8 +501,7 @@
     <div class="modal" tabindex="-1" role="dialog" id="Setpic3">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="<?= base_url() ?>LandingUser/Setimg/<?= $DaCamp->id ?>" method="post"
-                    enctype="multipart/form-data">
+                <form action="<?= base_url() ?>LandingUser/Setimg/<?= $DaCamp->id ?>" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Modificar Imagen</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -544,8 +548,7 @@
                                                     <?= $p->descripcion ?>
                                                 </li>
                                             </ul>
-                                            <button type="submit"
-                                                class="w-100 btn btn-lg btn-outline-primary">Obtener</button>
+                                            <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Obtener</button>
                                         </div>
                                     </form>
                                 </div>
@@ -557,47 +560,67 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-        media="screen">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </body>
+
 <script>
     function copyUrl() {
         var range = document.createRange();
         range.selectNode(document.getElementById("url"));
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);
-        navigator.clipboard.writeText(window.getSelection().toString()).then(function () {
+        navigator.clipboard.writeText(window.getSelection().toString()).then(function() {
             alert("La URL ha sido copiada en el portapapeles.");
-        }, function () {
+        }, function() {
             // alert("Error al copiar la URL.");
         });
         window.getSelection().removeAllRanges();
     }
 </script>
 <script>
-    $(document).ready(function () {
-        $("#miModal").on("show.bs.modal", function (event) {
+    $(document).ready(function() {
+        $("#miModal").on("show.bs.modal", function(event) {
             console.log("hola");
             var boton = $(event.relatedTarget);
             var opcion = boton.val();
 
             if (opcion == "t1a") {
-                var input = $('<input>').attr({ type: 'text', name: 't1a', class: 'form-control', placeholder: 'Modifique el titulo ', required: 'required' });
-            } if (opcion == "d1a") {
-                var input = $('<input>').attr({ type: 'text', name: 'd1a', class: 'form-control', placeholder: 'Modifique la descripcion ', required: 'required' });
-            } if (opcion == "t2a") {
-                var input = $('<input>').attr({ type: 'text', name: 't2a', class: 'form-control', placeholder: 'Modifique el titulo ', required: 'required' });
-            } if (opcion == "d2a") {
-                var input = $('<input>').attr({ type: 'text', name: 'd2a', class: 'form-control', placeholder: 'Modifique la descripcion ', required: 'required' });
+                var input = $('<input>').attr({
+                    type: 'text',
+                    name: 't1a',
+                    class: 'form-control',
+                    placeholder: 'Modifique el titulo ',
+                    required: 'required'
+                });
+            }
+            if (opcion == "d1a") {
+                var input = $('<input>').attr({
+                    type: 'text',
+                    name: 'd1a',
+                    class: 'form-control',
+                    placeholder: 'Modifique la descripcion ',
+                    required: 'required'
+                });
+            }
+            if (opcion == "t2a") {
+                var input = $('<input>').attr({
+                    type: 'text',
+                    name: 't2a',
+                    class: 'form-control',
+                    placeholder: 'Modifique el titulo ',
+                    required: 'required'
+                });
+            }
+            if (opcion == "d2a") {
+                var input = $('<input>').attr({
+                    type: 'text',
+                    name: 'd2a',
+                    class: 'form-control',
+                    placeholder: 'Modifique la descripcion ',
+                    required: 'required'
+                });
             }
             // Actualiza el contenido del cuerpo del modal
             var modal = $(this);
